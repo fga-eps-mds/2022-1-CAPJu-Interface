@@ -10,5 +10,6 @@ export const Container = styled.div`
   align-items: center;
   font-size: 20px;
 
-  flex-direction: row;
+  flex-direction: column;
+  gap: 20px;
 `;
