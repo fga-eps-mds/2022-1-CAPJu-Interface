@@ -31,7 +31,7 @@ function Link({ page, children }) {
 
 test('changes the class when hovered', () => {
     const component = renderer.create(
-        <Link page="http://www.facebook.com">Facebook</Link>,
+        <Link page="https://www.facebook.com">Facebook</Link>,
     );
     let tree = component.toJSON();
     expect(tree).toMatchSnapshot();
