@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Container } from './styles';
+import Button from '../../components/Button';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const [processes, setProcesses] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     updateProcesses();
@@ -17,10 +20,18 @@ function Home() {
 
   return (
     <Container>
+      <Button
+        onClick={() => {
+          navigate('registerProcess');
+        }}
+      >
+        Novo Processo
+      </Button>
+      {processes.length == 0 && 'Nenhum processo foi encontrado'}
       {processes.map((process, idx) => {
         return (
           <div key={idx}>
-            {process.apelido} - {process.registro}
+            {process.registro} - {process.apelido}
           </div>
         );
       })}
