@@ -1,0 +1,15 @@
+name: CAPJu Service CI
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Dependencies
+        run: yarn
+      - name: Check code style
+        run: yarn prettier --check src
+      - name: Lint analysis
+        run: yarn eslint src
+      - name: Run test suite
+        run: yarn test
