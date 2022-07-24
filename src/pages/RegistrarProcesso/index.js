@@ -6,14 +6,14 @@ import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-function RegisterProcess() {
+function RegistrarProcesso() {
   const [registro, setRegistro] = useState('');
   const [apelido, setApelido] = useState('');
   const navigate = useNavigate();
 
-  async function register() {
+  async function registrar() {
     try {
-      const response = await axios.post('http://localhost:3333/newProcess', {
+      const response = await axios.post('http://localhost:3333/novoProcesso', {
         registro,
         apelido
       });
@@ -47,7 +47,7 @@ function RegisterProcess() {
       ></TextInput>
       <Button
         onClick={() => {
-          register();
+          registrar();
         }}
       >
         Registrar Processo
@@ -56,4 +56,4 @@ function RegisterProcess() {
   );
 }
 
-export default RegisterProcess;
+export default RegistrarProcesso;

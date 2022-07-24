@@ -5,30 +5,30 @@ import Button from '../../components/Button';
 import { useNavigate } from 'react-router-dom';
 
 function Home() {
-  const [processes, setProcesses] = useState([]);
+  const [processos, setProcessos] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    updateProcesses();
+    updateProcessos();
   }, []);
 
-  async function updateProcesses() {
-    const response = await axios.get('http://localhost:3333/processes');
+  async function updateProcessos() {
+    const response = await axios.get('http://localhost:3333/processos');
     console.log(response);
-    setProcesses(response.data.processes);
+    setProcessos(response.data.processos);
   }
 
   return (
     <Container>
       <Button
         onClick={() => {
-          navigate('registerProcess');
+          navigate('registrarProcesso');
         }}
       >
         Criar Processo
       </Button>
-      {processes.length == 0 && 'Nenhum processo foi encontrado'}
-      {processes.map((process, idx) => {
+      {processos.length == 0 && 'Nenhum processo foi encontrado'}
+      {processos.map((process, idx) => {
         return (
           <div key={idx}>
             {process.registro} - {process.apelido}
