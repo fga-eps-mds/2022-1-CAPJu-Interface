@@ -14,7 +14,7 @@ function Cadastro() {
 
   async function register() {
     try {
-      const response = await axios.post('http://localhost:3333/newProcess', {
+      const response = await axios.post('http://localhost:3333/newUser', {
         nome,
         email,
         senha
@@ -22,12 +22,12 @@ function Cadastro() {
 
       console.log('response', response);
 
-      toast.success('Processo Registrado com Sucesso', { duration: 4000 });
+      toast.success('Usuário Registrado com Sucesso', { duration: 4000 });
 
       navigate('/');
     } catch (error) {
       toast.error(
-        'Erro ao registrar processo \n ' + error.response.data.message,
+        'Erro ao Registrar Usuário \n ' + error.response.data.message,
         { duration: 3000 }
       );
     }
@@ -35,22 +35,27 @@ function Cadastro() {
 
   return (
     <Container>
-      <a>Nome: <TextInput
-        value={nome}
-        set={setNome}
-        placeholder={'nome'}
-      ></TextInput></a>
-      <a>Email: <TextInput
-        value={email}
-        set={setEmail}
-        placeholder={'email'}
-      ></TextInput></a>
-      <a>Senha: <TextInput
-        type="password"
-        value={senha}
-        set={setSenha}
-        placeholder={'senha'}
-      ></TextInput></a>
+      <a>
+        Nome:{' '}
+        <TextInput value={nome} set={setNome} placeholder={'nome'}></TextInput>
+      </a>
+      <a>
+        Email:{' '}
+        <TextInput
+          value={email}
+          set={setEmail}
+          placeholder={'email'}
+        ></TextInput>
+      </a>
+      <a>
+        Senha:{' '}
+        <TextInput
+          type="password"
+          value={senha}
+          set={setSenha}
+          placeholder={'senha'}
+        ></TextInput>
+      </a>
       <Button
         onClick={() => {
           register();
