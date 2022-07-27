@@ -12,7 +12,7 @@ jobs:
       - name: Lint analysis
         run: yarn eslint src
       - name: Run test suite
-        run: yarn test
+        run: yarn testGActions
       - name: Build
         run: yarn build
   sonarcloud:
@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: cd src && yarn
       - name: Test and coverage
-        run: cd src && yarn jest --coverage
+        run: cd src && yarn testGActions
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
