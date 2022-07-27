@@ -18,7 +18,7 @@ test('testando TextInput', () => {
     registro = novoRegistro;
   });
 
-  const { getByText, getByDisplayValue } = render(
+  const { getByDisplayValue } = render(
     <TextInput value={registro} set={setRegistro} />
   );
 
