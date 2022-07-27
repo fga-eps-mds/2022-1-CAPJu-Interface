@@ -2,6 +2,10 @@ import { render, waitFor, screen, fireEvent } from '@testing-library/react';
 import RegistrarProcesso from '../pages/RegistrarProcesso';
 import TextInput from '../components/TextInput';
 import nock from 'nock';
+import axios from 'axios';
+import { Toaster } from 'react-hot-toast';
+
+axios.defaults.adapter = require('axios/lib/adapters/http');
 
 const mockNavigate = jest.fn();
 
@@ -10,6 +14,19 @@ jest.mock('react-router-dom', () => {
     ...jest.requireActual('react-router-dom'),
     useNavigate: () => mockNavigate
   };
+});
+
+// gambiarra achada em https://github.com/ant-design/ant-design/issues/21096#issuecomment-578118486
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: jest.fn().mockImplementation((query) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn()
+  }))
 });
 
 test('testando TextInput', () => {
@@ -29,7 +46,7 @@ test('testando TextInput', () => {
   expect(setRegistro).toHaveBeenCalledTimes(1);
 });
 
-test('Testando resgistrar processo', () => {
+test('Testando resgistrar processo', async () => {
   render(<RegistrarProcesso />);
   const scope = nock('http://localhost:3333')
     .post('/novoProcesso', { registro: '0000', apelido: 'apelidoExemplo' })
@@ -43,5 +60,25 @@ test('Testando resgistrar processo', () => {
   fireEvent.change(inputApelido, { target: { value: 'apelidoExemplo' } });
 
   fireEvent.click(button);
-  waitFor(() => expect(scope.isDone()).toBe(true));
+  await waitFor(() => expect(scope.isDone()).toBe(true));
 });
+
+test('Testa resgistrar processo com registro vazio', async () => {
+  render(
+    <div>
+      <Toaster />
+      <RegistrarProcesso />
+    </div>
+  );
+
+  const inputRegistro = screen.getByPlaceholderText('registro');
+  const inputApelido = screen.getByPlaceholderText('apelido');
+  const button = screen.getByText('Registrar Processo');
+
+  fireEvent.change(inputApelido, { target: { value: 'apelidoExemplo' } });
+
+  fireEvent.click(button);
+  expect(screen.getByText('Registro vazio')).not.toBe(null);
+});
+
+afterAll(() => nock.restore());

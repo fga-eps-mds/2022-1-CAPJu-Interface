@@ -19,7 +19,10 @@ function RegistrarProcesso() {
           registro,
           apelido
         });
-      else throw new Error('registro vazio');
+      else {
+        toast.error('Registro vazio', { duration: 3000 });
+        return;
+      }
 
       console.log('response', response);
 
