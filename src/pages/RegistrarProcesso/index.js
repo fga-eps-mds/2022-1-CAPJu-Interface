@@ -13,10 +13,13 @@ function RegistrarProcesso() {
 
   async function registrar() {
     try {
-      const response = await axios.post('http://localhost:3333/novoProcesso', {
-        registro,
-        apelido
-      });
+      let response;
+      if (registro)
+        response = await axios.post('http://localhost:3333/novoProcesso', {
+          registro,
+          apelido
+        });
+      else throw new Error('registro vazio');
 
       console.log('response', response);
 
@@ -50,7 +53,7 @@ function RegistrarProcesso() {
           registrar();
         }}
       >
-        Registrar Processo
+        <span> Registrar Processo </span>
       </Button>
     </Container>
   );
