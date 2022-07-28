@@ -13,7 +13,7 @@ function Home() {
   }, []);
 
   async function updateProcesses() {
-    const response = await axios.get('http://0.0.0.0:3333/processes');
+    const response = await axios.get('http://localhost:3333/processes');
     console.log(response);
     setProcesses(response.data.processes);
   }
@@ -25,7 +25,7 @@ function Home() {
           navigate('registerProcess');
         }}
       >
-        Novo Processo
+        Criar Processo
       </Button>
       {processes.length == 0 && 'Nenhum processo foi encontrado'}
       {processes.map((process, idx) => {

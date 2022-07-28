@@ -13,10 +13,16 @@ function RegisterProcess() {
 
   async function register() {
     try {
-      const response = await axios.post('http://localhost:3333/newProcess', {
-        registro,
-        apelido
-      });
+      let response;
+      if (registro)
+        response = await axios.post('http://localhost:3333/newProcess', {
+          registro,
+          apelido
+        });
+      else {
+        toast.error('Registro vazio', { duration: 3000 });
+        return;
+      }
 
       console.log('response', response);
 
@@ -50,7 +56,7 @@ function RegisterProcess() {
           register();
         }}
       >
-        Registrar Processo
+        <span> Registrar Processo </span>
       </Button>
     </Container>
   );
