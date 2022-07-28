@@ -4,7 +4,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import { Routes, Route } from 'react-router-dom';
 import { Container, Content } from './styles';
-import RegistrarProcesso from './pages/RegistrarProcesso/index.js';
+import RegisterProcess from './pages/RegisterProcess/index.js';
 import { Toaster } from 'react-hot-toast';
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="login" element={<Login />} />
-          <Route path="registrarProcesso" element={<RegistrarProcesso />} />
+          <Route path="registerProcess" element={<RegisterProcess />} />
         </Routes>
       </Content>
     </Container>

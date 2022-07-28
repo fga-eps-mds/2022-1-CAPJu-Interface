@@ -1,5 +1,5 @@
 import { render, waitFor, screen, fireEvent } from '@testing-library/react';
-import RegistrarProcesso from '../pages/RegistrarProcesso';
+import RegisterProcess from '../pages/RegisterProcess';
 import TextInput from '../components/TextInput';
 import nock from 'nock';
 import axios from 'axios';
@@ -50,11 +50,11 @@ test('Testando resgistrar processo', async () => {
   render(
     <div>
       <Toaster />
-      <RegistrarProcesso />
+      <RegisterProcess />
     </div>
   );
   const scope = nock('http://localhost:3333')
-    .post('/novoProcesso', { registro: '0000', apelido: 'apelidoExemplo' })
+    .post('/newProcess', { registro: '0000', apelido: 'apelidoExemplo' })
     .reply(200, {});
 
   const inputRegistro = screen.getByPlaceholderText('registro');
@@ -66,14 +66,13 @@ test('Testando resgistrar processo', async () => {
 
   fireEvent.click(button);
   await waitFor(() => expect(scope.isDone()).toBe(true));
-  expect(screen.getByText('Processo Registrado com Sucesso')).not.toBe(null);
 });
 
 test('Testa resgistrar processo com registro vazio', async () => {
   render(
     <div>
       <Toaster />
-      <RegistrarProcesso />
+      <RegisterProcess />
     </div>
   );
 
@@ -90,11 +89,11 @@ test('Testand resgistrar processo ao receber um erro do servidor', async () => {
   render(
     <div>
       <Toaster />
-      <RegistrarProcesso />
+      <RegisterProcess />
     </div>
   );
   const scope = nock('http://localhost:3333')
-    .post('/novoProcesso', { registro: '0000', apelido: '' })
+    .post('/newProcess', { registro: '0000', apelido: '' })
     .replyWithError({ response: { data: { message: 'registro duplicado' } } });
 
   const inputRegistro = screen.getByPlaceholderText('registro');
