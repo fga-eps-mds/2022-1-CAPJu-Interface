@@ -20,7 +20,7 @@ export const Container = styled.div`
   }
 `;
 
-export const MenuItem = styled.div`
+export const MenuItem = styled.a`
   display: flex;
   align-items: center;
   justify-content: center;

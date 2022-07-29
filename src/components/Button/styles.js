@@ -8,9 +8,9 @@ export const Container = styled.button.attrs((props) => ({
   padding: 10px 20px;
   min-width: 150px;
   color: white;
-  border-radius: 10px;
+  border-radius: 20px;
   margin: 10px;
-  font-size: 30px;
+  font-size: 20px;
 
   :hover {
     background-color: rgba(255, 255, 255, 0.8);
