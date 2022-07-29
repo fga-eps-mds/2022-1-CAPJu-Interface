@@ -8,6 +8,7 @@ import RegisterProcess from './pages/RegisterProcess/index.js';
 import GlobalStyle from './globalStyles';
 import { Toaster } from 'react-hot-toast';
 import React from 'react';
+import Stages from 'pages/Stages/index.js';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="login" element={<Login />} />
+            <Route path="stages" element={<Stages />} />
             <Route path="registerProcess" element={<RegisterProcess />} />
           </Routes>
         </Content>

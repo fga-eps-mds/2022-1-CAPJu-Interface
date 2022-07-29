@@ -19,3 +19,16 @@ export const Container = styled.div`
     color: black;
   }
 `;
+
+export const MenuItem = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  flex-direction: column;
+
+  a {
+    text-decoration: none;
+    color: black;
+  }
+`;
