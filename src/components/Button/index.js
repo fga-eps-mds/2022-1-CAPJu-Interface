@@ -1,13 +1,19 @@
 import PropTypes from 'prop-types';
+import React from 'react';
 import { Container } from './styles';
 
 function Button(props) {
-  return <Container onClick={props.onClick}>{props.children}</Container>;
+  return (
+    <Container background={props.background} onClick={props.onClick}>
+      {props.children}
+    </Container>
+  );
 }
 
 Button.propTypes = {
   onClick: PropTypes.func,
-  children: PropTypes.element
+  background: PropTypes.string,
+  children: PropTypes.any
 };
 
 export default Button;

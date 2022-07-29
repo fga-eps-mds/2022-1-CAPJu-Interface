@@ -7,7 +7,6 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 20px;
-  background-color: rgba(255, 255, 255, 0.1);
   width: fit-content;
   padding: 50px;
   border-radius: 15px;
