@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Container } from './styles';
 import Button from '../../components/Button';
 import { useNavigate } from 'react-router-dom';
+import React from 'react';
 
 function Home() {
   const [processes, setProcesses] = useState([]);
@@ -20,6 +21,7 @@ function Home() {
 
   return (
     <Container>
+      <h1>Processos</h1>
       <Button
         onClick={() => {
           navigate('registerProcess');
