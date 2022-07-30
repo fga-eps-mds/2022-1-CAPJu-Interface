@@ -19,9 +19,10 @@ import {
 } from './styles';
 import { DeleteForever } from '@styled-icons/material';
 import Dropdown from 'react-dropdown';
+import FlowViewer from 'components/FlowViewer';
 
 function Flows() {
-  const [flows, setFlows] = useState([{ name: 'flow 1' }, { name: 'flow 2' }]);
+  const [flows, setFlows] = useState([]);
   const [selectedStage, setSelectedStage] = useState('1');
   const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
@@ -32,6 +33,7 @@ function Flows() {
     sequences: []
   });
   const [isModalOpen, setModalOpen] = useState(false);
+  const [showFlow, setShowFlow] = useState(-1);
 
   useEffect(() => {
     updateStages();
@@ -103,9 +105,7 @@ function Flows() {
     setNewFlow(tmp);
   }
 
-  console.log('newFlow', newFlow);
-
-  const allOptions = stages.map((stage, idx) => {
+  const allOptions = stages.map((stage) => {
     return { label: <>{stage.name}</>, value: stage._id };
   });
 
@@ -113,7 +113,7 @@ function Flows() {
     .filter((stage) => {
       return newFlow.stages.includes(stage._id);
     })
-    .map((stage, idx) => {
+    .map((stage) => {
       return { label: <>{stage.name}</>, value: stage._id };
     });
 
@@ -124,7 +124,12 @@ function Flows() {
         <FlowsArea>
           {flows.map((stage, index) => {
             return (
-              <FlowItem key={index}>
+              <FlowItem
+                key={index}
+                onClick={() => {
+                  setShowFlow(index);
+                }}
+              >
                 {stage.name}{' '}
                 <DeleteForever
                   size={30}
@@ -136,6 +141,24 @@ function Flows() {
             );
           })}
         </FlowsArea>
+        {showFlow != -1 && (
+          <>
+            <Modal>
+              <FlowViewer
+                flow={flows[showFlow]}
+                stages={stages || []}
+              ></FlowViewer>
+              <Button
+                onClick={() => {
+                  setShowFlow(-1);
+                }}
+                background="#de5353"
+              >
+                Voltar
+              </Button>
+            </Modal>
+          </>
+        )}
         <AddFlowButton
           onClick={() => {
             setModalOpen(true);
@@ -184,11 +207,6 @@ function Flows() {
                     <StageName>
                       {
                         stages.find((stage) => {
-                          console.log(
-                            flowStage,
-                            stage._id,
-                            flowStage == stage._id
-                          );
                           return flowStage == stage._id;
                         }).name
                       }
