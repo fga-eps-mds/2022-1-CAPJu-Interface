@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '../../services/api';
 import Button from 'components/Button';
 import TextInput from 'components/TextInput';
 import React from 'react';
@@ -41,13 +41,13 @@ function Flows() {
   }, []);
 
   async function updateFlows() {
-    const response = await axios.get('http://localhost:3333/flows');
+    const response = await api.get('/flows');
     console.log(response);
     setFlows(response.data.Flows);
   }
 
   async function updateStages() {
-    const response = await axios.get('http://localhost:3333/stages');
+    const response = await api.get('/stages');
     console.log(response);
     setStages(response.data.Stages);
     setSelectedStage(response.data.Stages[0]?._id);
@@ -55,7 +55,7 @@ function Flows() {
 
   async function addFlow() {
     try {
-      const response = await axios.post('http://localhost:3333/newFlow', {
+      const response = await api.post('/newFlow', {
         ...newFlow
       });
       if (response.status == 200) {
@@ -72,7 +72,7 @@ function Flows() {
 
   async function deleteFlow(id) {
     try {
-      const response = await axios.post('http://localhost:3333/deleteFlow', {
+      const response = await api.post('/deleteFlow', {
         flowId: id
       });
       if (response.status == 200) {

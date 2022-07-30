@@ -4,7 +4,7 @@ import TextInput from '../../components/TextInput';
 import Button from '../../components/Button';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../../services/api';
 
 function RegisterProcess() {
   const [registro, setRegistro] = useState('');
@@ -15,7 +15,7 @@ function RegisterProcess() {
     try {
       let response;
       if (registro)
-        response = await axios.post('http://localhost:3333/newProcess', {
+        response = await api.post('/newProcess', {
           registro,
           apelido
         });
