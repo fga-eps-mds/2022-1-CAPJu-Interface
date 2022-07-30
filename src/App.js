@@ -2,6 +2,7 @@ import './styles.js';
 import SideBar from './components/SideBar';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import ShowProcess from 'pages/ShowProcess/index.js';
 import { Routes, Route } from 'react-router-dom';
 import { Container, Content } from './styles';
 import RegisterProcess from './pages/RegisterProcess/index.js';
@@ -21,6 +22,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="login" element={<Login />} />
             <Route path="registerProcess" element={<RegisterProcess />} />
+            <Route path="showProcess" element={<ShowProcess />} />
           </Routes>
         </Content>
       </Container>

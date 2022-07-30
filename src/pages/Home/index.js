@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Container } from './styles';
 import Button from '../../components/Button';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import React from 'react';
 
 function Home() {
@@ -30,10 +30,15 @@ function Home() {
         Criar Processo
       </Button>
       {processes.length == 0 && 'Nenhum processo foi encontrado'}
-      {processes.map((process, idx) => {
+      {processes.map((proc, idx) => {
         return (
           <div key={idx}>
-            {process.registro} - {process.apelido}
+            {proc.registro} - {proc.apelido} -{' '}
+            {
+              <Link to="showProcess" state={proc}>
+                Detalhar
+              </Link>
+            }
           </div>
         );
       })}

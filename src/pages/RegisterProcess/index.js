@@ -39,7 +39,7 @@ function RegisterProcess() {
 
   return (
     <Container>
-      <label>Nº de Registro</label>
+      <label>NÂº de Registro</label>
       <TextInput
         value={registro}
         set={setRegistro}
