@@ -25,7 +25,7 @@ export const AddTrash = styled(Trash)`
   color: red;
   cursor: pointer;
 `;
-export const Processo = styled.div`
+export const AddProcesso = styled.div`
   background-color: #1b9454;
   color: white;
   border-radius: 25px;
