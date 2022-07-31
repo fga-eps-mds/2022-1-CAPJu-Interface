@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Container } from './styles';
+import { Container, ProcessBar, PencilButton } from './styles';
 import Button from '../../components/Button';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
@@ -29,6 +29,9 @@ function Home() {
       >
         Criar Processo
       </Button>
+      <ProcessBar>
+        <PencilButton onClick={() => {}}></PencilButton>
+      </ProcessBar>
       {processes.length == 0 && 'Nenhum processo foi encontrado'}
       {processes.map((process, idx) => {
         return (
