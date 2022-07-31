@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Container, AddCircle, AddTrash, AddProcesso } from './styles';
-import Button from '../../components/Button';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
 
@@ -20,9 +19,7 @@ function Home() {
   }
 
   async function deleteProcess(registro) {
-    const response = await axios.delete(
-      `http://localhost:3333/deleteProcess/${registro}`
-    );
+    await axios.delete(`http://localhost:3333/deleteProcess/${registro}`);
   }
 
   return (
