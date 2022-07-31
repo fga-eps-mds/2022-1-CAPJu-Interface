@@ -6,6 +6,7 @@ import { useLocation, useNavigate, Link } from 'react-router-dom';
 import React from 'react';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import Modal from 'react-modal';
+import toast from 'react-hot-toast';
 
 Modal.setAppElement('#root');
 
@@ -74,6 +75,7 @@ const closeBtnStyle = {
 function ShowProcess() {
   const [process, setProcesses] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [observation, setObservation] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -98,6 +100,61 @@ function ShowProcess() {
     setModalIsOpen(false);
   }
 
+  async function nextStage() {
+    try {
+      let { etapas } = proc;
+  
+      for (let idx in etapas) {
+        if (etapas[idx].etapa == proc.etapaAtual)
+          etapas[idx]['observacoes'] = observation;
+      }
+
+      let response = await api.get('/flows');
+      let flows = response.data.Flows;
+
+      let flowSequences = [];
+      for (let idx in flows) {
+        if (flows[idx]._id == proc.fluxoId) {
+          flowSequences = flows[idx].sequences;
+          break;
+        }
+      }
+
+      let stageTo = '';
+      for (let idx in flowSequences) {
+        if (flowSequences[idx].from == proc.etapaAtual) {
+          stageTo = flowSequences[idx].to;
+          break;
+        }
+      }
+
+      console.log(flows);
+
+      proc.etapaAtual = stageTo;
+      proc.etapas = etapas;
+      
+      delete proc._id;
+      delete proc.createdAt;
+      delete proc.updatedAt;
+      delete proc.__v;
+      
+
+      let data = await api.put(`/updateProcess/${proc._id}`,  proc );
+  
+      console.log(proc);
+
+      closeModal();
+
+      toast.success('Etapa avançada!', { duration: 4000 });
+    } catch (error) {
+      toast.error(
+        'Erro ao avançar etapa \n ' + error.response.data.message,
+        { duration: 3000 }
+      );
+    }
+    
+  }
+
   return (
     <>
       <Container>
@@ -120,9 +177,11 @@ function ShowProcess() {
           </div>
           <div className="modal-body" style={bodyStyle}>
             <textarea className="observation-field" placeholder='Observações sobre a etapa atual...'
-              style={textAreaStyle}>
+              style={textAreaStyle}
+              value={observation}
+              onChange={(e) => setObservation(e.target.value)}>
             </textarea>
-            <button style={btnStyle}>Avançar</button>
+            <button style={btnStyle} onClick={nextStage}>Avançar</button>
           </div>
         </Modal>
         <Button onClick={(e) => openModal()}>
