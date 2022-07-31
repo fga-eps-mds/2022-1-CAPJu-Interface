@@ -98,12 +98,29 @@ function Flows() {
 
   async function editFlow(id) {
     try {
-      delete newFlow.createdAt;
-      delete newFlow.__v;
+      let editedFlow = { ...newFlow };
+
+      let newSequences = editedFlow.sequences.filter((sequence) => {
+        if (
+          editedFlow.stages.includes(sequence.from) &&
+          editedFlow.stages.includes(sequence.to)
+        ) {
+          return true;
+        }
+
+        return false;
+      });
+
+      editedFlow.sequences = newSequences;
+      delete editedFlow.createdAt;
+      delete editedFlow.updatedAt;
+      delete editedFlow.__v;
+
+      console.log('edited', editedFlow);
 
       const response = await axios.put('http://localhost:3333/editFlow', {
         _id: id,
-        ...newFlow
+        ...editedFlow
       });
       responseHandler(
         response,
@@ -153,14 +170,15 @@ function Flows() {
         <FlowsArea>
           {flows.map((stage, index) => {
             return (
-              <FlowItem
-                key={index}
-                onClick={() => {
-                  setShowFlow(index);
-                  setNewFlow(flows[index]);
-                }}
-              >
-                {stage.name}{' '}
+              <FlowItem key={index}>
+                <div
+                  onClick={() => {
+                    setShowFlow(index);
+                    setNewFlow(flows[index]);
+                  }}
+                >
+                  {stage.name}{' '}
+                </div>
                 <DeleteForever
                   size={30}
                   onClick={() => {
