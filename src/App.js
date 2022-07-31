@@ -22,10 +22,9 @@ function App() {
         <SideBar />
         <Content>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Flows />} />
             <Route path="login" element={<Login />} />
             <Route path="stages" element={<Stages />} />
-            <Route path="flows" element={<Flows />} />
             <Route path="processes" element={<Processes/>}/>
             <Route path="processes/registerProcess" element={<RegisterProcess />} />
             <Route path="processes/showProcess" element={<ShowProcess />} />

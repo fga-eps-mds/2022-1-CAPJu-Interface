@@ -5,9 +5,75 @@ import Button from '../../components/Button';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import React from 'react';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root');
+
+const customStyles = {
+  content: {
+    top: '30%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    padding: '0px'
+  },
+};
+
+const headerStyle = {
+  backgroundColor: '#7A7B4F',
+  color: '#f1f1f1',
+  display: 'flex',
+  justifyContent: 'space-between',
+  width: '100%'
+}
+
+const titleStyle = {
+  marginRight: 'auto',
+  marginLeft: 'auto'
+}
+
+const bodyStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '20px'
+}
+
+const textAreaStyle = {
+  minHeight: '200px',
+  minWidth: '400px',
+}
+
+const btnStyle = {
+  color: '#f1f1f1',
+  backgroundColor: '#304974',
+  borderRadius: '20px',
+  padding: '10px 15px',
+  fontWeight: 'bold',
+  marginTop: '20px'
+}
+
+const btnContainer = {
+  display: 'flex',
+  justifyContent: 'end'
+}
+
+const closeBtnStyle = {
+  color: '#f1f1f1',
+  backgroundColor: 'transparent',
+  border: 'none',
+  fontWeight: 'bold',
+  fontSize: '1em',
+  alignSelf: 'self-end'
+}
+
 
 function ShowProcess() {
   const [process, setProcesses] = useState([]);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -20,18 +86,48 @@ function ShowProcess() {
     setProcesses(response.data.process);
   }
 
+  function openModal() {
+    setModalIsOpen(true);
+  }
+
+  function afterOpenModal() {
+    // references are now sync'd and can be accessed.
+  }
+
+  function closeModal() {
+    setModalIsOpen(false);
+  }
+
   return (
     <>
       <Container>
         <div className='processInfo'>
           <h1>{proc.apelido.length > 0 ? proc.apelido : `Processo ${proc.registro}`}</h1>
           <div className="process">
-          {proc.apelido.length > 0 ? `${proc.registro} - ${proc.apelido}` : `${proc.registro}`}
+            {proc.apelido.length > 0 ? `${proc.registro} - ${proc.apelido}` : `${proc.registro}`}
           </div>
         </div>
-        <Link to="">
-          <SkipNextIcon/><span>Avançar etapa</span>
-        </Link>
+        <Modal
+          isOpen={modalIsOpen}
+          onAfterOpen={afterOpenModal}
+          onRequestClose={closeModal}
+          style={customStyles}
+          contentLabel="Example Modal"
+        >
+          <div className="modal-header" style={headerStyle}>
+            <strong id="modal-title" style={titleStyle}>Avançar etapa</strong>
+            <button onClick={closeModal} style={closeBtnStyle}>X</button>
+          </div>
+          <div className="modal-body" style={bodyStyle}>
+            <textarea className="observation-field" placeholder='Observações sobre a etapa atual...'
+              style={textAreaStyle}>
+            </textarea>
+            <button style={btnStyle}>Avançar</button>
+          </div>
+        </Modal>
+        <Button onClick={(e) => openModal()}>
+          <SkipNextIcon /><span>Avançar etapa</span>
+        </Button>
       </Container>
     </>
   );

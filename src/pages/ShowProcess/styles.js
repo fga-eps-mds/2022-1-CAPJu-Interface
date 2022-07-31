@@ -39,4 +39,10 @@ export const Container = styled.div`
     padding: 10px 15px;
     font-weight: bold;
   }
+
+  div.modal-header {
+    background-color: red;
+    color: #f1f1f1;
+  }
+
 `;
