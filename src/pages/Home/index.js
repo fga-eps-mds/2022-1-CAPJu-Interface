@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import Button from '../../components/Button';
 import {
   Container,
   AddCircle,
@@ -29,6 +28,10 @@ function Home() {
     await axios.delete(`http://localhost:3333/deleteProcess/${registro}`);
   }
 
+  async function editProcess() {
+    await axios.put('http://localhost:3333/editProcess');
+  }
+
   return (
     <Container>
       <h1>Processos</h1>
@@ -37,7 +40,11 @@ function Home() {
         return (
           <AddProcesso key={idx}>
             {process.registro} - {process.apelido}
-            <PencilButton onClick={() => {}} />
+            <PencilButton
+              onClick={async () => {
+                await editProcess();
+              }}
+            />
             <AddTrash
               size={20}
               onClick={async () => {

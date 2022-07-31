@@ -16,9 +16,11 @@ export const Container = styled.div`
 
 export const PencilButton = styled(Pencil)`
   color: #fbe304;
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
+  right: 360px;
   cursor: pointer;
+  position: absolute;
 `;
 export const AddCircle = styled(PlusCircleFill)`
   color: #304974;
