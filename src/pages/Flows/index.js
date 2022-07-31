@@ -1,6 +1,8 @@
 import axios from 'axios';
 import Button from 'components/Button';
 import TextInput from 'components/TextInput';
+import { StagesInFlow } from 'components/StagesInFlow';
+import { AddStageInFlow } from 'components/AddStageInFlow';
 import React from 'react';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -13,7 +15,6 @@ import {
   Content,
   SelectorWrapper,
   StageName,
-  StagesWrapper,
   SequencesWrapper,
   SequenceItem
 } from './styles';
@@ -93,8 +94,8 @@ function Flows() {
     setNewFlow(tmp);
   }
 
-  function addStage() {
-    let tmp = { ...newFlow };
+  function addStage(flow) {
+    let tmp = { ...flow };
     tmp.stages.push(selectedStage);
     setNewFlow(tmp);
   }
@@ -144,6 +145,21 @@ function Flows() {
         {showFlow != -1 && (
           <>
             <Modal>
+              <label>
+                nome do Fluxo
+                <TextInput set={() => null} value={flows[showFlow].name} />
+              </label>
+              <label>
+                Etapa
+                <AddStageInFlow
+                  selectedStage={selectedStage}
+                  setSelectedStage={setSelectedStage}
+                  options={allOptions}
+                  onClick={addStage}
+                  flow={flows[showFlow]}
+                />
+              </label>
+              <StagesInFlow flow={flows[showFlow]} stages={stages} />
               <FlowViewer
                 flow={flows[showFlow]}
                 stages={stages || []}
@@ -178,43 +194,14 @@ function Flows() {
               value={newFlow.name}
             ></TextInput>
             Etapas
-            <SelectorWrapper>
-              <Dropdown
-                options={allOptions}
-                onChange={(e) => {
-                  setSelectedStage(e.value);
-                }}
-                value={selectedStage}
-                placeholder="Selecione a etapa"
-                className="dropdown"
-                controlClassName="dropdown-control"
-                placeholderClassName="dropdown-placeholder"
-                menuClassName="dropdown-menu"
-                arrowClassName="dropdown-arrow"
-              />
-              <div
-                onClick={() => {
-                  addStage();
-                }}
-              >
-                Adicionar
-              </div>
-            </SelectorWrapper>
-            <StagesWrapper>
-              {newFlow.stages.map((flowStage) => {
-                return (
-                  <>
-                    <StageName>
-                      {
-                        stages.find((stage) => {
-                          return flowStage == stage._id;
-                        }).name
-                      }
-                    </StageName>
-                  </>
-                );
-              })}
-            </StagesWrapper>
+            <AddStageInFlow
+              selectedStage={selectedStage}
+              setSelectedStage={setSelectedStage}
+              options={allOptions}
+              onClick={addStage}
+              flow={newFlow}
+            />
+            <StagesInFlow flow={newFlow} stages={stages} />
             {newFlow.stages.length > 0 && (
               <>
                 <>Sequências</>
