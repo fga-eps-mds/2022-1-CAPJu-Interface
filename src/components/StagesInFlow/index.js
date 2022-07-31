@@ -1,10 +1,18 @@
-import { StagesWrapper, StageName } from './styles.js';
+import { StagesWrapper, StageName, XButton } from './styles.js';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 export function StagesInFlow(props) {
-  const flow = props.flow;
-  const stages = props.stages;
+  const { flow, stages, setNewFlow } = props;
+
+  function removeStage(id) {
+    const index = flow.stages.indexOf(id);
+    if (index !== -1) {
+      flow.stages.splice(index, 1);
+    }
+    setNewFlow(flow);
+  }
+
   return (
     <StagesWrapper>
       {flow.stages.map((flowStage) => {
@@ -16,6 +24,13 @@ export function StagesInFlow(props) {
                   return flowStage == stage._id;
                 }).name
               }
+              <XButton
+                onClick={() => {
+                  removeStage(flowStage);
+                }}
+              >
+                X
+              </XButton>
             </StageName>
           </>
         );
@@ -26,5 +41,6 @@ export function StagesInFlow(props) {
 
 StagesInFlow.propTypes = {
   flow: PropTypes.object,
-  stages: PropTypes.array
+  stages: PropTypes.array,
+  setNewFlow: PropTypes.func
 };

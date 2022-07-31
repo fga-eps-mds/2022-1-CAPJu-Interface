@@ -21,3 +21,8 @@ export const StageName = styled.div`
   font-size: 20px;
   border-radius: 20px;
 `;
+
+export const XButton = styled.button`
+  color: #de5353;
+  font-weight: bold;
+`;

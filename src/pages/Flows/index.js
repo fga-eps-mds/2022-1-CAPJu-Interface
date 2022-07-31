@@ -191,7 +191,14 @@ function Flows() {
                     flow={newFlow}
                   />
                 </label>
-                <StagesInFlow flow={newFlow} stages={stages} />
+                <StagesInFlow
+                  flow={newFlow}
+                  stages={stages}
+                  setNewFlow={() => {
+                    setNewFlow(newFlow);
+                    updateFlows();
+                  }}
+                />
                 <FlowViewer flow={newFlow} stages={stages || []}></FlowViewer>
                 <Button
                   onClick={() => {
@@ -244,7 +251,14 @@ function Flows() {
               onClick={addStage}
               flow={newFlow}
             />
-            <StagesInFlow flow={newFlow} stages={stages} />
+            <StagesInFlow
+              flow={newFlow}
+              stages={stages}
+              setNewFlow={() => {
+                setNewFlow(newFlow);
+                updateFlows();
+              }}
+            />
             {newFlow.stages.length > 0 && (
               <>
                 <>Sequências</>
