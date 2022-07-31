@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { Pencil } from '@styled-icons/boxicons-solid/Pencil';
+import { PlusCircleFill } from '@styled-icons/bootstrap/PlusCircleFill';
+import { Trash } from '@styled-icons/boxicons-solid/Trash';
 
 export const Container = styled.div`
   width: 100%;
@@ -12,17 +14,31 @@ export const Container = styled.div`
   gap: 20px;
 `;
 
-export const ProcessBar = styled.div`
-  width: 965px;
-  height: 62px;
-  background: #1b9454;
-  border-radius: 25px;
-  color: #f1f1f1;
-`;
-
 export const PencilButton = styled(Pencil)`
   color: #fbe304;
   width: 30px;
   height: 30px;
   cursor: pointer;
+`;
+export const AddCircle = styled(PlusCircleFill)`
+  color: #304974;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  cursor: pointer;
+`;
+
+export const AddTrash = styled(Trash)`
+  color: red;
+  cursor: pointer;
+`;
+export const AddProcesso = styled.div`
+  background-color: #1b9454;
+  color: white;
+  border-radius: 25px;
+  padding: 15px 35px;
+  width: 925px;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 900;
 `;
