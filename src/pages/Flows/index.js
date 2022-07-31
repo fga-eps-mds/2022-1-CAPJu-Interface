@@ -55,17 +55,25 @@ function Flows() {
     setSelectedStage(response.data.Stages[0]?._id);
   }
 
+  function responseHandler(response, successMsg, errorMsg) {
+    if (response.status == 200) {
+      toast.success(successMsg);
+      updateFlows();
+    } else {
+      toast.error(errorMsg);
+    }
+  }
+
   async function addFlow() {
     try {
       const response = await axios.post('http://localhost:3333/newFlow', {
         ...newFlow
       });
-      if (response.status == 200) {
-        toast.success('Fluxo Adicionado com sucesso');
-        updateFlows();
-      } else {
-        toast.error('Erro ao adicionar fluxo');
-      }
+      responseHandler(
+        response,
+        'Fluxo Adicionado com sucesso',
+        'Erro ao adicionar fluxo'
+      );
     } catch (e) {
       console.log(e);
       toast.error('Erro ao adicionar fluxo');
@@ -77,15 +85,34 @@ function Flows() {
       const response = await axios.post('http://localhost:3333/deleteFlow', {
         flowId: id
       });
-      if (response.status == 200) {
-        toast.success('Fluxo Deletada com sucesso');
-        updateFlows();
-      } else {
-        toast.error('Erro ao deletar fluxo');
-      }
+      responseHandler(
+        response,
+        'Fluxo Deletada com sucesso',
+        'Erro ao deletar fluxo'
+      );
     } catch (e) {
       console.log(e);
       toast.error('Erro ao remover fluxo');
+    }
+  }
+
+  async function editFlow(id) {
+    try {
+      delete newFlow.createdAt;
+      delete newFlow.__v;
+
+      const response = await axios.put('http://localhost:3333/editFlow', {
+        _id: id,
+        ...newFlow
+      });
+      responseHandler(
+        response,
+        'Fluxo Editado com sucesso',
+        'Erro ao Editar fluxo'
+      );
+    } catch (e) {
+      console.log(e);
+      toast.error('Erro ao Editar fluxo');
     }
   }
 
@@ -130,6 +157,7 @@ function Flows() {
                 key={index}
                 onClick={() => {
                   setShowFlow(index);
+                  setNewFlow(flows[index]);
                 }}
               >
                 {stage.name}{' '}
@@ -152,7 +180,7 @@ function Flows() {
                   <h2>Editar fluxo</h2>
                 </ContentHeader>
                 Nome
-                <TextInput set={() => null} value={flows[showFlow].name} />
+                <TextInput set={updateFlowName} value={newFlow.name} />
                 <label>
                   Etapas
                   <AddStageInFlow
@@ -160,21 +188,31 @@ function Flows() {
                     setSelectedStage={setSelectedStage}
                     options={allOptions}
                     onClick={addStage}
-                    flow={flows[showFlow]}
+                    flow={newFlow}
                   />
                 </label>
-                <StagesInFlow flow={flows[showFlow]} stages={stages} />
-                <FlowViewer
-                  flow={flows[showFlow]}
-                  stages={stages || []}
-                ></FlowViewer>
+                <StagesInFlow flow={newFlow} stages={stages} />
+                <FlowViewer flow={newFlow} stages={stages || []}></FlowViewer>
+                <Button
+                  onClick={() => {
+                    editFlow(showFlow);
+                    setShowFlow(-1);
+                  }}
+                >
+                  Salvar
+                </Button>
                 <Button
                   onClick={() => {
                     setShowFlow(-1);
+                    setNewFlow({
+                      name: '',
+                      stages: [],
+                      sequences: []
+                    });
                   }}
                   background="#de5353"
                 >
-                  Voltar
+                  Cancelar
                 </Button>
               </Content>
             </Modal>
