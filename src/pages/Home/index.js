@@ -29,15 +29,13 @@ function Home() {
       >
         Criar Processo
       </Button>
-      <ProcessBar>
-        <PencilButton onClick={() => {}}></PencilButton>
-      </ProcessBar>
       {processes.length == 0 && 'Nenhum processo foi encontrado'}
       {processes.map((process, idx) => {
         return (
-          <div key={idx}>
+          <ProcessBar key={idx}>
             {process.registro} - {process.apelido}
-          </div>
+            <PencilButton onClick={() => {}} />
+          </ProcessBar>
         );
       })}
     </Container>

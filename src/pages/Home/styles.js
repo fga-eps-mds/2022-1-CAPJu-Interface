@@ -17,13 +17,12 @@ export const ProcessBar = styled.div`
   height: 62px;
   background: #1b9454;
   border-radius: 25px;
+  color: #f1f1f1;
 `;
 
 export const PencilButton = styled(Pencil)`
   color: #fbe304;
   width: 30px;
   height: 30px;
-  position: absolute;
-  top: 225px;
-  right: 100px;
+  cursor: pointer;
 `;
