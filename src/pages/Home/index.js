@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Container, AddCircle } from './styles';
+import { Container, AddCircle, AddTrash, Processo } from './styles';
 import Button from '../../components/Button';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
@@ -22,23 +22,17 @@ function Home() {
   return (
     <Container>
       <h1>Processos</h1>
-      <Button
-        onClick={() => {
-          navigate('registerProcess');
-        }}
-      >
-        Criar Processo
-      </Button>
       {processes.length == 0 && 'Nenhum processo foi encontrado'}
       {processes.map((process, idx) => {
         return (
-          <div key={idx}>
+          <Processo key={idx}>
             {process.registro} - {process.apelido}
-          </div>
+            <AddTrash size={20}></AddTrash>
+          </Processo>
         );
       })}
       <AddCircle
-        size={30}
+        size={44}
         onClick={() => {
           navigate('registerProcess');
         }}
