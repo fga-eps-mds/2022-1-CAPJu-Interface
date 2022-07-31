@@ -20,6 +20,8 @@ import {
 import { DeleteForever } from '@styled-icons/material';
 import Dropdown from 'react-dropdown';
 import FlowViewer from 'components/FlowViewer';
+import DescriptionIcon from '@mui/icons-material/Description';
+import { Link } from 'react-router-dom';
 
 function Flows() {
   const [flows, setFlows] = useState([]);
@@ -42,13 +44,11 @@ function Flows() {
 
   async function updateFlows() {
     const response = await api.get('/flows');
-    console.log(response);
     setFlows(response.data.Flows);
   }
 
   async function updateStages() {
     const response = await api.get('/stages');
-    console.log(response);
     setStages(response.data.Stages);
     setSelectedStage(response.data.Stages[0]?._id);
   }
@@ -65,7 +65,6 @@ function Flows() {
         toast.error('Erro ao adicionar fluxo');
       }
     } catch (e) {
-      console.log(e);
       toast.error('Erro ao adicionar fluxo');
     }
   }
@@ -122,7 +121,7 @@ function Flows() {
       <Container>
         Fluxos
         <FlowsArea>
-          {flows.map((stage, index) => {
+          {flows.map((flow, index) => {
             return (
               <FlowItem
                 key={index}
@@ -130,11 +129,14 @@ function Flows() {
                   setShowFlow(index);
                 }}
               >
-                {stage.name}{' '}
+                {flow.name}{' '}
+                <Link to="/processes" state={flow}>
+                  <DescriptionIcon className='see-processes'/>
+                </Link>
                 <DeleteForever
                   size={30}
                   onClick={() => {
-                    deleteFlow(stage._id);
+                    deleteFlow(flow._id);
                   }}
                 />
               </FlowItem>

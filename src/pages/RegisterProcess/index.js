@@ -3,28 +3,37 @@ import { Container } from './styles';
 import TextInput from '../../components/TextInput';
 import Button from '../../components/Button';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import api from '../../services/api';
 
 function RegisterProcess() {
   const [registro, setRegistro] = useState('');
   const [apelido, setApelido] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const flow = location.state;
 
   async function register() {
     try {
       let response;
-      if (registro)
+      if (registro && flow) {
+        let stages = flow.stages;
+        let sequences = flow.sequences;
+
         response = await api.post('/newProcess', {
           registro,
-          apelido
+          apelido,
+          etapaAtual: sequences[0].from,
+          arquivado: false,
+          etapas: stages,
+          fluxoId: flow._id
         });
+      }
       else {
         toast.error('Registro vazio', { duration: 3000 });
         return;
       }
-
-      console.log('response', response);
 
       toast.success('Processo Registrado com Sucesso', { duration: 4000 });
 
@@ -39,7 +48,7 @@ function RegisterProcess() {
 
   return (
     <Container>
-      <label>NÂº de Registro</label>
+      <label>Número de Registro</label>
       <TextInput
         value={registro}
         set={setRegistro}

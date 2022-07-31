@@ -48,6 +48,10 @@ export const FlowItem = styled.div`
   border-radius: 10px;
   justify-content: center;
   align-items: center;
+
+  svg.see-processes {
+    color: #f1f1f1;
+  }
 `;
 
 export const Modal = styled.div`
