@@ -16,7 +16,8 @@ import {
   SelectorWrapper,
   StageName,
   SequencesWrapper,
-  SequenceItem
+  SequenceItem,
+  ContentHeader
 } from './styles';
 import { DeleteForever } from '@styled-icons/material';
 import Dropdown from 'react-dropdown';
@@ -142,36 +143,40 @@ function Flows() {
             );
           })}
         </FlowsArea>
+        {/* Modal de editar fluxo */}
         {showFlow != -1 && (
           <>
             <Modal>
-              <label>
-                nome do Fluxo
+              <Content>
+                <ContentHeader>
+                  <h2>Editar fluxo</h2>
+                </ContentHeader>
+                Nome
                 <TextInput set={() => null} value={flows[showFlow].name} />
-              </label>
-              <label>
-                Etapa
-                <AddStageInFlow
-                  selectedStage={selectedStage}
-                  setSelectedStage={setSelectedStage}
-                  options={allOptions}
-                  onClick={addStage}
+                <label>
+                  Etapas
+                  <AddStageInFlow
+                    selectedStage={selectedStage}
+                    setSelectedStage={setSelectedStage}
+                    options={allOptions}
+                    onClick={addStage}
+                    flow={flows[showFlow]}
+                  />
+                </label>
+                <StagesInFlow flow={flows[showFlow]} stages={stages} />
+                <FlowViewer
                   flow={flows[showFlow]}
-                />
-              </label>
-              <StagesInFlow flow={flows[showFlow]} stages={stages} />
-              <FlowViewer
-                flow={flows[showFlow]}
-                stages={stages || []}
-              ></FlowViewer>
-              <Button
-                onClick={() => {
-                  setShowFlow(-1);
-                }}
-                background="#de5353"
-              >
-                Voltar
-              </Button>
+                  stages={stages || []}
+                ></FlowViewer>
+                <Button
+                  onClick={() => {
+                    setShowFlow(-1);
+                  }}
+                  background="#de5353"
+                >
+                  Voltar
+                </Button>
+              </Content>
             </Modal>
           </>
         )}
