@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '../../services/api';
 import Button from 'components/Button';
 import TextInput from 'components/TextInput';
 import React from 'react';
@@ -27,14 +27,14 @@ function Login() {
   }, []);
 
   async function updateStages() {
-    const response = await axios.get('http://localhost:3333/stages');
+    const response = await api.get('/stages');
     console.log(response);
     setStages(response.data.Stages);
   }
 
   async function addStage() {
     try {
-      const response = await axios.post('http://localhost:3333/newStage', {
+      const response = await api.post('/newStage', {
         name: newStage
       });
       if (response.status == 200) {
@@ -51,7 +51,7 @@ function Login() {
 
   async function deleteStage(id) {
     try {
-      const response = await axios.post('http://localhost:3333/deleteStage', {
+      const response = await api.post('/deleteStage', {
         stageId: id
       });
       if (response.status == 200) {

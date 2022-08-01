@@ -2,6 +2,8 @@ import './styles.js';
 import SideBar from './components/SideBar';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import ShowProcess from 'pages/ShowProcess/index.js';
+import Processes from 'pages/Processes/index.js';
 import { Routes, Route } from 'react-router-dom';
 import { Container, Content } from './styles';
 import RegisterProcess from './pages/RegisterProcess/index.js';
@@ -20,11 +22,15 @@ function App() {
         <SideBar />
         <Content>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Flows />} />
             <Route path="login" element={<Login />} />
             <Route path="stages" element={<Stages />} />
-            <Route path="flows" element={<Flows />} />
-            <Route path="registerProcess" element={<RegisterProcess />} />
+            <Route path="processes" element={<Processes />} />
+            <Route
+              path="processes/registerProcess"
+              element={<RegisterProcess />}
+            />
+            <Route path="processes/showProcess" element={<ShowProcess />} />
           </Routes>
         </Content>
       </Container>

@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import { PlusCircleFill } from '@styled-icons/bootstrap/PlusCircleFill';
-import { Trash } from '@styled-icons/boxicons-solid/Trash';
 
 export const Container = styled.div`
   width: 100%;
@@ -11,6 +9,7 @@ export const Container = styled.div`
   flex-direction: column;
   gap: 20px;
   justify-content: space-between;
+  overflow-y: scroll;
 
   div.processes {
     display: flex;
@@ -48,34 +47,16 @@ export const Container = styled.div`
     color: #de5353;
   }
 
-  button {
+  a.add-button {
     padding: 0px;
     min-width: 20px;
     border-radius: 50%;
     align-self: end;
     margin-right: 2em;
+    background-color: #304974;
   }
-`;
 
-export const AddCircle = styled(PlusCircleFill)`
-  color: #304974;
-  position: absolute;
-  right: 20px;
-  bottom: 20px;
-  cursor: pointer;
-`;
-
-export const AddTrash = styled(Trash)`
-  color: red;
-  cursor: pointer;
-`;
-export const AddProcesso = styled.div`
-  background-color: #1b9454;
-  color: white;
-  border-radius: 25px;
-  padding: 15px 35px;
-  width: 925px;
-  display: flex;
-  justify-content: space-between;
-  font-weight: 900;
+  a.add-button svg {
+    color: #f1f1f1;
+  }
 `;

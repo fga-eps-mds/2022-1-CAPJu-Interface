@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Container, AddCircle, AddTrash, AddProcesso } from './styles';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
+import api from '../../services/api';
 
 function Home() {
   const [processes, setProcesses] = useState([]);
@@ -13,13 +13,13 @@ function Home() {
   }, []);
 
   async function updateProcesses() {
-    const response = await axios.get('http://localhost:3333/processes');
+    const response = await api.get('/processes');
     console.log(response);
     setProcesses(response.data.processes);
   }
 
   async function deleteProcess(registro) {
-    await axios.delete(`http://localhost:3333/deleteProcess/${registro}`);
+    await api.delete(`/deleteProcess/${registro}`);
   }
 
   return (

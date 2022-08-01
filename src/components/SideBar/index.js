@@ -13,7 +13,7 @@ function SideBar() {
       <MenuItem href={'/stages'}>
         <Flow></Flow>Etapas
       </MenuItem>
-      <MenuItem href={'/flows'}>
+      <MenuItem href={'/'}>
         <FlowCascade></FlowCascade>Fluxos
       </MenuItem>
       <Button background="#DE5353">Sair</Button>

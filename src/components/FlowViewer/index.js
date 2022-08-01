@@ -18,7 +18,11 @@ function FlowViewer(props) {
       return {
         id: stage._id,
         data: { label: stage.name },
-        position: { x: (idx % 2) * 100, y: 80 * idx }
+        position: { x: (idx % 2) * 100, y: 80 * idx },
+        style:
+          props.highlight == stage._id
+            ? { backgroundColor: '#1b9454', color: '#f1f1f1' }
+            : {}
       };
     });
 
@@ -42,7 +46,8 @@ function FlowViewer(props) {
 FlowViewer.propTypes = {
   onClick: PropTypes.func,
   flow: PropTypes.any,
-  stages: PropTypes.array
+  stages: PropTypes.array,
+  highlight: PropTypes.string
 };
 
 export default FlowViewer;

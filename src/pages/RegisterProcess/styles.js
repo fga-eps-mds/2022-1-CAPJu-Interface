@@ -18,3 +18,18 @@ export const Container = styled.div`
     font-size: 18px;
   }
 `;
+
+export const Form = styled.form`
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  color: #000;
+`;
+
+export const FormElement = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+`;

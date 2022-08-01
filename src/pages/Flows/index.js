@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '../../services/api';
 import Button from 'components/Button';
 import TextInput from 'components/TextInput';
 import { StagesInFlow } from 'components/StagesInFlow';
@@ -22,6 +22,8 @@ import {
 import { DeleteForever } from '@styled-icons/material';
 import Dropdown from 'react-dropdown';
 import FlowViewer from 'components/FlowViewer';
+import DescriptionIcon from '@mui/icons-material/Description';
+import { Link } from 'react-router-dom';
 
 function Flows() {
   const [flows, setFlows] = useState([]);
@@ -43,14 +45,12 @@ function Flows() {
   }, []);
 
   async function updateFlows() {
-    const response = await axios.get('http://localhost:3333/flows');
-    console.log(response);
+    const response = await api.get('/flows');
     setFlows(response.data.Flows);
   }
 
   async function updateStages() {
-    const response = await axios.get('http://localhost:3333/stages');
-    console.log(response);
+    const response = await api.get('/stages');
     setStages(response.data.Stages);
     setSelectedStage(response.data.Stages[0]?._id);
   }
@@ -66,7 +66,7 @@ function Flows() {
 
   async function addFlow() {
     try {
-      const response = await axios.post('http://localhost:3333/newFlow', {
+      const response = await api.post('/newFlow', {
         ...newFlow
       });
       responseHandler(
@@ -75,14 +75,13 @@ function Flows() {
         'Erro ao adicionar fluxo'
       );
     } catch (e) {
-      console.log(e);
       toast.error('Erro ao adicionar fluxo');
     }
   }
 
   async function deleteFlow(id) {
     try {
-      const response = await axios.post('http://localhost:3333/deleteFlow', {
+      const response = await api.post('/deleteFlow', {
         flowId: id
       });
       responseHandler(
@@ -118,7 +117,7 @@ function Flows() {
 
       console.log('edited', editedFlow);
 
-      const response = await axios.put('http://localhost:3333/editFlow', {
+      const response = await api.put('/editFlow', {
         _id: id,
         ...editedFlow
       });
@@ -168,21 +167,23 @@ function Flows() {
       <Container>
         Fluxos
         <FlowsArea>
-          {flows.map((stage, index) => {
+          {flows.map((flow, index) => {
             return (
-              <FlowItem key={index}>
-                <div
-                  onClick={() => {
-                    setShowFlow(index);
-                    setNewFlow(flows[index]);
-                  }}
-                >
-                  {stage.name}{' '}
-                </div>
+              <FlowItem
+                key={index}
+                onClick={() => {
+                  setShowFlow(index);
+                  setNewFlow(flows[index]);
+                }}
+              >
+                {flow.name}{' '}
+                <Link to="/processes" state={flow}>
+                  <DescriptionIcon className="see-processes" />
+                </Link>
                 <DeleteForever
                   size={30}
                   onClick={() => {
-                    deleteFlow(stage._id);
+                    deleteFlow(flow._id);
                   }}
                 />
               </FlowItem>
