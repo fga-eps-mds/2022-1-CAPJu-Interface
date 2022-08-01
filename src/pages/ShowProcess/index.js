@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import api from '../../services/api';
-import { Container } from './styles';
+import { Container, FlowWrapper } from './styles';
 import Button from '../../components/Button';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import React from 'react';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import Modal from 'react-modal';
 import toast from 'react-hot-toast';
+import FlowViewer from 'components/FlowViewer';
 
 Modal.setAppElement('#root');
 
@@ -18,9 +19,13 @@ const customStyles = {
     bottom: 'auto',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
-    padding: '0px'
+    padding: '0px',
   },
 };
+
+const flowStyle = {
+  zIndex: '0'
+}
 
 const headerStyle = {
   backgroundColor: '#7A7B4F',
@@ -78,9 +83,16 @@ function ShowProcess() {
   const [observation, setObservation] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
+  const [stages, setStages] = useState([]);
+  const [flow, setFlow] = useState({stages: [], sequences: []});
 
   const proc = location.state;
   console.log(proc);
+
+  useEffect(() => {
+    fetchStages();
+    fetchFlow();
+  }, []);
 
   async function updateProcesses() {
     const response = await api.get('/showProcess');
@@ -100,10 +112,29 @@ function ShowProcess() {
     setModalIsOpen(false);
   }
 
+  async function fetchFlow() {
+    let response = await api.get('/flows');
+    let flows = response.data.Flows;
+
+    let flowTarget = {};
+    for (let idx in flows) {
+      if (flows[idx]._id == proc.fluxoId) {
+        flowTarget = flows[idx];
+        break;
+      }
+    }
+    setFlow(flowTarget);
+  }
+
+  async function fetchStages() {
+    let response  = await api.get('/stages');
+    setStages(response.data.Stages);
+  }
+
   async function nextStage() {
     try {
       let { etapas } = proc;
-  
+
       for (let idx in etapas) {
         if (etapas[idx].etapa == proc.etapaAtual)
           etapas[idx]['observacoes'] = observation;
@@ -132,15 +163,15 @@ function ShowProcess() {
 
       proc.etapaAtual = stageTo;
       proc.etapas = etapas;
-      
+
       delete proc._id;
       delete proc.createdAt;
       delete proc.updatedAt;
       delete proc.__v;
-      
 
-      let data = await api.put(`/updateProcess/${proc._id}`,  proc );
-  
+
+      let data = await api.put(`/updateProcess/${proc._id}`, proc);
+
       console.log(proc);
 
       closeModal();
@@ -152,7 +183,7 @@ function ShowProcess() {
         { duration: 3000 }
       );
     }
-    
+
   }
 
   return (
@@ -164,6 +195,7 @@ function ShowProcess() {
             {proc.apelido.length > 0 ? `${proc.registro} - ${proc.apelido}` : `${proc.registro}`}
           </div>
         </div>
+        <FlowWrapper style={flowStyle}><FlowViewer stages={stages} flow={flow} highlight={proc.etapaAtual}></FlowViewer></FlowWrapper>
         <Modal
           isOpen={modalIsOpen}
           onAfterOpen={afterOpenModal}

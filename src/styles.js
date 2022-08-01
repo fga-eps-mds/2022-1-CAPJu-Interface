@@ -14,4 +14,6 @@ export const Content = styled.div`
   justify-content: center;
   background-color: #fff;
   position: relative;
+  overflow-y: scroll;
+  height: 100vh;
 `;

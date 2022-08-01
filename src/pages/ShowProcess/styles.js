@@ -44,5 +44,9 @@ export const Container = styled.div`
     background-color: red;
     color: #f1f1f1;
   }
+`;
 
+export const FlowWrapper = styled.div`
+  max-width: 500px;
+  max-height: 500px;
 `;
