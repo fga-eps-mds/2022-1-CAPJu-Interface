@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import api from '../../services/api';
 import { Container, FlowWrapper } from './styles';
 import Button from '../../components/Button';
-import { useLocation, useNavigate, Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import React from 'react';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import Modal from 'react-modal';
@@ -62,11 +62,6 @@ const btnStyle = {
   marginTop: '20px'
 };
 
-const btnContainer = {
-  display: 'flex',
-  justifyContent: 'end'
-};
-
 const closeBtnStyle = {
   color: '#f1f1f1',
   backgroundColor: 'transparent',
@@ -77,10 +72,8 @@ const closeBtnStyle = {
 };
 
 function ShowProcess() {
-  const [process, setProcesses] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [observation, setObservation] = useState('');
-  const navigate = useNavigate();
   const location = useLocation();
   const [stages, setStages] = useState([]);
   const [flow, setFlow] = useState({ stages: [], sequences: [] });
@@ -91,13 +84,8 @@ function ShowProcess() {
   useEffect(() => {
     fetchStages();
     fetchFlow();
+    // eslint-disable-next-line
   }, []);
-
-  async function updateProcesses() {
-    const response = await api.get('/showProcess');
-    console.log(response);
-    setProcesses(response.data.process);
-  }
 
   function openModal() {
     setModalIsOpen(true);
@@ -168,8 +156,6 @@ function ShowProcess() {
       delete proc.updatedAt;
       delete proc.__v;
 
-      let data = await api.put(`/updateProcess/${proc._id}`, proc);
-
       console.log(proc);
 
       closeModal();
@@ -232,7 +218,7 @@ function ShowProcess() {
             </button>
           </div>
         </Modal>
-        <Button onClick={(e) => openModal()}>
+        <Button onClick={() => openModal()}>
           <SkipNextIcon />
           <span>Avançar etapa</span>
         </Button>

@@ -1,6 +1,5 @@
 import './styles.js';
 import SideBar from './components/SideBar';
-import Home from './pages/Home';
 import Login from './pages/Login';
 import ShowProcess from 'pages/ShowProcess/index.js';
 import Processes from 'pages/Processes/index.js';
