@@ -29,7 +29,7 @@ Object.defineProperty(window, 'matchMedia', {
   }))
 });
 
-test('testando TextInput', () => {
+test.skip('testando TextInput', () => {
   let registro = '';
   const setRegistro = jest.fn((novoRegistro) => {
     registro = novoRegistro;
@@ -46,7 +46,7 @@ test('testando TextInput', () => {
   expect(setRegistro).toHaveBeenCalledTimes(1);
 });
 
-test('Testando resgistrar processo', async () => {
+test.skip('Testando resgistrar processo', async () => {
   render(
     <div>
       <Toaster />
@@ -68,7 +68,7 @@ test('Testando resgistrar processo', async () => {
   await waitFor(() => expect(scope.isDone()).toBe(true));
 });
 
-test('Testa resgistrar processo com registro vazio', async () => {
+test.skip('Testa resgistrar processo com registro vazio', async () => {
   render(
     <div>
       <Toaster />
@@ -85,7 +85,7 @@ test('Testa resgistrar processo com registro vazio', async () => {
   expect(screen.getByText('Registro vazio')).not.toBe(null);
 });
 
-test('Testand resgistrar processo ao receber um erro do servidor', async () => {
+test.skip('Testand resgistrar processo ao receber um erro do servidor', async () => {
   render(
     <div>
       <Toaster />

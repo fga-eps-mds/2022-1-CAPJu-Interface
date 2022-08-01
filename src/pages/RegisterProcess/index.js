@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Container, Form, FormElement } from './styles';
-import TextInput from '../../components/TextInput';
 import Button from '../../components/Button';
 import toast from 'react-hot-toast';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -17,7 +16,11 @@ function RegisterProcess() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    for (let i in flow.stages) periods.push('');
+    for (let i in flow.stages) {
+      console.log(i);
+      periods.push('');
+    }
+    // eslint-disable-next-line
   }, []);
 
   const handleFormChange = (event, index) => {
@@ -35,14 +38,13 @@ function RegisterProcess() {
 
     try {
       if (registro && flow) {
-        let response;
         let sequences = flow.sequences;
         let stagesAndPeriods = [];
 
         for (let i = 0; i < flow.stages.length; i++)
           stagesAndPeriods.push({ etapa: flow.stages[i], duracao: periods[i] });
 
-        response = await api.post('/newProcess', {
+        await api.post('/newProcess', {
           registro,
           apelido,
           etapaAtual: sequences[0].from,
