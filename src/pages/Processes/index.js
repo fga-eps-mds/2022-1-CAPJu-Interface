@@ -1,18 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Container } from './styles';
-import Button from '../../components/Button';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import React from 'react';
 import api from '../../services/api';
-import { Delete, Visibility } from '@mui/icons-material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
+import Visibility from '@styled-icons/material/Visibility';
 
 function Processes() {
   const [processes, setProcesses] = useState([]);
-  const navigate = useNavigate();
-  const location = useLocation();
 
   const flow = location.state;
 
