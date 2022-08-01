@@ -4,13 +4,19 @@ import { Container } from './styles';
 import ReactFlow from 'react-flow-renderer';
 
 function FlowViewer(props) {
+  console.log(
+    props.stages.filter((stage) => {
+      return props.flow.stages.includes(stage._id);
+    })
+  );
+
   const nodes = props.stages
     .filter((stage) => {
-      return props.stages.includes(stage);
+      return props.flow.stages.includes(stage._id);
     })
     .map((stage, idx) => {
       return {
-        id: idx.toString(),
+        id: stage._id,
         data: { label: stage.name },
         position: { x: (idx % 2) * 100, y: 80 * idx },
         style: props.highlight == stage._id ? { backgroundColor:  '#1b9454', color: '#f1f1f1'} : {}
@@ -19,21 +25,10 @@ function FlowViewer(props) {
 
   const edges =
     props.flow.sequences.map((sequence) => {
-      let indexSource = props.stages
-        .findIndex((stage) => {
-          return stage._id == sequence.from;
-        })
-        .toString();
-
-      let indexTarget = props.stages
-        .findIndex((stage) => {
-          return stage._id == sequence.to;
-        })
-        .toString();
       return {
-        id: 'e' + indexSource + '-' + indexTarget,
-        source: indexSource,
-        target: indexTarget,
+        id: 'e' + sequence.from + '-' + sequence.to,
+        source: sequence.from,
+        target: sequence.to,
         animated: true
       };
     }) || [];

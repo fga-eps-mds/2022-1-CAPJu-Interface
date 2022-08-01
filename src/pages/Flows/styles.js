@@ -74,7 +74,7 @@ export const Content = styled.div`
   height: 90vh;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  /* padding: 20px; */
   flex-direction: column;
   gap: 10px;
   font-size: 20px;
@@ -136,4 +136,19 @@ export const SequenceItem = styled.div`
   gap: 10px;
   font-size: 20px;
   border-radius: 20px;
+`;
+
+export const ContentHeader = styled.div`
+  display: flex;
+  background-color: #7a7b4f;
+  min-width: 800px;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  font-size: 32px;
+  height: 10vh;
+  width: 100%;
+  h2 {
+    color: #f1f1f1;
+  }
 `;

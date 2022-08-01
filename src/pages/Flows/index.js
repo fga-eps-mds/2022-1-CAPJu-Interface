@@ -1,6 +1,8 @@
 import api from '../../services/api';
 import Button from 'components/Button';
 import TextInput from 'components/TextInput';
+import { StagesInFlow } from 'components/StagesInFlow';
+import { AddStageInFlow } from 'components/AddStageInFlow';
 import React from 'react';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -13,9 +15,9 @@ import {
   Content,
   SelectorWrapper,
   StageName,
-  StagesWrapper,
   SequencesWrapper,
-  SequenceItem
+  SequenceItem,
+  ContentHeader
 } from './styles';
 import { DeleteForever } from '@styled-icons/material';
 import Dropdown from 'react-dropdown';
@@ -53,17 +55,25 @@ function Flows() {
     setSelectedStage(response.data.Stages[0]?._id);
   }
 
+  function responseHandler(response, successMsg, errorMsg) {
+    if (response.status == 200) {
+      toast.success(successMsg);
+      updateFlows();
+    } else {
+      toast.error(errorMsg);
+    }
+  }
+
   async function addFlow() {
     try {
       const response = await api.post('/newFlow', {
         ...newFlow
       });
-      if (response.status == 200) {
-        toast.success('Fluxo Adicionado com sucesso');
-        updateFlows();
-      } else {
-        toast.error('Erro ao adicionar fluxo');
-      }
+      responseHandler(
+        response,
+        'Fluxo Adicionado com sucesso',
+        'Erro ao adicionar fluxo'
+      );
     } catch (e) {
       toast.error('Erro ao adicionar fluxo');
     }
@@ -74,15 +84,51 @@ function Flows() {
       const response = await api.post('/deleteFlow', {
         flowId: id
       });
-      if (response.status == 200) {
-        toast.success('Fluxo Deletada com sucesso');
-        updateFlows();
-      } else {
-        toast.error('Erro ao deletar fluxo');
-      }
+      responseHandler(
+        response,
+        'Fluxo Deletada com sucesso',
+        'Erro ao deletar fluxo'
+      );
     } catch (e) {
       console.log(e);
       toast.error('Erro ao remover fluxo');
+    }
+  }
+
+  async function editFlow(id) {
+    try {
+      let editedFlow = { ...newFlow };
+
+      let newSequences = editedFlow.sequences.filter((sequence) => {
+        if (
+          editedFlow.stages.includes(sequence.from) &&
+          editedFlow.stages.includes(sequence.to)
+        ) {
+          return true;
+        }
+
+        return false;
+      });
+
+      editedFlow.sequences = newSequences;
+      delete editedFlow.createdAt;
+      delete editedFlow.updatedAt;
+      delete editedFlow.__v;
+
+      console.log('edited', editedFlow);
+
+      const response = await api.put('/editFlow', {
+        _id: id,
+        ...editedFlow
+      });
+      responseHandler(
+        response,
+        'Fluxo Editado com sucesso',
+        'Erro ao Editar fluxo'
+      );
+    } catch (e) {
+      console.log(e);
+      toast.error('Erro ao Editar fluxo');
     }
   }
 
@@ -92,8 +138,8 @@ function Flows() {
     setNewFlow(tmp);
   }
 
-  function addStage() {
-    let tmp = { ...newFlow };
+  function addStage(flow) {
+    let tmp = { ...flow };
     tmp.stages.push(selectedStage);
     setNewFlow(tmp);
   }
@@ -127,6 +173,7 @@ function Flows() {
                 key={index}
                 onClick={() => {
                   setShowFlow(index);
+                  setNewFlow(flows[index]);
                 }}
               >
                 {flow.name}{' '}
@@ -143,21 +190,57 @@ function Flows() {
             );
           })}
         </FlowsArea>
+        {/* Modal de editar fluxo */}
         {showFlow != -1 && (
           <>
             <Modal>
-              <FlowViewer
-                flow={flows[showFlow]}
-                stages={stages || []}
-              ></FlowViewer>
-              <Button
-                onClick={() => {
-                  setShowFlow(-1);
-                }}
-                background="#de5353"
-              >
-                Voltar
-              </Button>
+              <Content>
+                <ContentHeader>
+                  <h2>Editar fluxo</h2>
+                </ContentHeader>
+                Nome
+                <TextInput set={updateFlowName} value={newFlow.name} />
+                <label>
+                  Etapas
+                  <AddStageInFlow
+                    selectedStage={selectedStage}
+                    setSelectedStage={setSelectedStage}
+                    options={allOptions}
+                    onClick={addStage}
+                    flow={newFlow}
+                  />
+                </label>
+                <StagesInFlow
+                  flow={newFlow}
+                  stages={stages}
+                  setNewFlow={() => {
+                    setNewFlow(newFlow);
+                    updateFlows();
+                  }}
+                />
+                <FlowViewer flow={newFlow} stages={stages || []}></FlowViewer>
+                <Button
+                  onClick={() => {
+                    editFlow(showFlow);
+                    setShowFlow(-1);
+                  }}
+                >
+                  Salvar
+                </Button>
+                <Button
+                  onClick={() => {
+                    setShowFlow(-1);
+                    setNewFlow({
+                      name: '',
+                      stages: [],
+                      sequences: []
+                    });
+                  }}
+                  background="#de5353"
+                >
+                  Cancelar
+                </Button>
+              </Content>
             </Modal>
           </>
         )}
@@ -180,43 +263,21 @@ function Flows() {
               value={newFlow.name}
             ></TextInput>
             Etapas
-            <SelectorWrapper>
-              <Dropdown
-                options={allOptions}
-                onChange={(e) => {
-                  setSelectedStage(e.value);
-                }}
-                value={selectedStage}
-                placeholder="Selecione a etapa"
-                className="dropdown"
-                controlClassName="dropdown-control"
-                placeholderClassName="dropdown-placeholder"
-                menuClassName="dropdown-menu"
-                arrowClassName="dropdown-arrow"
-              />
-              <div
-                onClick={() => {
-                  addStage();
-                }}
-              >
-                Adicionar
-              </div>
-            </SelectorWrapper>
-            <StagesWrapper>
-              {newFlow.stages.map((flowStage) => {
-                return (
-                  <>
-                    <StageName>
-                      {
-                        stages.find((stage) => {
-                          return flowStage == stage._id;
-                        }).name
-                      }
-                    </StageName>
-                  </>
-                );
-              })}
-            </StagesWrapper>
+            <AddStageInFlow
+              selectedStage={selectedStage}
+              setSelectedStage={setSelectedStage}
+              options={allOptions}
+              onClick={addStage}
+              flow={newFlow}
+            />
+            <StagesInFlow
+              flow={newFlow}
+              stages={stages}
+              setNewFlow={() => {
+                setNewFlow(newFlow);
+                updateFlows();
+              }}
+            />
             {newFlow.stages.length > 0 && (
               <>
                 <>Sequências</>
