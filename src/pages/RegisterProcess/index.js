@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Container } from './styles';
+import { Container, Form, FormElement } from './styles';
 import TextInput from '../../components/TextInput';
 import Button from '../../components/Button';
 import toast from 'react-hot-toast';
@@ -15,6 +15,11 @@ function RegisterProcess() {
   const [periods, setPeriods] = useState([]);
   
   const navigate = useNavigate();
+
+  useEffect(() => {
+    for (let i in flow.stages)
+      periods.push('');
+  }, [])
 
   const handleFormChange = (event, index) => {
     /*let data = [...stages];
@@ -65,8 +70,8 @@ function RegisterProcess() {
 
   return (
     <Container>
-      <form onSubmit={register}>
-        <div>
+      <Form onSubmit={register}>
+        <FormElement>
           <label>Número de Registro</label>
           <input
             name='registro'
@@ -74,9 +79,9 @@ function RegisterProcess() {
             onChange={event => setRegistro(event.target.value)}
             placeholder={'registro'}
           />
-        </div>
+        </FormElement>
 
-        <div>
+        <FormElement>
           <label>Apelido (Opcional)</label>
           <input
             name='apelido'
@@ -84,28 +89,28 @@ function RegisterProcess() {
             onChange={event => setApelido(event.target.value)}
             placeholder={'apelido'}
           />
-        </div>
+        </FormElement>
         {
           flow.stages.map((stage, idx) => {
             return (
-              <div key={idx}>
+              <FormElement key={idx}>
                 <label>Etapa {`${stage.etapa}`}</label>
                 <input
                   name='duracao'
-                  value={periods[idx]}
                   onChange={event => handleFormChange(event, idx)}
                   placeholder={'duração (dias)'}/>
-              </div>
+              </FormElement>
             )
           })
         }
-      </form>
+      </Form>
 
-      <button
+      <Button
         onClick={register}
+        background="#1b9454"
       >
         <span> Registrar Processo </span>
-      </button>
+      </Button>
     </Container>
   );
 }
