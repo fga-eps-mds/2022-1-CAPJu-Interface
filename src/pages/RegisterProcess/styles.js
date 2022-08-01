@@ -7,7 +7,6 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 20px;
-  background-color: rgba(255, 255, 255, 0.1);
   width: fit-content;
   padding: 50px;
   border-radius: 15px;
@@ -18,4 +17,19 @@ export const Container = styled.div`
   label {
     font-size: 18px;
   }
+`;
+
+export const Form = styled.form`
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  color: #000;
+`;
+
+export const FormElement = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
 `;
