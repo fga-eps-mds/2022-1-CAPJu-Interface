@@ -13,13 +13,12 @@ function RegisterProcess() {
   const flow = location.state;
 
   const [periods, setPeriods] = useState([]);
-  
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    for (let i in flow.stages)
-      periods.push('');
-  }, [])
+    for (let i in flow.stages) periods.push('');
+  }, []);
 
   const handleFormChange = (event, index) => {
     /*let data = [...stages];
@@ -29,7 +28,7 @@ function RegisterProcess() {
     let data = [...periods];
     data[index] = event.target.value;
     setPeriods(data);
-  }
+  };
 
   async function register(e) {
     e.preventDefault();
@@ -41,7 +40,7 @@ function RegisterProcess() {
         let stagesAndPeriods = [];
 
         for (let i = 0; i < flow.stages.length; i++)
-          stagesAndPeriods.push({etapa: flow.stages[i], duracao: periods[i]});
+          stagesAndPeriods.push({ etapa: flow.stages[i], duracao: periods[i] });
 
         response = await api.post('/newProcess', {
           registro,
@@ -51,8 +50,7 @@ function RegisterProcess() {
           etapas: stagesAndPeriods,
           fluxoId: flow._id
         });
-      }
-      else {
+      } else {
         toast.error('Registro vazio', { duration: 3000 });
         return;
       }
@@ -74,9 +72,9 @@ function RegisterProcess() {
         <FormElement>
           <label>Número de Registro</label>
           <input
-            name='registro'
+            name="registro"
             value={registro}
-            onChange={event => setRegistro(event.target.value)}
+            onChange={(event) => setRegistro(event.target.value)}
             placeholder={'registro'}
           />
         </FormElement>
@@ -84,31 +82,27 @@ function RegisterProcess() {
         <FormElement>
           <label>Apelido (Opcional)</label>
           <input
-            name='apelido'
+            name="apelido"
             value={apelido}
-            onChange={event => setApelido(event.target.value)}
+            onChange={(event) => setApelido(event.target.value)}
             placeholder={'apelido'}
           />
         </FormElement>
-        {
-          flow.stages.map((stage, idx) => {
-            return (
-              <FormElement key={idx}>
-                <label>Etapa {`${stage.etapa}`}</label>
-                <input
-                  name='duracao'
-                  onChange={event => handleFormChange(event, idx)}
-                  placeholder={'duração (dias)'}/>
-              </FormElement>
-            )
-          })
-        }
+        {flow.stages.map((stage, idx) => {
+          return (
+            <FormElement key={idx}>
+              <label>Etapa {`${stage.etapa}`}</label>
+              <input
+                name="duracao"
+                onChange={(event) => handleFormChange(event, idx)}
+                placeholder={'duração (dias)'}
+              />
+            </FormElement>
+          );
+        })}
       </Form>
 
-      <Button
-        onClick={register}
-        background="#1b9454"
-      >
+      <Button onClick={register} background="#1b9454">
         <span> Registrar Processo </span>
       </Button>
     </Container>

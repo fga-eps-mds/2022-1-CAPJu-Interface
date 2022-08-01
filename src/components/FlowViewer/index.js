@@ -19,7 +19,10 @@ function FlowViewer(props) {
         id: stage._id,
         data: { label: stage.name },
         position: { x: (idx % 2) * 100, y: 80 * idx },
-        style: props.highlight == stage._id ? { backgroundColor:  '#1b9454', color: '#f1f1f1'} : {}
+        style:
+          props.highlight == stage._id
+            ? { backgroundColor: '#1b9454', color: '#f1f1f1' }
+            : {}
       };
     });
 

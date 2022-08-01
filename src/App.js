@@ -25,8 +25,11 @@ function App() {
             <Route path="/" element={<Flows />} />
             <Route path="login" element={<Login />} />
             <Route path="stages" element={<Stages />} />
-            <Route path="processes" element={<Processes/>}/>
-            <Route path="processes/registerProcess" element={<RegisterProcess />} />
+            <Route path="processes" element={<Processes />} />
+            <Route
+              path="processes/registerProcess"
+              element={<RegisterProcess />}
+            />
             <Route path="processes/showProcess" element={<ShowProcess />} />
           </Routes>
         </Content>

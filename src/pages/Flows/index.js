@@ -178,7 +178,7 @@ function Flows() {
               >
                 {flow.name}{' '}
                 <Link to="/processes" state={flow}>
-                  <DescriptionIcon className='see-processes'/>
+                  <DescriptionIcon className="see-processes" />
                 </Link>
                 <DeleteForever
                   size={30}

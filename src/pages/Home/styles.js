@@ -18,7 +18,7 @@ export const Container = styled.div`
     align-items: center;
     width: 100%;
   }
-  
+
   div.process {
     background-color: #1b9454;
     border-radius: 10px;
@@ -41,11 +41,11 @@ export const Container = styled.div`
   }
 
   svg.edit-process {
-    color: #FBE304;
+    color: #fbe304;
   }
 
   svg.delete-process {
-    color: #DE5353;
+    color: #de5353;
   }
 
   button {

@@ -19,13 +19,13 @@ const customStyles = {
     bottom: 'auto',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
-    padding: '0px',
-  },
+    padding: '0px'
+  }
 };
 
 const flowStyle = {
   zIndex: '0'
-}
+};
 
 const headerStyle = {
   backgroundColor: '#7A7B4F',
@@ -33,12 +33,12 @@ const headerStyle = {
   display: 'flex',
   justifyContent: 'space-between',
   width: '100%'
-}
+};
 
 const titleStyle = {
   marginRight: 'auto',
   marginLeft: 'auto'
-}
+};
 
 const bodyStyle = {
   display: 'flex',
@@ -46,12 +46,12 @@ const bodyStyle = {
   alignItems: 'center',
   justifyContent: 'center',
   padding: '20px'
-}
+};
 
 const textAreaStyle = {
   minHeight: '200px',
-  minWidth: '400px',
-}
+  minWidth: '400px'
+};
 
 const btnStyle = {
   color: '#f1f1f1',
@@ -60,12 +60,12 @@ const btnStyle = {
   padding: '10px 15px',
   fontWeight: 'bold',
   marginTop: '20px'
-}
+};
 
 const btnContainer = {
   display: 'flex',
   justifyContent: 'end'
-}
+};
 
 const closeBtnStyle = {
   color: '#f1f1f1',
@@ -74,8 +74,7 @@ const closeBtnStyle = {
   fontWeight: 'bold',
   fontSize: '1em',
   alignSelf: 'self-end'
-}
-
+};
 
 function ShowProcess() {
   const [process, setProcesses] = useState([]);
@@ -84,7 +83,7 @@ function ShowProcess() {
   const navigate = useNavigate();
   const location = useLocation();
   const [stages, setStages] = useState([]);
-  const [flow, setFlow] = useState({stages: [], sequences: []});
+  const [flow, setFlow] = useState({ stages: [], sequences: [] });
 
   const proc = location.state;
   console.log(proc);
@@ -127,7 +126,7 @@ function ShowProcess() {
   }
 
   async function fetchStages() {
-    let response  = await api.get('/stages');
+    let response = await api.get('/stages');
     setStages(response.data.Stages);
   }
 
@@ -169,7 +168,6 @@ function ShowProcess() {
       delete proc.updatedAt;
       delete proc.__v;
 
-
       let data = await api.put(`/updateProcess/${proc._id}`, proc);
 
       console.log(proc);
@@ -178,24 +176,34 @@ function ShowProcess() {
 
       toast.success('Etapa avançada!', { duration: 4000 });
     } catch (error) {
-      toast.error(
-        'Erro ao avançar etapa \n ' + error.response.data.message,
-        { duration: 3000 }
-      );
+      toast.error('Erro ao avançar etapa \n ' + error.response.data.message, {
+        duration: 3000
+      });
     }
-
   }
 
   return (
     <>
       <Container>
-        <div className='processInfo'>
-          <h1>{proc.apelido.length > 0 ? proc.apelido : `Processo ${proc.registro}`}</h1>
+        <div className="processInfo">
+          <h1>
+            {proc.apelido.length > 0
+              ? proc.apelido
+              : `Processo ${proc.registro}`}
+          </h1>
           <div className="process">
-            {proc.apelido.length > 0 ? `${proc.registro} - ${proc.apelido}` : `${proc.registro}`}
+            {proc.apelido.length > 0
+              ? `${proc.registro} - ${proc.apelido}`
+              : `${proc.registro}`}
           </div>
         </div>
-        <FlowWrapper style={flowStyle}><FlowViewer stages={stages} flow={flow} highlight={proc.etapaAtual}></FlowViewer></FlowWrapper>
+        <FlowWrapper style={flowStyle}>
+          <FlowViewer
+            stages={stages}
+            flow={flow}
+            highlight={proc.etapaAtual}
+          ></FlowViewer>
+        </FlowWrapper>
         <Modal
           isOpen={modalIsOpen}
           onAfterOpen={afterOpenModal}
@@ -204,20 +212,29 @@ function ShowProcess() {
           contentLabel="Example Modal"
         >
           <div className="modal-header" style={headerStyle}>
-            <strong id="modal-title" style={titleStyle}>Avançar etapa</strong>
-            <button onClick={closeModal} style={closeBtnStyle}>X</button>
+            <strong id="modal-title" style={titleStyle}>
+              Avançar etapa
+            </strong>
+            <button onClick={closeModal} style={closeBtnStyle}>
+              X
+            </button>
           </div>
           <div className="modal-body" style={bodyStyle}>
-            <textarea className="observation-field" placeholder='Observações sobre a etapa atual...'
+            <textarea
+              className="observation-field"
+              placeholder="Observações sobre a etapa atual..."
               style={textAreaStyle}
               value={observation}
-              onChange={(e) => setObservation(e.target.value)}>
-            </textarea>
-            <button style={btnStyle} onClick={nextStage}>Avançar</button>
+              onChange={(e) => setObservation(e.target.value)}
+            ></textarea>
+            <button style={btnStyle} onClick={nextStage}>
+              Avançar
+            </button>
           </div>
         </Modal>
         <Button onClick={(e) => openModal()}>
-          <SkipNextIcon /><span>Avançar etapa</span>
+          <SkipNextIcon />
+          <span>Avançar etapa</span>
         </Button>
       </Container>
     </>
