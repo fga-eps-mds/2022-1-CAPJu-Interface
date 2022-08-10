@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Container } from './styles';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import React from 'react';
 import api from '../../services/api';
 import EditIcon from '@mui/icons-material/Edit';
@@ -10,7 +10,7 @@ import Visibility from '@mui/icons-material/Visibility';
 
 function Processes() {
   const [processes, setProcesses] = useState([]);
-
+  const location = useLocation();
   const flow = location.state;
 
   useEffect(() => {
