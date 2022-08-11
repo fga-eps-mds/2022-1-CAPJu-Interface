@@ -19,7 +19,7 @@ function Processes() {
   }, []);
 
   async function updateProcesses() {
-    const response = await api.get('/processes');
+    const response = await api.get(`/processes/${flow._id}`);
     console.log(flow);
     setProcesses(response.data.processes);
   }
