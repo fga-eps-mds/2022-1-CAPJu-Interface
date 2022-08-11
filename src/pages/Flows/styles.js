@@ -13,7 +13,7 @@ export const Container = styled.div`
 
 export const AddFlowButton = styled.button`
   bottom: 30px;
-  left: 30px;
+  right: 30px;
   position: absolute;
   padding: 10px 15px;
   background-color: #304974;
