@@ -17,7 +17,9 @@ import {
   StageName,
   SequencesWrapper,
   SequenceItem,
-  ContentHeader
+  ContentHeader,
+  ModalDelete,
+  ContentDelete
 } from './styles';
 import { DeleteForever } from '@styled-icons/material';
 import Dropdown from 'react-dropdown';
@@ -38,6 +40,7 @@ function Flows() {
   });
   const [isModalOpen, setModalOpen] = useState(false);
   const [showFlow, setShowFlow] = useState(-1);
+  const [deleteModal, setDeleteModal] = useState(false);
 
   useEffect(() => {
     updateStages();
@@ -183,13 +186,45 @@ function Flows() {
                 <DeleteForever
                   size={30}
                   onClick={() => {
-                    deleteFlow(flow._id);
+                    setDeleteModal(true);
+                    setShowFlow(-1);
+                    // deleteFlow(flow._id);
                   }}
-                />
+                ></DeleteForever>
               </FlowItem>
             );
           })}
         </FlowsArea>
+        {/* {Modal para confirmar exclusão do fluxo} */}
+        {deleteModal && (
+          <>
+            {flows.map((flow, index) => {
+              return (
+                <ModalDelete key={index}>
+                  <ContentDelete>
+                    Deseja excluir o fluxo : {flow.name}
+                    <Button
+                      onClick={() => {
+                        deleteFlow(flow._id);
+                        setDeleteModal(false);
+                      }}
+                    >
+                      Excluir
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        setDeleteModal(false);
+                      }}
+                      background="#de5353"
+                    >
+                      Sair
+                    </Button>
+                  </ContentDelete>
+                </ModalDelete>
+              );
+            })}
+          </>
+        )}
         {/* Modal de editar fluxo */}
         {showFlow != -1 && (
           <>

@@ -67,6 +67,33 @@ export const Modal = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
 `;
 
+export const ModalDelete = styled.div`
+  position: absolute;
+  backdrop-filter: blur(5px);
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 50%;
+  display: flex;
+  flex-direction: row;
+  font-size: 20px;
+  background-color: rgba(0, 0, 0, 0.5);
+`;
+
+export const ContentDelete = styled.div`
+  display: flex;
+  background-color: #f1f1f1;
+  min-width: 800px;
+  height: 50vh;
+  justify-content: center;
+  align-items: center;
+  margin-top: 210px;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 20px;
+  border-radius: 10px;
+`;
+
 export const Content = styled.div`
   display: flex;
   background-color: white;
