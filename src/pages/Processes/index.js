@@ -11,10 +11,15 @@ import Modal from 'react-modal';
 import Button from 'components/Button';
 import ModalHeader from 'components/ModalHeader';
 import ModalBody from 'components/ModalBody';
+import TextInput from 'components/TextInput';
 
 function Processes() {
   const [processes, setProcesses] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const [editModalIsOpen, setEditModalIsOpen] = useState(false);
+  const [receivedObject, setReceivedObject] = useState();
+
   const location = useLocation();
   const flow = location.state;
 
@@ -51,12 +56,20 @@ function Processes() {
 
   function closeModal() {
     setModalIsOpen(false);
+    setEditModalIsOpen(false);
   }
+
+  function openEditModal(proc) {
+    setEditModalIsOpen(true);
+    setReceivedObject(proc);
+  }
+
+  function editProcess() {}
 
   return (
     <Container>
       <div className="processes">
-        <h1>Processos</h1>
+        <h1>Processos</h1>t
         {processes.length == 0 && 'Nenhum processo foi encontrado'}
         {processes.map((proc, idx) => {
           return (
@@ -69,11 +82,36 @@ function Processes() {
                   <Visibility className="see-process"></Visibility>
                 </Link>
               }
-              {
-                <Link to="editProcess" state={proc}>
-                  <EditIcon className="edit-process"></EditIcon>
-                </Link>
-              }
+
+              <EditIcon
+                className="edit-process"
+                onClick={() => openEditModal(proc)}
+              />
+              <Modal
+                isOpen={editModalIsOpen}
+                onRequestClose={closeModal}
+                style={customStyles}
+                contentLabel="editar processo"
+              >
+                <ModalHeader close={closeModal}>Editar Processo</ModalHeader>
+                <h2>Editar Processo</h2>
+                <ModalBody>
+                  <input value={proc.registro}></input>
+                  <TextInput value={proc.apelido}></TextInput>
+                  <Button
+                    onClick={async () => {
+                      await editProcess(proc);
+                      await updateProcesses();
+                      closeModal();
+                    }}
+                  >
+                    Confirmar
+                  </Button>
+                  <Button onClick={closeModal} background="red">
+                    Cancelar
+                  </Button>
+                </ModalBody>
+              </Modal>
 
               <DeleteForeverIcon
                 className="delete-process"
