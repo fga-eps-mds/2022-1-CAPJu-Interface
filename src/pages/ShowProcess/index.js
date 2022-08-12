@@ -151,12 +151,16 @@ function ShowProcess() {
       proc.etapaAtual = stageTo;
       proc.etapas = etapas;
 
-      delete proc._id;
       delete proc.createdAt;
       delete proc.updatedAt;
       delete proc.__v;
 
       console.log(proc);
+
+      await api.put('/processNextStage/', {
+        processId: proc._id,
+        stageId: stageTo
+      });
 
       closeModal();
 
