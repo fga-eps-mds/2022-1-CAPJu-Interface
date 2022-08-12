@@ -72,7 +72,7 @@ export const Content = styled.div`
   align-items: center;
   padding: 20px;
   flex-direction: column;
-  gap: 50px;
+  gap: 25px;
   font-size: 20px;
   border-radius: 10px;
 `;

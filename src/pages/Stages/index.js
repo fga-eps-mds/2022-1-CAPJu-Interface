@@ -13,13 +13,19 @@ import {
   Content
 } from './styles';
 import { DeleteForever } from '@styled-icons/material';
+import { CloseOutline } from '@styled-icons/evaicons-outline/CloseOutline';
+
+const closeBtn = {
+  alignSelf: 'flex-end'
+}
 
 function Login() {
   const [stages, setStages] = useState([
     { name: 'stage 1' },
     { name: 'stage 2' }
   ]);
-  const [newStage, setNewStage] = useState('');
+  const [stageName, setStageName] = useState('');
+  const [stageTime, setStageTime] = useState('');
   const [isModalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
@@ -33,9 +39,12 @@ function Login() {
   }
 
   async function addStage() {
+
+    console.log(stageTime);
     try {
       const response = await api.post('/newStage', {
-        name: newStage
+        name: stageName,
+        time: stageTime
       });
       if (response.status == 200) {
         toast.success('Etapa Adicionada com sucesso');
@@ -97,8 +106,14 @@ function Login() {
       {isModalOpen && (
         <Modal>
           <Content>
+              <CloseOutline 
+                style={closeBtn} 
+                onClick={() => {
+                setModalOpen(false);
+            }}></CloseOutline>
             <h2>Nova Etapa</h2>
-            <TextInput set={setNewStage} value={newStage}></TextInput>
+            <TextInput set={setStageName} value={stageName} placeholder='Nome da etapa'></TextInput>
+            <TextInput set={setStageTime} value={stageTime} placeholder='Duração (dias)'></TextInput>
             <Button
               onClick={() => {
                 addStage();
