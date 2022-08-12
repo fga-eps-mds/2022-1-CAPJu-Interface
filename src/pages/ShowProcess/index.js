@@ -8,6 +8,8 @@ import SkipNextIcon from '@mui/icons-material/SkipNext';
 import Modal from 'react-modal';
 import toast from 'react-hot-toast';
 import FlowViewer from 'components/FlowViewer';
+import ModalHeader from 'components/ModalHeader';
+import ModalBody from 'components/ModalBody';
 
 Modal.setAppElement('#root');
 
@@ -27,27 +29,6 @@ const flowStyle = {
   zIndex: '0'
 };
 
-const headerStyle = {
-  backgroundColor: '#7A7B4F',
-  color: '#f1f1f1',
-  display: 'flex',
-  justifyContent: 'space-between',
-  width: '100%'
-};
-
-const titleStyle = {
-  marginRight: 'auto',
-  marginLeft: 'auto'
-};
-
-const bodyStyle = {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: '20px'
-};
-
 const textAreaStyle = {
   minHeight: '200px',
   minWidth: '400px'
@@ -60,15 +41,6 @@ const btnStyle = {
   padding: '10px 15px',
   fontWeight: 'bold',
   marginTop: '20px'
-};
-
-const closeBtnStyle = {
-  color: '#f1f1f1',
-  backgroundColor: 'transparent',
-  border: 'none',
-  fontWeight: 'bold',
-  fontSize: '1em',
-  alignSelf: 'self-end'
 };
 
 function ShowProcess() {
@@ -199,17 +171,10 @@ function ShowProcess() {
           onAfterOpen={afterOpenModal}
           onRequestClose={closeModal}
           style={customStyles}
-          contentLabel="Example Modal"
+          contentLabel="avançar etapa"
         >
-          <div className="modal-header" style={headerStyle}>
-            <strong id="modal-title" style={titleStyle}>
-              Avançar etapa
-            </strong>
-            <button onClick={closeModal} style={closeBtnStyle}>
-              X
-            </button>
-          </div>
-          <div className="modal-body" style={bodyStyle}>
+          <ModalHeader close={closeModal}>Avançar etapa</ModalHeader>
+          <ModalBody>
             <textarea
               className="observation-field"
               placeholder="Observações sobre a etapa atual..."
@@ -220,7 +185,7 @@ function ShowProcess() {
             <button style={btnStyle} onClick={nextStage}>
               Avançar
             </button>
-          </div>
+          </ModalBody>
         </Modal>
         <Button onClick={() => openModal()}>
           <SkipNextIcon />

@@ -7,11 +7,28 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
 import Visibility from '@mui/icons-material/Visibility';
+import Modal from 'react-modal';
+import Button from 'components/Button';
+import ModalHeader from 'components/ModalHeader';
+import ModalBody from 'components/ModalBody';
 
 function Processes() {
   const [processes, setProcesses] = useState([]);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const location = useLocation();
   const flow = location.state;
+
+  const customStyles = {
+    content: {
+      top: '30%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      padding: '10px'
+    }
+  };
 
   useEffect(() => {
     updateProcesses();
@@ -22,6 +39,18 @@ function Processes() {
     const response = await api.get(`/processes/${flow._id}`);
     console.log(flow);
     setProcesses(response.data.processes);
+  }
+
+  async function deleteProcess(registro) {
+    await api.delete(`/deleteProcess/${registro}`);
+  }
+
+  function openModal() {
+    setModalIsOpen(true);
+  }
+
+  function closeModal() {
+    setModalIsOpen(false);
   }
 
   return (
@@ -45,11 +74,36 @@ function Processes() {
                   <EditIcon className="edit-process"></EditIcon>
                 </Link>
               }
-              {
-                <Link to="deleteProcess" state={proc}>
-                  <DeleteForeverIcon className="delete-process"></DeleteForeverIcon>
-                </Link>
-              }
+
+              <DeleteForeverIcon
+                className="delete-process"
+                onClick={() => openModal()}
+              />
+              <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                style={customStyles}
+                contentLabel="excluir processo"
+              >
+                <ModalHeader close={closeModal}>Excluir Processo</ModalHeader>
+                <p>
+                  Tem certeza que deseja excluir o processo {proc.registro}?
+                </p>
+                <ModalBody>
+                  <Button
+                    onClick={async () => {
+                      await deleteProcess(proc.registro);
+                      await updateProcesses();
+                      closeModal();
+                    }}
+                  >
+                    Confirmar
+                  </Button>
+                  <Button onClick={closeModal} background="red">
+                    Cancelar
+                  </Button>
+                </ModalBody>
+              </Modal>
             </div>
           );
         })}
