@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { CloseOutline } from '@styled-icons/evaicons-outline/CloseOutline';
 
 export const Container = styled.div`
   width: 100%;
@@ -72,8 +73,8 @@ export const ModalDelete = styled.div`
   backdrop-filter: blur(5px);
   justify-content: center;
   align-items: center;
-  width: 50%;
-  height: 50%;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: row;
   font-size: 20px;
@@ -87,7 +88,6 @@ export const ContentDelete = styled.div`
   height: 50vh;
   justify-content: center;
   align-items: center;
-  margin-top: 210px;
   flex-direction: column;
   gap: 10px;
   font-size: 20px;
@@ -178,4 +178,10 @@ export const ContentHeader = styled.div`
   h2 {
     color: #f1f1f1;
   }
+`;
+
+export const CloseModalDelete = styled(CloseOutline)`
+  color: red;
+  height: 7vh;
+  width: 7vh;
 `;

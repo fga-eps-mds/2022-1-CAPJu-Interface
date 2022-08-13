@@ -19,7 +19,8 @@ import {
   SequenceItem,
   ContentHeader,
   ModalDelete,
-  ContentDelete
+  ContentDelete,
+  CloseModalDelete
 } from './styles';
 import { DeleteForever } from '@styled-icons/material';
 import Dropdown from 'react-dropdown';
@@ -203,6 +204,11 @@ function Flows() {
               return (
                 <ModalDelete key={index}>
                   <ContentDelete>
+                    <CloseModalDelete
+                      onClick={() => {
+                        setDeleteModal(false);
+                      }}
+                    ></CloseModalDelete>
                     Deseja excluir o fluxo : {flow.name}
                     <Button
                       onClick={() => {
@@ -211,14 +217,6 @@ function Flows() {
                       }}
                     >
                       Excluir
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        setDeleteModal(false);
-                      }}
-                      background="#de5353"
-                    >
-                      Sair
                     </Button>
                   </ContentDelete>
                 </ModalDelete>
