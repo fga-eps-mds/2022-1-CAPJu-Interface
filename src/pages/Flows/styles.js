@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { CloseOutline } from '@styled-icons/evaicons-outline/CloseOutline';
+import { DeleteForever } from '@styled-icons/material/DeleteForever';
 
 export const Container = styled.div`
   width: 100%;
@@ -84,7 +85,7 @@ export const ModalDelete = styled.div`
 export const ContentDelete = styled.div`
   display: flex;
   background-color: #f1f1f1;
-  min-width: 800px;
+  min-width: 600px;
   height: 50vh;
   justify-content: center;
   align-items: center;
@@ -184,4 +185,10 @@ export const CloseModalDelete = styled(CloseOutline)`
   color: red;
   height: 7vh;
   width: 7vh;
+  margin-left: 300px;
+  margin-bottom: 80px;
+`;
+
+export const DeleteButton = styled(DeleteForever)`
+  cursor: pointer;
 `;

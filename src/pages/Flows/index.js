@@ -20,9 +20,9 @@ import {
   ContentHeader,
   ModalDelete,
   ContentDelete,
-  CloseModalDelete
+  CloseModalDelete,
+  DeleteButton
 } from './styles';
-import { DeleteForever } from '@styled-icons/material';
 import Dropdown from 'react-dropdown';
 import FlowViewer from 'components/FlowViewer';
 import DescriptionIcon from '@mui/icons-material/Description';
@@ -185,14 +185,14 @@ function Flows() {
                     setNewFlow(flows[index]);
                   }}
                 ></EditIcon>
-                <DeleteForever
+                <DeleteButton
                   size={30}
                   onClick={() => {
                     setDeleteModal(true);
                     setShowFlow(-1);
                     // deleteFlow(flow._id);
                   }}
-                ></DeleteForever>
+                ></DeleteButton>
               </FlowItem>
             );
           })}
@@ -209,7 +209,7 @@ function Flows() {
                         setDeleteModal(false);
                       }}
                     ></CloseModalDelete>
-                    Deseja excluir o fluxo : {flow.name}
+                    <strong>Deseja excluir o fluxo : {flow.name}</strong>
                     <Button
                       onClick={() => {
                         deleteFlow(flow._id);
