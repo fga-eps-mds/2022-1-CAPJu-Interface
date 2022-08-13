@@ -18,7 +18,10 @@ function Processes() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const [editModalIsOpen, setEditModalIsOpen] = useState(false);
-  const [receivedObject, setReceivedObject] = useState();
+  const [registro, setRegistro] = useState('');
+  const [apelido, setApelido] = useState('');
+  const [processId, setProcessesId] = useState('');
+  const [editOrCreate, setEditOrCreate] = useState('');
 
   const location = useLocation();
   const flow = location.state;
@@ -60,16 +63,30 @@ function Processes() {
   }
 
   function openEditModal(proc) {
+    if (proc) {
+      setEditOrCreate('edit');
+      setRegistro(proc.registro);
+      setApelido(proc.apelido);
+      setProcessesId(proc._id);
+    } else setEditOrCreate('create');
+
     setEditModalIsOpen(true);
-    setReceivedObject(proc);
   }
 
-  function editProcess() {}
+  async function editProcess() {
+    await api.put(`/updateProcess/${processId}`, {
+      registro: registro,
+      apelido: apelido
+    });
+  }
+  async function createProcess() {}
 
   return (
     <Container>
       <div className="processes">
-        <h1>Processos</h1>t
+        <h1>
+          Processos do fluxo <strong>{flow.name}</strong>
+        </h1>
         {processes.length == 0 && 'Nenhum processo foi encontrado'}
         {processes.map((proc, idx) => {
           return (
@@ -87,31 +104,6 @@ function Processes() {
                 className="edit-process"
                 onClick={() => openEditModal(proc)}
               />
-              <Modal
-                isOpen={editModalIsOpen}
-                onRequestClose={closeModal}
-                style={customStyles}
-                contentLabel="editar processo"
-              >
-                <ModalHeader close={closeModal}>Editar Processo</ModalHeader>
-                <h2>Editar Processo</h2>
-                <ModalBody>
-                  <input value={proc.registro}></input>
-                  <TextInput value={proc.apelido}></TextInput>
-                  <Button
-                    onClick={async () => {
-                      await editProcess(proc);
-                      await updateProcesses();
-                      closeModal();
-                    }}
-                  >
-                    Confirmar
-                  </Button>
-                  <Button onClick={closeModal} background="red">
-                    Cancelar
-                  </Button>
-                </ModalBody>
-              </Modal>
 
               <DeleteForeverIcon
                 className="delete-process"
@@ -145,6 +137,35 @@ function Processes() {
             </div>
           );
         })}
+        <Modal
+          isOpen={editModalIsOpen}
+          onRequestClose={closeModal}
+          style={customStyles}
+          contentLabel="editar processo"
+        >
+          <ModalHeader close={closeModal}>
+            {editOrCreate == 'edit' ? 'Editar Processo' : 'Criar Processo'}
+          </ModalHeader>
+          <ModalBody>
+            <p> Registro </p>
+            <TextInput value={registro} set={setRegistro} />
+            <p> Apelido</p>
+            <TextInput value={apelido} set={setApelido} />
+            <Button
+              onClick={async () => {
+                if (editOrCreate == 'edit') await editProcess();
+                else createProcess();
+                await updateProcesses();
+                closeModal();
+              }}
+            >
+              Confirmar
+            </Button>
+            <Button onClick={closeModal} background="red">
+              Cancelar
+            </Button>
+          </ModalBody>
+        </Modal>
       </div>
       <Link to="registerProcess" state={flow} className="add-button">
         <AddIcon></AddIcon>
