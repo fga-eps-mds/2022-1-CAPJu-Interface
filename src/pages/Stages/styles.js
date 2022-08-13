@@ -66,8 +66,8 @@ export const Modal = styled.div`
 export const Content = styled.div`
   display: flex;
   background-color: white;
-  width: 400px;
-  height: 400px;
+  max-width: 400px;
+  max-height: 400px;
   justify-content: center;
   align-items: center;
   padding: 20px;
@@ -75,4 +75,14 @@ export const Content = styled.div`
   gap: 25px;
   font-size: 20px;
   border-radius: 10px;
+
+  div.stage-info {
+    span {
+      border-bottom: 5px solid #1b9454;
+    }
+
+    strong {
+      margin-right: 10px;
+    }
+  }
 `;

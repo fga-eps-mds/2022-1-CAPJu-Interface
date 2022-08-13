@@ -14,19 +14,21 @@ import {
 } from './styles';
 import { DeleteForever } from '@styled-icons/material';
 import { CloseOutline } from '@styled-icons/evaicons-outline/CloseOutline';
+import Visibility from '@mui/icons-material/Visibility';
+import { maxHeight } from '@mui/system';
 
 const closeBtn = {
-  alignSelf: 'flex-end'
-}
+  alignSelf: 'flex-end',
+  maxWidth: '40px'
+};
 
 function Login() {
-  const [stages, setStages] = useState([
-    { name: 'stage 1' },
-    { name: 'stage 2' }
-  ]);
+  const [stages, setStages] = useState([{ name: '', time: '' }]);
   const [stageName, setStageName] = useState('');
   const [stageTime, setStageTime] = useState('');
+  const [currentStage, setCurrentStage] = useState({ name: '', time: '' });
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalInfoOpen, setModalInfoOpen] = useState(false);
 
   useEffect(() => {
     updateStages();
@@ -39,7 +41,6 @@ function Login() {
   }
 
   async function addStage() {
-
     console.log(stageTime);
     try {
       const response = await api.post('/newStage', {
@@ -84,6 +85,12 @@ function Login() {
             return (
               <StageItem key={index}>
                 {stage.name}{' '}
+                <Visibility
+                  onClick={() => {
+                    setModalInfoOpen(true);
+                    setCurrentStage(stage);
+                  }}
+                />
                 <DeleteForever
                   size={30}
                   onClick={() => {
@@ -106,14 +113,23 @@ function Login() {
       {isModalOpen && (
         <Modal>
           <Content>
-              <CloseOutline 
-                style={closeBtn} 
-                onClick={() => {
+            <CloseOutline
+              style={closeBtn}
+              onClick={() => {
                 setModalOpen(false);
-            }}></CloseOutline>
+              }}
+            ></CloseOutline>
             <h2>Nova Etapa</h2>
-            <TextInput set={setStageName} value={stageName} placeholder='Nome da etapa'></TextInput>
-            <TextInput set={setStageTime} value={stageTime} placeholder='Duração (dias)'></TextInput>
+            <TextInput
+              set={setStageName}
+              value={stageName}
+              placeholder="Nome da etapa"
+            ></TextInput>
+            <TextInput
+              set={setStageTime}
+              value={stageTime}
+              placeholder="Duração (dias)"
+            ></TextInput>
             <Button
               onClick={() => {
                 addStage();
@@ -122,6 +138,26 @@ function Login() {
             >
               Salvar
             </Button>
+          </Content>
+        </Modal>
+      )}
+      {isModalInfoOpen && (
+        <Modal>
+          <Content>
+            <CloseOutline
+              style={closeBtn}
+              onClick={() => {
+                setModalInfoOpen(false);
+              }}
+            ></CloseOutline>
+            <div className="stage-info">
+              <strong>Nome da etapa</strong>
+              <span>{currentStage.name}</span>
+            </div>
+            <div className="stage-info">
+              <strong>Duração da etapa</strong>
+              <span>{currentStage.time}</span>
+            </div>
           </Content>
         </Modal>
       )}
