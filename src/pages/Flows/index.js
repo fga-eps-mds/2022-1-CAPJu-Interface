@@ -25,6 +25,7 @@ import { DeleteForever } from '@styled-icons/material';
 import Dropdown from 'react-dropdown';
 import FlowViewer from 'components/FlowViewer';
 import DescriptionIcon from '@mui/icons-material/Description';
+import EditIcon from '@mui/icons-material/Edit';
 import { Link } from 'react-router-dom';
 
 function Flows() {
@@ -172,17 +173,17 @@ function Flows() {
         <FlowsArea>
           {flows.map((flow, index) => {
             return (
-              <FlowItem
-                key={index}
-                onClick={() => {
-                  setShowFlow(index);
-                  setNewFlow(flows[index]);
-                }}
-              >
+              <FlowItem key={index}>
                 {flow.name}{' '}
                 <Link to="/processes" state={flow}>
                   <DescriptionIcon className="see-processes" />
                 </Link>
+                <EditIcon
+                  onClick={() => {
+                    setShowFlow(index);
+                    setNewFlow(flows[index]);
+                  }}
+                ></EditIcon>
                 <DeleteForever
                   size={30}
                   onClick={() => {
