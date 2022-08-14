@@ -3,6 +3,7 @@ import { Container } from './styles';
 import { Link } from 'react-router-dom';
 import React from 'react';
 import api from '../../services/api';
+import TextInput from '../../components/TextInput';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
@@ -25,14 +26,43 @@ function Processes() {
     setProcesses(response.data.processes);
   }
 
+  const handleChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const renderProcessRegisterList = (arr) => {
+    return arr
+      .filter((processes) =>
+        processes.registro.toLowerCase().includes(searchTerm)
+      )
+      .map((processes) => {
+        return <p>{processes.registro}</p>;
+      });
+  };
+
+  const renderProcessNickList = (arr) => {
+    return arr
+      .filter((processes) =>
+        processes.apelido.toLowerCase().includes(searchTerm)
+      )
+      .map((processes) => {
+        return <p>{processes.apelido}</p>;
+      });
+  };
+
   return (
     <Container>
       <div className="processes">
         <h1>Processos</h1>
-        <input
-          placeholder="Buscar Processos..."
-          onChange={(e) => setSearchTerm(e.target.value)}
-        ></input>
+        <div className="processSearch">
+          <TextInput
+            value={searchTerm}
+            placeholder="Buscar Processos"
+            onChange={handleChange}
+          ></TextInput>
+          {renderProcessRegisterList(processes)}
+          {renderProcessNickList(processes)}
+        </div>
         {processes.length == 0 && 'Nenhum processo foi encontrado'}
         {processes.map((proc, idx) => {
           return (

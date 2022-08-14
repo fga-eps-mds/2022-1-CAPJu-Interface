@@ -18,6 +18,10 @@ export const Container = styled.div`
     width: 100%;
   }
 
+  div.processSearch {
+    padding: 30px;
+  }
+
   div.process {
     background-color: #1b9454;
     border-radius: 10px;
