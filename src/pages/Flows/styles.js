@@ -84,15 +84,16 @@ export const ModalDelete = styled.div`
 
 export const ContentDelete = styled.div`
   display: flex;
-  background-color: #f1f1f1;
+  background-color: white;
   min-width: 600px;
-  height: 50vh;
+  height: 28vh;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  gap: 10px;
-  font-size: 20px;
+  font-size: 24px;
   border-radius: 10px;
+  gap: 25px;
+  font-weight: bold;
 `;
 
 export const Content = styled.div`
@@ -182,11 +183,11 @@ export const ContentHeader = styled.div`
 `;
 
 export const CloseModalDelete = styled(CloseOutline)`
-  color: red;
-  height: 7vh;
-  width: 7vh;
-  margin-left: 300px;
-  margin-bottom: 80px;
+  color: #de5353;
+  height: 4vh;
+  width: 4vh;
+  margin-left: 500px;
+  margin-bottom: 24px;
 `;
 
 export const DeleteButton = styled(DeleteForever)`

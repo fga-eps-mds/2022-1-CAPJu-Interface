@@ -209,12 +209,13 @@ function Flows() {
                         setDeleteModal(false);
                       }}
                     ></CloseModalDelete>
-                    <strong>Deseja excluir o fluxo : {flow.name}</strong>
+                    Deseja realmente excluir este fluxo?
                     <Button
                       onClick={() => {
                         deleteFlow(flow._id);
                         setDeleteModal(false);
                       }}
+                      background="#de5353"
                     >
                       Excluir
                     </Button>
