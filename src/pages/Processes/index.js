@@ -28,7 +28,7 @@ function Processes() {
 
   const customStyles = {
     content: {
-      top: '30%',
+      top: '50%',
       left: '50%',
       right: 'auto',
       bottom: 'auto',
@@ -70,6 +70,8 @@ function Processes() {
       setProcessesId(proc._id);
     } else setEditOrCreate('create');
 
+    console.log(editOrCreate);
+    console.log(proc);
     setEditModalIsOpen(true);
   }
 
@@ -167,9 +169,9 @@ function Processes() {
           </ModalBody>
         </Modal>
       </div>
-      <Link to="registerProcess" state={flow} className="add-button">
-        <AddIcon></AddIcon>
-      </Link>
+      <a className="add-button">
+        <AddIcon onClick={openEditModal}></AddIcon>
+      </a>
     </Container>
   );
 }

@@ -37,14 +37,17 @@ export const Container = styled.div`
 
   svg.see-process {
     color: #304974;
+    cursor: pointer;
   }
 
   svg.edit-process {
     color: #fbe304;
+    cursor: pointer;
   }
 
   svg.delete-process {
     color: #de5353;
+    cursor: pointer;
   }
 
   a.add-button {
@@ -54,6 +57,7 @@ export const Container = styled.div`
     align-self: end;
     margin-right: 2em;
     background-color: #304974;
+    cursor: pointer;
   }
 
   a.add-button svg {
