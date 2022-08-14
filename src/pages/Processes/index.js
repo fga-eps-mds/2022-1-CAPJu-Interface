@@ -12,6 +12,7 @@ import Button from 'components/Button';
 import ModalHeader from 'components/ModalHeader';
 import ModalBody from 'components/ModalBody';
 import TextInput from 'components/TextInput';
+import toast from 'react-hot-toast';
 
 function Processes() {
   const [processes, setProcesses] = useState([]);
@@ -81,7 +82,32 @@ function Processes() {
       apelido: apelido
     });
   }
-  async function createProcess() {}
+
+  async function createProcess() {
+    try {
+      if (registro && flow) {
+        let sequences = flow.sequences;
+
+        await api.post('/newProcess', {
+          registro,
+          apelido,
+          etapaAtual: sequences[0].from,
+          arquivado: false,
+          fluxoId: flow._id
+        });
+      } else {
+        toast.error('Registro vazio', { duration: 3000 });
+        return;
+      }
+
+      toast.success('Processo Registrado com Sucesso', { duration: 4000 });
+    } catch (error) {
+      toast.error(
+        'Erro ao registrar processo \n ' + error.response.data.message,
+        { duration: 3000 }
+      );
+    }
+  }
 
   return (
     <Container>
@@ -156,7 +182,7 @@ function Processes() {
             <Button
               onClick={async () => {
                 if (editOrCreate == 'edit') await editProcess();
-                else createProcess();
+                else await createProcess();
                 await updateProcesses();
                 closeModal();
               }}
@@ -170,7 +196,11 @@ function Processes() {
         </Modal>
       </div>
       <a className="add-button">
-        <AddIcon onClick={openEditModal}></AddIcon>
+        <AddIcon
+          onClick={() => {
+            openEditModal(false);
+          }}
+        ></AddIcon>
       </a>
     </Container>
   );
