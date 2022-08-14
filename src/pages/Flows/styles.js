@@ -175,9 +175,9 @@ export const ContentHeader = styled.div`
   align-items: center;
   flex-direction: column;
   font-size: 32px;
-  height: 10vh;
+  height: 15vh;
   width: 100%;
-  h2 {
+  h3 {
     color: #f1f1f1;
   }
 `;

@@ -231,7 +231,7 @@ function Flows() {
             <Modal>
               <Content>
                 <ContentHeader>
-                  <h2>Editar fluxo</h2>
+                  <h3>Editar fluxo</h3>
                 </ContentHeader>
                 Nome
                 <TextInput set={updateFlowName} value={newFlow.name} />
@@ -286,12 +286,13 @@ function Flows() {
         >
           + Adicionar Fluxo
         </AddFlowButton>
-        <></>
       </Container>
       {isModalOpen && (
         <Modal>
           <Content>
-            <h2>Novo Fluxo</h2>
+            <ContentHeader>
+              <h3>Novo fluxo</h3>
+            </ContentHeader>
             <TextInput
               placeholder={'Nome do fluxo'}
               set={updateFlowName}
