@@ -123,7 +123,7 @@ function Processes() {
                 ? `${proc.registro} - ${proc.apelido}`
                 : `${proc.registro}`}
               {
-                <Link to="showProcess" state={proc}>
+                <Link to="showProcess" state={{ proc, flow }}>
                   <Visibility className="see-process"></Visibility>
                 </Link>
               }

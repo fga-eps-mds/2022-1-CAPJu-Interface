@@ -48,14 +48,13 @@ function ShowProcess() {
   const [observation, setObservation] = useState('');
   const location = useLocation();
   const [stages, setStages] = useState([]);
-  const [flow, setFlow] = useState({ stages: [], sequences: [] });
+  const { proc, flow } = location.state;
 
-  const proc = location.state;
   console.log(proc);
 
   useEffect(() => {
     fetchStages();
-    fetchFlow();
+    //fetchFlow();
     // eslint-disable-next-line
   }, []);
 
@@ -71,19 +70,19 @@ function ShowProcess() {
     setModalIsOpen(false);
   }
 
-  async function fetchFlow() {
-    let response = await api.get('/flows');
-    let flows = response.data.Flows;
-
-    let flowTarget = {};
-    for (let idx in flows) {
-      if (flows[idx]._id == proc.fluxoId) {
-        flowTarget = flows[idx];
-        break;
-      }
-    }
-    setFlow(flowTarget);
-  }
+  //async function fetchFlow() {
+  //  let response = await api.get('/flows');
+  //  let flows = response.data.Flows;
+  //
+  //  let flowTarget = {};
+  //  for (let idx in flows) {
+  //    if (flows[idx]._id == proc.fluxoId) {
+  //      flowTarget = flows[idx];
+  //      break;
+  //    }
+  //  }
+  //  setFlowState(flowTarget);
+  //}
 
   async function fetchStages() {
     let response = await api.get('/stages');
@@ -92,47 +91,35 @@ function ShowProcess() {
 
   async function nextStage() {
     try {
-      let { etapas } = proc;
-
-      for (let idx in etapas) {
-        if (etapas[idx].etapa == proc.etapaAtual)
-          etapas[idx]['observacoes'] = observation;
-      }
-
-      let response = await api.get('/flows');
-      let flows = response.data.Flows;
-
-      let flowSequences = [];
-      for (let idx in flows) {
-        if (flows[idx]._id == proc.fluxoId) {
-          flowSequences = flows[idx].sequences;
-          break;
-        }
-      }
-
       let stageTo = '';
-      for (let idx in flowSequences) {
-        if (flowSequences[idx].from == proc.etapaAtual) {
-          stageTo = flowSequences[idx].to;
+      for (let proc_iterator of flow.sequences) {
+        if (proc_iterator.from == proc.etapaAtual) {
+          stageTo = proc_iterator.to;
           break;
         }
       }
 
-      console.log(flows);
+      //let stageTo = '';
+      //for (let idx in flowSequences) {
+      //  if (flowSequences[idx].from == proc.etapaAtual) {
+      //    stageTo = flowSequences[idx].to;
+      //    break;
+      //  }
+      //}
+      //proc.etapaAtual = stageTo;
+      //proc.etapas = etapas;
 
-      proc.etapaAtual = stageTo;
-      proc.etapas = etapas;
-
-      delete proc.createdAt;
-      delete proc.updatedAt;
-      delete proc.__v;
-
+      console.log(flow);
       console.log(proc);
 
       await api.put('/processNextStage/', {
         processId: proc._id,
-        stageId: stageTo
+        stageIdTo: stageTo,
+        stageIdFrom: proc.etapaAtual,
+        observation: observation
       });
+
+      proc.etapaAtual = stageTo;
 
       closeModal();
 
