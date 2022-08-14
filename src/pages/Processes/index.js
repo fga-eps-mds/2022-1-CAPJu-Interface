@@ -10,6 +10,7 @@ import Visibility from '@mui/icons-material/Visibility';
 
 function Processes() {
   const [processes, setProcesses] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const flow = location.state;
 
@@ -28,6 +29,10 @@ function Processes() {
     <Container>
       <div className="processes">
         <h1>Processos</h1>
+        <input
+          placeholder="Buscar Processos..."
+          onChange={(e) => setSearchTerm(e.target.value)}
+        ></input>
         {processes.length == 0 && 'Nenhum processo foi encontrado'}
         {processes.map((proc, idx) => {
           return (
