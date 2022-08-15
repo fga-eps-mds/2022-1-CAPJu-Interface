@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import api from '../../services/api';
 import { Container, FlowWrapper } from './styles';
 import Button from '../../components/Button';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import React from 'react';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import Modal from 'react-modal';
@@ -70,20 +70,6 @@ function ShowProcess() {
     setModalIsOpen(false);
   }
 
-  //async function fetchFlow() {
-  //  let response = await api.get('/flows');
-  //  let flows = response.data.Flows;
-  //
-  //  let flowTarget = {};
-  //  for (let idx in flows) {
-  //    if (flows[idx]._id == proc.fluxoId) {
-  //      flowTarget = flows[idx];
-  //      break;
-  //    }
-  //  }
-  //  setFlowState(flowTarget);
-  //}
-
   async function fetchStages() {
     let response = await api.get('/stages');
     setStages(response.data.Stages);
@@ -98,16 +84,6 @@ function ShowProcess() {
           break;
         }
       }
-
-      //let stageTo = '';
-      //for (let idx in flowSequences) {
-      //  if (flowSequences[idx].from == proc.etapaAtual) {
-      //    stageTo = flowSequences[idx].to;
-      //    break;
-      //  }
-      //}
-      //proc.etapaAtual = stageTo;
-      //proc.etapas = etapas;
 
       console.log(flow);
       console.log(proc);
@@ -134,6 +110,9 @@ function ShowProcess() {
   return (
     <>
       <Container>
+        <Link to="../processes" state={flow} className="voltarButton">
+          <span>Voltar</span>
+        </Link>
         <div className="processInfo">
           <h1>
             {proc.apelido.length > 0
