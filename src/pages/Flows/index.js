@@ -170,7 +170,7 @@ function Flows() {
   return (
     <>
       <Container>
-        Fluxos
+        <span>Fluxos</span>
         <FlowsArea>
           {flows.map((flow, index) => {
             return (
@@ -190,7 +190,6 @@ function Flows() {
                   onClick={() => {
                     setDeleteModal(true);
                     setShowFlow(-1);
-                    // deleteFlow(flow._id);
                   }}
                 ></DeleteButton>
               </FlowItem>
@@ -209,7 +208,7 @@ function Flows() {
                         setDeleteModal(false);
                       }}
                     ></CloseModalDelete>
-                    Deseja realmente excluir este fluxo?
+                    <span>Deseja realmente excluir este Fluxo?</span>
                     <Button
                       onClick={() => {
                         deleteFlow(flow._id);
@@ -217,7 +216,7 @@ function Flows() {
                       }}
                       background="#de5353"
                     >
-                      Excluir
+                      <span>Excluir</span>
                     </Button>
                   </ContentDelete>
                 </ModalDelete>
@@ -233,10 +232,10 @@ function Flows() {
                 <ContentHeader>
                   <h3>Editar fluxo</h3>
                 </ContentHeader>
-                Nome
+                <span>Nome</span>
                 <TextInput set={updateFlowName} value={newFlow.name} />
                 <label>
-                  Etapas
+                  <span>Etapas</span>
                   <AddStageInFlow
                     selectedStage={selectedStage}
                     setSelectedStage={setSelectedStage}
@@ -260,7 +259,7 @@ function Flows() {
                     setShowFlow(-1);
                   }}
                 >
-                  Salvar
+                  <span>Salvar</span>
                 </Button>
                 <Button
                   onClick={() => {
@@ -273,7 +272,7 @@ function Flows() {
                   }}
                   background="#de5353"
                 >
-                  Cancelar
+                  <span>Cancelar</span>
                 </Button>
               </Content>
             </Modal>
@@ -291,14 +290,14 @@ function Flows() {
         <Modal>
           <Content>
             <ContentHeader>
-              <h3>Novo fluxo</h3>
+              <h3>Novo Fluxo</h3>
             </ContentHeader>
             <TextInput
               placeholder={'Nome do fluxo'}
               set={updateFlowName}
               value={newFlow.name}
             ></TextInput>
-            Etapas
+            <span>Etapas</span>
             <AddStageInFlow
               selectedStage={selectedStage}
               setSelectedStage={setSelectedStage}
@@ -350,7 +349,7 @@ function Flows() {
                       addSequence();
                     }}
                   >
-                    Adicionar
+                    <span>Adicionar</span>
                   </div>
                 </SelectorWrapper>
                 <SequencesWrapper>
@@ -384,7 +383,7 @@ function Flows() {
                 setModalOpen(false);
               }}
             >
-              Salvar
+              <span>Salvar</span>
             </Button>
             <Button
               onClick={() => {
@@ -397,7 +396,7 @@ function Flows() {
               }}
               background="#de5353"
             >
-              Cancelar
+              <span>Cancelar</span>
             </Button>
           </Content>
         </Modal>
