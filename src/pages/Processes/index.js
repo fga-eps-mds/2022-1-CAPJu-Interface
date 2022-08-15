@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Container } from './styles';
+import { Container, InputSearch, SearchIcon } from './styles';
 import { Link } from 'react-router-dom';
 import React from 'react';
 import api from '../../services/api';
@@ -49,11 +49,12 @@ function Processes() {
       <div className="processes">
         <h1>Processos</h1>
         <div className="processSearch">
-          <input
+          <InputSearch
             value={searchTerm}
-            placeholder="Buscar Processos"
+            placeholder="Buscar Processo"
             onChange={handleChange}
           />
+          <SearchIcon />
         </div>
         {processes.length == 0 && 'Nenhum processo foi encontrado'}
         {filterProcesses(processes).map((proc, idx) => {

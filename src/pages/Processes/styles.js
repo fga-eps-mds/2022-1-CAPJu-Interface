@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { DocumentSearch } from '@styled-icons/fluentui-system-filled/DocumentSearch';
 
 export const Container = styled.div`
   width: 100%;
@@ -20,6 +21,7 @@ export const Container = styled.div`
 
   div.processSearch {
     padding: 30px;
+    width: 100vh;
   }
 
   div.process {
@@ -63,4 +65,29 @@ export const Container = styled.div`
   a.add-button svg {
     color: #f1f1f1;
   }
+`;
+export const InputSearch = styled.input`
+  background-color: rgba(0, 0, 0, 0.1);
+  border: solid #888 2px;
+  padding: 15px;
+  max-width: 80vh;
+  width: 100%;
+  color: black;
+  border-radius: 10px;
+  font-size: 15px;
+  box-sizing: border-box;
+
+  :focus {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0);
+  }
+`;
+export const SearchIcon = styled(DocumentSearch)`
+  color: rgba(0, 0, 0, 0.5);
+  width: 50x;
+  height: 50px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border: solid #888 1px;
+  border-radius: 10px;
+  box-sizing: border-box;
 `;
