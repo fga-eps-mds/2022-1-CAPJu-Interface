@@ -95,8 +95,10 @@ function ShowProcess() {
         observation: observation
       });
 
-      proc.etapaAtual = stageTo;
+      const response = await api.get(`getOneProcess/${proc._id}`);
 
+      proc.etapaAtual = stageTo;
+      proc.etapas = response.data.etapas;
       closeModal();
 
       toast.success('Etapa avançada!', { duration: 4000 });
@@ -130,6 +132,7 @@ function ShowProcess() {
             stages={stages}
             flow={flow}
             highlight={proc.etapaAtual}
+            procStages={proc.etapas}
           ></FlowViewer>
         </FlowWrapper>
         <Modal
