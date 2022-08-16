@@ -12,6 +12,8 @@ function Register() {
   const [newName, setName] = useState('');
   const [newEmail, setEmail] = useState('');
   const [newPassword, setPassword] = useState('');
+  const [newPassword2, setPassword2] = useState('');
+
   const navigate = useNavigate();
 
   async function register() {
@@ -21,11 +23,16 @@ function Register() {
       toast.error('E-mail Inválido');
       return;
     }
+    if (newPassword != newPassword2) {
+      toast.error('Password invalida');
+      return;
+    }
 
     const response = await user.post('/newUser', {
       name: newName,
       email: newEmail,
-      password: newPassword
+      password: newPassword,
+      password2: newPassword2
     });
 
     if (response.status == 200) {
@@ -54,6 +61,11 @@ function Register() {
           set={setPassword}
           value={newPassword}
           placeholder="Crie uma senha"
+        ></TextInput>
+        <TextInput
+          set={setPassword2}
+          value={newPassword2}
+          placeholder="Confirme a senha"
         ></TextInput>
         <Button
           onClick={() => {
