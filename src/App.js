@@ -1,5 +1,6 @@
 import './styles.js';
 import SideBar from './components/SideBar';
+import Register from './pages/Register';
 import Login from './pages/Login';
 import ShowProcess from 'pages/ShowProcess/index.js';
 import Processes from 'pages/Processes/index.js';
@@ -22,6 +23,7 @@ function App() {
         <Content>
           <Routes>
             <Route path="/" element={<Flows />} />
+            <Route path="register" element={<Register />} />
             <Route path="login" element={<Login />} />
             <Route path="stages" element={<Stages />} />
             <Route path="processes" element={<Processes />} />
