@@ -18,7 +18,7 @@ function Login() {
           <TextInput
             set={setEmail}
             value={newEmail}
-            placeholder="Nome"
+            placeholder="Email"
           ></TextInput>
           <TextInput
             set={setPassword}

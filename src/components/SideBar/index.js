@@ -16,7 +16,14 @@ function SideBar() {
       <MenuItem href={'/'}>
         <FlowCascade></FlowCascade>Fluxos
       </MenuItem>
-      <Button background="#DE5353">Sair</Button>
+      <Button
+        background="#DE5353"
+        onClick={() => {
+          localStorage.removeItem('user');
+        }}
+      >
+        Sair
+      </Button>
     </Container>
   );
 }
