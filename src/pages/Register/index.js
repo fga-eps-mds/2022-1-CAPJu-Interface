@@ -3,32 +3,68 @@ import { Container } from './styles';
 import { useState } from 'react';
 import TextInput from 'components/TextInput';
 import Button from 'components/Button';
-import { Content, Modal } from 'pages/Stages/styles';
+import { Content } from './styles';
+import toast from 'react-hot-toast';
+import user from 'services/user';
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
   const [newName, setName] = useState('');
   const [newEmail, setEmail] = useState('');
   const [newPassword, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  async function register() {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    console.log(newEmail, re.test(newEmail));
+    if (!re.test(newEmail)) {
+      toast.error('E-mail Inválido');
+      return;
+    }
+
+    const response = await user.post('/newUser', {
+      name: newName,
+      email: newEmail,
+      password: newPassword
+    });
+
+    if (response.status == 200) {
+      toast.success('Usuário cadastrado com  sucesso');
+      navigate('login');
+    } else {
+      toast.error('Erro no cadastro: ' + response.data?.message);
+    }
+  }
+
   return (
     <Container>
-      <Modal>
-          <Content>
-            <h1>Cadastro</h1>
-            <TextInput set={setName} value={newName} placeholder='Nome completo'></TextInput>
-            <TextInput set={setEmail} value={newEmail} placeholder='Email'></TextInput>
-            <TextInput set={setPassword} value={newPassword} placeholder='Crie uma senha'></TextInput>
-            <Button
-              onClick={() => {
-                
-              }}
-            >
-              Cadastrar
-            </Button>
-          </Content>
-        </Modal>
+      <Content>
+        <h1>Cadastre-se </h1>
+        <TextInput
+          set={setName}
+          value={newName}
+          placeholder="Nome completo"
+        ></TextInput>
+        <TextInput
+          set={setEmail}
+          value={newEmail}
+          placeholder="Email"
+        ></TextInput>
+        <TextInput
+          set={setPassword}
+          value={newPassword}
+          placeholder="Crie uma senha"
+        ></TextInput>
+        <Button
+          onClick={() => {
+            register();
+          }}
+        >
+          Cadastrar
+        </Button>
+      </Content>
     </Container>
   );
 }
 
 export default Register;
-
