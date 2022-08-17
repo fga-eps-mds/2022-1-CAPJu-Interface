@@ -22,7 +22,7 @@ const closeBtn = {
   maxWidth: '40px'
 };
 
-function Login() {
+function Stages() {
   const [stages, setStages] = useState([{ name: '', time: '' }]);
   const [stageName, setStageName] = useState('');
   const [stageTime, setStageTime] = useState('');
@@ -36,7 +36,7 @@ function Login() {
 
   async function updateStages() {
     const response = await api.get('/stages');
-    console.log(response);
+    console.log(response.data.Stages);
     setStages(response.data.Stages);
   }
 
@@ -165,4 +165,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Stages;
