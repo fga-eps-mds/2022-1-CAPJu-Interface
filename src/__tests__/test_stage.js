@@ -11,7 +11,6 @@ axios.defaults.adapter = require('axios/lib/adapters/http');
 const mockNavigate = jest.fn();
 const servicesBackendURI = 'http://localhost:3333';
 
-
 jest.mock('react-router-dom', () => {
   return {
     ...jest.requireActual('react-router-dom'),
