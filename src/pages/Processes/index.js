@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import authConfig from '../../services/config.js';
 import { Container } from './styles';
 import { Link } from 'react-router-dom';
 import React from 'react';
@@ -19,7 +20,7 @@ function Processes() {
   }, []);
 
   async function updateProcesses() {
-    const response = await api.get('/processes');
+    const response = await api.get('/processes', authConfig());
     console.log(flow);
     setProcesses(response.data.processes);
   }

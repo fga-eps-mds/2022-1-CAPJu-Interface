@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import authConfig from '../../services/config.js';
 import { Container, AddCircle, AddTrash, AddProcesso } from './styles';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
@@ -13,13 +14,13 @@ function Home() {
   }, []);
 
   async function updateProcesses() {
-    const response = await api.get('/processes');
+    const response = await api.get('/processes', authConfig());
     console.log(response);
     setProcesses(response.data.processes);
   }
 
   async function deleteProcess(registro) {
-    await api.delete(`/deleteProcess/${registro}`);
+    await api.delete(`/deleteProcess/${registro}`, authConfig());
   }
 
   return (

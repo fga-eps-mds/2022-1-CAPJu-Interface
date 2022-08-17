@@ -1,4 +1,5 @@
 import api from '../../services/api';
+import authConfig from '../../services/config.js';
 import Button from 'components/Button';
 import TextInput from 'components/TextInput';
 import { StagesInFlow } from 'components/StagesInFlow';
@@ -45,12 +46,12 @@ function Flows() {
   }, []);
 
   async function updateFlows() {
-    const response = await api.get('/flows');
+    const response = await api.get('/flows', authConfig());
     setFlows(response.data.Flows);
   }
 
   async function updateStages() {
-    const response = await api.get('/stages');
+    const response = await api.get('/stages', authConfig());
     setStages(response.data.Stages);
     setSelectedStage(response.data.Stages[0]?._id);
   }
@@ -66,9 +67,13 @@ function Flows() {
 
   async function addFlow() {
     try {
-      const response = await api.post('/newFlow', {
-        ...newFlow
-      });
+      const response = await api.post(
+        '/newFlow',
+        {
+          ...newFlow
+        },
+        authConfig()
+      );
       responseHandler(
         response,
         'Fluxo Adicionado com sucesso',
@@ -81,9 +86,13 @@ function Flows() {
 
   async function deleteFlow(id) {
     try {
-      const response = await api.post('/deleteFlow', {
-        flowId: id
-      });
+      const response = await api.post(
+        '/deleteFlow',
+        {
+          flowId: id
+        },
+        authConfig()
+      );
       responseHandler(
         response,
         'Fluxo Deletada com sucesso',
@@ -117,10 +126,14 @@ function Flows() {
 
       console.log('edited', editedFlow);
 
-      const response = await api.put('/editFlow', {
-        _id: id,
-        ...editedFlow
-      });
+      const response = await api.put(
+        '/editFlow',
+        {
+          _id: id,
+          ...editedFlow
+        },
+        authConfig()
+      );
       responseHandler(
         response,
         'Fluxo Editado com sucesso',

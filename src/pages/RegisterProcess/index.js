@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import authConfig from '../../services/config.js';
 import { Container, Form, FormElement } from './styles';
 import Button from '../../components/Button';
 import toast from 'react-hot-toast';
@@ -44,14 +45,18 @@ function RegisterProcess() {
         for (let i = 0; i < flow.stages.length; i++)
           stagesAndPeriods.push({ etapa: flow.stages[i], duracao: periods[i] });
 
-        await api.post('/newProcess', {
-          registro,
-          apelido,
-          etapaAtual: sequences[0].from,
-          arquivado: false,
-          etapas: stagesAndPeriods,
-          fluxoId: flow._id
-        });
+        await api.post(
+          '/newProcess',
+          {
+            registro,
+            apelido,
+            etapaAtual: sequences[0].from,
+            arquivado: false,
+            etapas: stagesAndPeriods,
+            fluxoId: flow._id
+          },
+          authConfig()
+        );
       } else {
         toast.error('Registro vazio', { duration: 3000 });
         return;

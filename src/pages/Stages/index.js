@@ -1,4 +1,5 @@
 import api from '../../services/api';
+import authConfig from '../../services/config.js';
 import Button from 'components/Button';
 import TextInput from 'components/TextInput';
 import React from 'react';
@@ -27,16 +28,20 @@ function Login() {
   }, []);
 
   async function updateStages() {
-    const response = await api.get('/stages');
+    const response = await api.get('/stages', authConfig());
     console.log(response);
     setStages(response.data.Stages);
   }
 
   async function addStage() {
     try {
-      const response = await api.post('/newStage', {
-        name: newStage
-      });
+      const response = await api.post(
+        '/newStage',
+        {
+          name: newStage
+        },
+        authConfig()
+      );
       if (response.status == 200) {
         toast.success('Etapa Adicionada com sucesso');
         updateStages();
@@ -51,9 +56,13 @@ function Login() {
 
   async function deleteStage(id) {
     try {
-      const response = await api.post('/deleteStage', {
-        stageId: id
-      });
+      const response = await api.post(
+        '/deleteStage',
+        {
+          stageId: id
+        },
+        authConfig()
+      );
       if (response.status == 200) {
         toast.success('Etapa Deletada com sucesso');
         updateStages();

@@ -4,7 +4,6 @@ import { useState } from 'react';
 import TextInput from 'components/TextInput';
 import Button from 'components/Button';
 import { Content, Modal } from 'pages/Stages/styles';
-import api from 'services/api';
 import axios from 'axios';
 
 function Login() {
