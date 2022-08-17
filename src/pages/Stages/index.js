@@ -15,7 +15,6 @@ import {
 import { DeleteForever } from '@styled-icons/material';
 import { CloseOutline } from '@styled-icons/evaicons-outline/CloseOutline';
 import Visibility from '@mui/icons-material/Visibility';
-import { maxHeight } from '@mui/system';
 
 const closeBtn = {
   alignSelf: 'flex-end',
