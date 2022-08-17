@@ -1,7 +1,8 @@
 import axios from 'axios';
 
+export const baseURL = 'https://capju-service.herokuapp.com/';
 const api = axios.create({
-  baseURL: 'https://capju-service.herokuapp.com/'
+  baseURL: baseURL
 });
 
 export default api;
