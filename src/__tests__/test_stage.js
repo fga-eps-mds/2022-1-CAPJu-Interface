@@ -5,11 +5,11 @@ import TextInput from '../components/TextInput';
 import nock from 'nock';
 import axios from 'axios';
 import React from 'react';
+import { baseURL } from '../services/api';
 
 axios.defaults.adapter = require('axios/lib/adapters/http');
 
 const mockNavigate = jest.fn();
-const servicesBackendURI = 'http://localhost:3333';
 
 jest.mock('react-router-dom', () => {
   return {
@@ -20,10 +20,9 @@ jest.mock('react-router-dom', () => {
 
 test('Testando crair etapa no componente Stages', async () => {
   render(<Stages />);
-  const url = 'http://localhost:3333';
   const stageData = { name: 'Perito', time: '15' };
 
-  const scope = nock(url)
+  const scope = nock(baseURL)
     .defaultReplyHeaders({
       'access-control-allow-origin': '*',
       'access-control-allow-credentials': 'true'
