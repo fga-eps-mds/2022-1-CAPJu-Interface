@@ -31,8 +31,7 @@ function Register() {
     const response = await user.post('/newUser', {
       name: newName,
       email: newEmail,
-      password: newPassword,
-      password2: newPassword2
+      password: newPassword
     });
 
     if (response.status == 200) {
