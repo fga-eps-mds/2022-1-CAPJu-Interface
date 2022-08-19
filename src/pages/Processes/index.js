@@ -13,6 +13,7 @@ import ModalHeader from 'components/ModalHeader';
 import ModalBody from 'components/ModalBody';
 import TextInput from 'components/TextInput';
 import toast from 'react-hot-toast';
+import Dropdown from 'react-dropdown';
 
 function Processes() {
   const [processes, setProcesses] = useState([]);
@@ -23,9 +24,10 @@ function Processes() {
   const [apelido, setApelido] = useState('');
   const [processId, setProcessesId] = useState('');
   const [editOrCreate, setEditOrCreate] = useState('');
-
   const location = useLocation();
   const flow = location.state;
+  const [flows, setFlows] = useState([]);
+  const [flowId, setFlowId] = useState(flow ? flow._id : '');
 
   const customStyles = {
     content: {
@@ -41,6 +43,8 @@ function Processes() {
 
   useEffect(() => {
     updateProcesses();
+    getFlows();
+    console.log(flows);
     // eslint-disable-next-line
   }, []);
 
@@ -76,16 +80,23 @@ function Processes() {
     setEditModalIsOpen(true);
   }
 
+  async function getFlows() {
+    const response = await api.get(`/flows/`);
+    setFlows(response.data.Flows);
+  }
+
   async function editProcess() {
     await api.put(`/updateProcess/${processId}`, {
       registro: registro,
-      apelido: apelido
+      apelido: apelido,
+      fluxoId: flowId
     });
   }
 
   async function createProcess() {
     try {
-      if (registro && flow) {
+      const flow = flows.find((flow) => flow._id === flowId);
+      if (registro) {
         let sequences = flow.sequences;
 
         await api.post('/newProcess', {
@@ -93,7 +104,7 @@ function Processes() {
           apelido,
           etapaAtual: sequences[0].from,
           arquivado: false,
-          fluxoId: flow._id
+          fluxoId: flowId
         });
       } else {
         toast.error('Registro vazio', { duration: 3000 });
@@ -173,6 +184,21 @@ function Processes() {
             {editOrCreate == 'edit' ? 'Editar Processo' : 'Criar Processo'}
           </ModalHeader>
           <ModalBody>
+            <Dropdown
+              options={flows.map((flow) => {
+                return { label: flow.name, value: flow._id };
+              })}
+              onChange={(e) => {
+                setFlowId(e.value);
+              }}
+              value={flowId}
+              placeholder="Selecione o fluxo"
+              className="dropdown"
+              controlClassName="dropdown-control"
+              placeholderClassName="dropdown-placeholder"
+              menuClassName="dropdown-menu"
+              arrowClassName="dropdown-arrow"
+            />
             <p> Registro </p>
             <TextInput value={registro} set={setRegistro} />
             <p> Apelido</p>
