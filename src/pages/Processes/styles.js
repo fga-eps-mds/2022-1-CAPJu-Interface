@@ -51,11 +51,15 @@ export const Container = styled.div`
   }
 
   a.add-button {
-    padding: 0px;
-    min-width: 20px;
+    position: absolute;
+    left: 20px;
+    bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 50px;
     border-radius: 50%;
-    align-self: end;
-    margin-right: 2em;
     background-color: #304974;
     cursor: pointer;
   }
