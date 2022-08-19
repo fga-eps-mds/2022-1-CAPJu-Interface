@@ -45,7 +45,7 @@ function Processes() {
   }, []);
 
   async function updateProcesses() {
-    const response = await api.get(`/processes/${flow._id}`);
+    const response = await api.get(`/processes/${flow ? flow._id : ''}`);
     console.log(flow);
     setProcesses(response.data.processes);
   }
@@ -112,9 +112,7 @@ function Processes() {
   return (
     <Container>
       <div className="processes">
-        <h1>
-          Processos do fluxo <strong>{flow.name}</strong>
-        </h1>
+        <h1>Processos {flow ? '- ' + flow.name : ''}</h1>
         {processes.length == 0 && 'Nenhum processo foi encontrado'}
         {processes.map((proc, idx) => {
           return (

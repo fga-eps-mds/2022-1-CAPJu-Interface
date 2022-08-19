@@ -4,8 +4,9 @@ import { Container, MenuItem } from './styles';
 import { Flow } from '@styled-icons/fluentui-system-regular';
 import { FlowCascade } from '@styled-icons/entypo';
 import { ClipboardTaskListLtr } from '@styled-icons/fluentui-system-regular/ClipboardTaskListLtr';
-
+import { useNavigate } from 'react-router-dom';
 function SideBar() {
+  const navigate = useNavigate();
   return (
     <Container>
       <a href={'/'}>
@@ -17,7 +18,12 @@ function SideBar() {
       <MenuItem href={'/'}>
         <FlowCascade></FlowCascade>Fluxos
       </MenuItem>
-      <MenuItem href={'/processes'}>
+      <MenuItem
+        href=""
+        onClick={() =>
+          navigate('/processes', { state: undefined, replace: false })
+        }
+      >
         <ClipboardTaskListLtr></ClipboardTaskListLtr>Processos
       </MenuItem>
       <Button background="#DE5353">Sair</Button>
