@@ -42,31 +42,33 @@ export const FlowItem = styled.div`
   display: flex;
   flex-direction: column;
   min-width: 100px;
+  max-height: 100px;
   background-color: #1b9454;
   color: white;
   padding: 20px;
-  font-size: 20px;
   border-radius: 10px;
   justify-content: center;
   align-items: center;
 
   svg.see-processes {
     color: #f1f1f1;
-    font-size: 35px;
+    font-size: 5vh;
     cursor: pointer;
   }
   svg.see-edit {
     color: #f1f1f1;
-    font-size: 35px;
+    font-size: 5vh;
     cursor: pointer;
   }
   svg.see-delete {
     color: #f1f1f1;
-    font-size: 35px;
+    font-size: 5vh;
     cursor: pointer;
   }
   span.title-flow {
-    font-size: 10px;
+    font-size: 24px;
+    font-weight: 900;
+    margin-bottom: 5%;
   }
 `;
 
@@ -208,11 +210,7 @@ export const FlowsButtons = styled.div`
   display: flex;
   flex-direction: rows;
   min-width: 100px;
-  background-color: #1b9454;
   color: white;
-  padding: 20px;
-  font-size: 20px;
-  border-radius: 10px;
   justify-content: center;
   align-items: center;
   gap: 20px;

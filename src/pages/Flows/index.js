@@ -179,23 +179,29 @@ function Flows() {
               <FlowItem key={index}>
                 <span className="title-flow">{flow.name}</span>
                 <FlowsButtons>
-                  <Link to="/processes" state={flow}>
-                    <DescriptionIcon className="see-processes" />
-                  </Link>
-                  <EditIcon
-                    className="see-edit"
-                    onClick={() => {
-                      setShowFlow(index);
-                      setNewFlow(flows[index]);
-                    }}
-                  ></EditIcon>
-                  <DeleteForever
-                    className="see-delete"
-                    onClick={() => {
-                      setDeleteModal(true);
-                      setShowFlow(-1);
-                    }}
-                  ></DeleteForever>
+                  <div title="ver processos">
+                    <Link to="/processes" state={flow}>
+                      <DescriptionIcon className="see-processes" />
+                    </Link>
+                  </div>
+                  <div title="editar fluxo">
+                    <EditIcon
+                      className="see-edit"
+                      onClick={() => {
+                        setShowFlow(index);
+                        setNewFlow(flows[index]);
+                      }}
+                    ></EditIcon>
+                  </div>
+                  <div title="deletar fluxo">
+                    <DeleteForever
+                      className="see-delete"
+                      onClick={() => {
+                        setDeleteModal(true);
+                        setShowFlow(-1);
+                      }}
+                    ></DeleteForever>
+                  </div>
                 </FlowsButtons>
               </FlowItem>
             );
