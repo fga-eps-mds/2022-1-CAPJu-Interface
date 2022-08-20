@@ -21,7 +21,8 @@ import {
   ModalDelete,
   ContentDelete,
   CloseModalDelete,
-  FlowsButtons
+  FlowsButtons,
+  CloseModalGeneral
 } from './styles';
 import Dropdown from 'react-dropdown';
 import FlowViewer from 'components/FlowViewer';
@@ -252,6 +253,16 @@ function Flows() {
             <Modal>
               <Content>
                 <ContentHeader>
+                  <CloseModalGeneral
+                    onClick={() => {
+                      setShowFlow(-1);
+                      setNewFlow({
+                        name: '',
+                        stages: [],
+                        sequences: []
+                      });
+                    }}
+                  ></CloseModalGeneral>
                   <h3>Editar fluxo</h3>
                 </ContentHeader>
                 <span>Nome</span>
@@ -283,19 +294,6 @@ function Flows() {
                 >
                   <span>Salvar</span>
                 </Button>
-                <Button
-                  onClick={() => {
-                    setShowFlow(-1);
-                    setNewFlow({
-                      name: '',
-                      stages: [],
-                      sequences: []
-                    });
-                  }}
-                  background="#de5353"
-                >
-                  <span>Cancelar</span>
-                </Button>
               </Content>
             </Modal>
           </>
@@ -305,6 +303,16 @@ function Flows() {
         <Modal>
           <Content>
             <ContentHeader>
+              <CloseModalGeneral
+                onClick={() => {
+                  setNewFlow({
+                    name: '',
+                    stages: [],
+                    sequences: []
+                  });
+                  setModalOpen(false);
+                }}
+              ></CloseModalGeneral>
               <h3>Novo Fluxo</h3>
             </ContentHeader>
             <TextInput
@@ -399,19 +407,6 @@ function Flows() {
               }}
             >
               <span>Salvar</span>
-            </Button>
-            <Button
-              onClick={() => {
-                setNewFlow({
-                  name: '',
-                  stages: [],
-                  sequences: []
-                });
-                setModalOpen(false);
-              }}
-              background="#de5353"
-            >
-              <span>Cancelar</span>
             </Button>
           </Content>
         </Modal>

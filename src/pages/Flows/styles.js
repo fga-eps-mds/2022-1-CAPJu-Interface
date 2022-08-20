@@ -221,6 +221,16 @@ export const CloseModalDelete = styled(CloseOutline)`
   margin-top: 3%;
 `;
 
+export const CloseModalGeneral = styled(CloseOutline)`
+  color: #de5353;
+  height: 5vh;
+  width: 5vh;
+  cursor: pointer;
+  margin-left: 93%;
+  min-widht: 40px;
+  min-height: 45px;
+`;
+
 export const FlowsButtons = styled.div`
   display: flex;
   flex-direction: rows;
