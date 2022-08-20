@@ -60,11 +60,13 @@ function Register() {
           set={setPassword}
           value={newPassword}
           placeholder="Crie uma senha"
+          type="password"
         ></TextInput>
         <TextInput
           set={setPassword2}
           value={newPassword2}
           placeholder="Confirme a senha"
+          type="password"
         ></TextInput>
         <Button
           onClick={() => {

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Password } from 'styled-icons/fluentui-system-regular';
 import { Input } from './styles';
 
 function TextInput(props) {
@@ -12,6 +13,7 @@ function TextInput(props) {
       placeholder={props.placeholder}
       onChange={handleUpdateElem}
       value={props.value}
+      type={props.type}
     ></Input>
   );
 }
@@ -19,7 +21,8 @@ function TextInput(props) {
 TextInput.propTypes = {
   value: PropTypes.string,
   placeholder: PropTypes.string,
-  set: PropTypes.func
+  set: PropTypes.func,
+  type: PropTypes.string
 };
 
 export default TextInput;

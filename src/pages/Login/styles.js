@@ -9,3 +9,22 @@ export const Container = styled.div`
 
   flex-direction: column;
 `;
+
+export const Menu = styled.div`
+  display: flex;
+  flex-direction: row;
+  h2 {
+    width: 100px;
+    margin: 10px;
+    text-align: center;
+  }
+`;
+export const Modal = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  width: 100%;
+  height: 300%;
+  border: solid 1px;
+  border-radius: 20px;
+`;
