@@ -49,22 +49,18 @@ export const Container = styled.div`
     color: #de5353;
     cursor: pointer;
   }
+`;
 
-  a.add-button {
-    position: absolute;
-    left: 20px;
-    bottom: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
-    background-color: #304974;
-    cursor: pointer;
-  }
-
-  a.add-button svg {
-    color: #f1f1f1;
-  }
+export const AddProcess = styled.button`
+  bottom: 30px;
+  left: 30px;
+  position: absolute;
+  padding: 10px 15px;
+  background-color: #304974;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  border: none;
+  border-radius: 20px;
 `;

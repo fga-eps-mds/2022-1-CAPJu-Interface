@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Container } from './styles';
+import { Container, AddProcess } from './styles';
 import { Link, useLocation } from 'react-router-dom';
 import React from 'react';
 import api from '../../services/api';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import AddIcon from '@mui/icons-material/Add';
 import Visibility from '@mui/icons-material/Visibility';
 import Modal from 'react-modal';
 import Button from 'components/Button';
@@ -55,7 +54,15 @@ function Processes() {
   }
 
   async function deleteProcess(registro) {
-    await api.delete(`/deleteProcess/${registro}`);
+    try {
+      await api.delete(`/deleteProcess/${registro}`);
+      toast.success('Processo Removido com Sucesso', { duration: 4000 });
+    } catch (error) {
+      toast.error(
+        'Erro ao deletar processo \n ' + error.response.data.message,
+        { duration: 3000 }
+      );
+    }
   }
 
   function openModal() {
@@ -86,11 +93,21 @@ function Processes() {
   }
 
   async function editProcess() {
-    await api.put(`/updateProcess/${processId}`, {
-      registro: registro,
-      apelido: apelido,
-      fluxoId: flowId
-    });
+    try {
+      if (registro)
+        await api.put(`/updateProcess/${processId}`, {
+          registro: registro,
+          apelido: apelido,
+          fluxoId: flowId
+        });
+      else toast.error('Registro vazio', { duration: 3000 });
+      toast.success('Processo Alterado com Sucesso', { duration: 4000 });
+    } catch (error) {
+      toast.error(
+        'Erro ao alterar processo \n ' + error.response.data.message,
+        { duration: 3000 }
+      );
+    }
   }
 
   async function createProcess() {
@@ -219,13 +236,13 @@ function Processes() {
           </ModalBody>
         </Modal>
       </div>
-      <a className="add-button">
-        <AddIcon
-          onClick={() => {
-            openEditModal(false);
-          }}
-        ></AddIcon>
-      </a>
+      <AddProcess
+        onClick={() => {
+          openEditModal(false);
+        }}
+      >
+        + Adicionar Processo
+      </AddProcess>
     </Container>
   );
 }
