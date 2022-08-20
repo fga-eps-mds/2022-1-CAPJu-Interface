@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 import FlowViewer from 'components/FlowViewer';
 import ModalHeader from 'components/ModalHeader';
 import ModalBody from 'components/ModalBody';
+import { Ring } from 'react-awesome-spinners';
 
 Modal.setAppElement('#root');
 
@@ -48,13 +49,12 @@ function ShowProcess() {
   const [observation, setObservation] = useState('');
   const location = useLocation();
   const [stages, setStages] = useState([]);
-  const { proc, flow } = location.state;
-
-  console.log(proc);
+  const { proc } = location.state;
+  const [flow, setFlow] = useState(null);
 
   useEffect(() => {
+    fetchFlow();
     fetchStages();
-    //fetchFlow();
     // eslint-disable-next-line
   }, []);
 
@@ -75,6 +75,14 @@ function ShowProcess() {
     setStages(response.data.Stages);
   }
 
+  async function fetchFlow() {
+    if (location.state.flow) setFlow(location.state.flow);
+    else {
+      let response = await api.get(`/flows/${proc.fluxoId}`);
+      setFlow(response.data);
+    }
+  }
+
   async function nextStage() {
     try {
       let stageTo = '';
@@ -85,8 +93,6 @@ function ShowProcess() {
         }
       }
 
-      console.log(flow);
-      console.log(proc);
 
       await api.put('/processNextStage/', {
         processId: proc._id,
@@ -127,14 +133,18 @@ function ShowProcess() {
               : `${proc.registro}`}
           </div>
         </div>
-        <FlowWrapper style={flowStyle}>
-          <FlowViewer
-            stages={stages}
-            flow={flow}
-            highlight={proc.etapaAtual}
-            procStages={proc.etapas}
-          ></FlowViewer>
-        </FlowWrapper>
+        {flow ? (
+          <FlowWrapper style={flowStyle}>
+            <FlowViewer
+              stages={stages}
+              flow={flow}
+              highlight={proc.etapaAtual}
+              procStages={proc.etapas}
+            ></FlowViewer>
+          </FlowWrapper>
+        ) : (
+          <Ring />
+        )}
         <Modal
           isOpen={modalIsOpen}
           onAfterOpen={afterOpenModal}

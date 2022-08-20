@@ -42,7 +42,6 @@ function FlowViewer(props) {
           style: { stroke: '#1b9454' }
         };
       }) || [];
-
     const edgesFlows =
       props.flow.sequences.map((sequence) => {
         const id = 'e' + sequence.from + '-' + sequence.to;
