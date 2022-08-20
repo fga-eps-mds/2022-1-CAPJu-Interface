@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { CloseOutline } from '@styled-icons/evaicons-outline/CloseOutline';
-import { DeleteForever } from '@styled-icons/material/DeleteForever';
 
 export const Container = styled.div`
   width: 100%;
@@ -41,7 +40,7 @@ export const FlowsArea = styled.div`
 
 export const FlowItem = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   min-width: 100px;
   background-color: #1b9454;
   color: white;
@@ -53,6 +52,21 @@ export const FlowItem = styled.div`
 
   svg.see-processes {
     color: #f1f1f1;
+    font-size: 35px;
+    cursor: pointer;
+  }
+  svg.see-edit {
+    color: #f1f1f1;
+    font-size: 35px;
+    cursor: pointer;
+  }
+  svg.see-delete {
+    color: #f1f1f1;
+    font-size: 35px;
+    cursor: pointer;
+  }
+  span.title-flow {
+    font-size: 10px;
   }
 `;
 
@@ -184,12 +198,22 @@ export const ContentHeader = styled.div`
 
 export const CloseModalDelete = styled(CloseOutline)`
   color: #de5353;
-  height: 4vh;
-  width: 4vh;
+  height: 7vh;
+  width: 7vh;
   margin-left: 500px;
   margin-bottom: 24px;
 `;
 
-export const DeleteButton = styled(DeleteForever)`
-  cursor: pointer;
+export const FlowsButtons = styled.div`
+  display: flex;
+  flex-direction: rows;
+  min-width: 100px;
+  background-color: #1b9454;
+  color: white;
+  padding: 20px;
+  font-size: 20px;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 `;

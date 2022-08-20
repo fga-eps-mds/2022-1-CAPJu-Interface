@@ -21,13 +21,15 @@ import {
   ModalDelete,
   ContentDelete,
   CloseModalDelete,
-  DeleteButton
+  FlowsButtons
 } from './styles';
 import Dropdown from 'react-dropdown';
 import FlowViewer from 'components/FlowViewer';
 import DescriptionIcon from '@mui/icons-material/Description';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import { Link } from 'react-router-dom';
+import { DeleteForever } from '@mui/icons-material';
 
 function Flows() {
   const [flows, setFlows] = useState([]);
@@ -175,23 +177,26 @@ function Flows() {
           {flows.map((flow, index) => {
             return (
               <FlowItem key={index}>
-                {flow.name}{' '}
-                <Link to="/processes" state={flow}>
-                  <DescriptionIcon className="see-processes" />
-                </Link>
-                <EditIcon
-                  onClick={() => {
-                    setShowFlow(index);
-                    setNewFlow(flows[index]);
-                  }}
-                ></EditIcon>
-                <DeleteButton
-                  size={30}
-                  onClick={() => {
-                    setDeleteModal(true);
-                    setShowFlow(-1);
-                  }}
-                ></DeleteButton>
+                <span className="title-flow">{flow.name}</span>
+                <FlowsButtons>
+                  <Link to="/processes" state={flow}>
+                    <DescriptionIcon className="see-processes" />
+                  </Link>
+                  <EditIcon
+                    className="see-edit"
+                    onClick={() => {
+                      setShowFlow(index);
+                      setNewFlow(flows[index]);
+                    }}
+                  ></EditIcon>
+                  <DeleteForever
+                    className="see-delete"
+                    onClick={() => {
+                      setDeleteModal(true);
+                      setShowFlow(-1);
+                    }}
+                  ></DeleteForever>
+                </FlowsButtons>
               </FlowItem>
             );
           })}
