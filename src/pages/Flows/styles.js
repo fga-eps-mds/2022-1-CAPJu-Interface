@@ -54,6 +54,7 @@ export const FlowItem = styled.div`
     color: #f1f1f1;
     font-size: 5vh;
     cursor: pointer;
+    margin-bottom: 5px;
   }
   svg.see-edit {
     color: #f1f1f1;
@@ -92,10 +93,11 @@ export const ModalDelete = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
+  min-height: 200px;
   display: flex;
   flex-direction: row;
   font-size: 20px;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.1);
 `;
 
 export const ContentDelete = styled.div`
@@ -110,6 +112,16 @@ export const ContentDelete = styled.div`
   border-radius: 10px;
   gap: 25px;
   font-weight: bold;
+
+  div.closeModal {
+    display: flex;
+    flex-direction: row-reverse;
+    min-width: 600px;
+    height: 28vh;
+  }
+  div.buttonDelete {
+    margin-bottom: 5%;
+  }
 `;
 
 export const Content = styled.div`
@@ -200,10 +212,13 @@ export const ContentHeader = styled.div`
 
 export const CloseModalDelete = styled(CloseOutline)`
   color: #de5353;
-  height: 7vh;
-  width: 7vh;
-  margin-left: 500px;
-  margin-bottom: 24px;
+  height: 5vh;
+  width: 5vh;
+  min-widht: 30px;
+  min-height: 30px;
+  cursor: pointer;
+  margin-right: 1%;
+  margin-top: 3%;
 `;
 
 export const FlowsButtons = styled.div`
