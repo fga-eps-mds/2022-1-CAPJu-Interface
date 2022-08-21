@@ -266,7 +266,11 @@ function Flows() {
                   <h3>Editar fluxo</h3>
                 </ContentHeader>
                 <span>Nome</span>
-                <TextInput set={updateFlowName} value={newFlow.name} />
+                <TextInput
+                  set={updateFlowName}
+                  value={newFlow.name}
+                  maxLength={40}
+                />
                 <label>
                   <span>Etapas</span>
                   <AddStageInFlow
@@ -319,6 +323,7 @@ function Flows() {
               placeholder={'Nome do fluxo'}
               set={updateFlowName}
               value={newFlow.name}
+              maxLength={40}
             ></TextInput>
             <span>Etapas</span>
             <AddStageInFlow

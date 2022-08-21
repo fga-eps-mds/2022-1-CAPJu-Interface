@@ -159,7 +159,7 @@ function Processes() {
   return (
     <Container>
       <div className="processes">
-        <h1>Processos</h1>
+        <h1>{flow.name}</h1>
         <div className="processSearch">
           <InputSearch
             value={searchTerm}
@@ -167,7 +167,6 @@ function Processes() {
             onChange={handleChange}
           />
         </div>
-        <h1>Processos {flow ? '- ' + flow.name : ''}</h1>
         {processes.length == 0 && 'Nenhum processo foi encontrado'}
         {filterProcesses(processes).map((proc, idx) => {
           return (
