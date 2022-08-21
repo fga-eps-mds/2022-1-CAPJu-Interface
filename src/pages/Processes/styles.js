@@ -42,29 +42,34 @@ export const Container = styled.div`
 
   svg.see-process {
     color: #304974;
+    cursor: pointer;
   }
 
   svg.edit-process {
     color: #fbe304;
+    cursor: pointer;
   }
 
   svg.delete-process {
     color: #de5353;
-  }
-
-  a.add-button {
-    padding: 0px;
-    min-width: 20px;
-    border-radius: 50%;
-    align-self: end;
-    margin-right: 2em;
-    background-color: #304974;
-  }
-
-  a.add-button svg {
-    color: #f1f1f1;
+    cursor: pointer;
   }
 `;
+
+export const AddProcess = styled.button`
+  bottom: 30px;
+  left: 30px;
+  position: absolute;
+  padding: 10px 15px;
+  background-color: #304974;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  border: none;
+  border-radius: 20px;
+`;
+
 export const InputSearch = styled.input`
   background-color: rgba(0, 0, 0, 0.1);
   border: solid #888 2px;
