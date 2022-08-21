@@ -93,7 +93,6 @@ export const ModalDelete = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  min-height: 200px;
   display: flex;
   flex-direction: row;
   font-size: 20px;
@@ -105,23 +104,31 @@ export const ContentDelete = styled.div`
   background-color: white;
   min-width: 600px;
   height: 28vh;
-  justify-content: center;
+  min-height: 150px;
+  justify-content: space-between;
   align-items: center;
   flex-direction: column;
   font-size: 24px;
   border-radius: 10px;
   gap: 25px;
+  padding: 10px;
   font-weight: bold;
+  overflow-x: scroll;
 
   div.closeModal {
     display: flex;
     flex-direction: row-reverse;
     min-width: 600px;
-    height: 28vh;
   }
-  div.buttonDelete {
-    margin-bottom: 5%;
-  }
+`;
+
+export const CloseModalDelete = styled(CloseOutline)`
+  color: #de5353;
+  height: 5vh;
+  width: 5vh;
+  min-widht: 30px;
+  min-height: 30px;
+  cursor: pointer;
 `;
 
 export const Content = styled.div`
@@ -131,7 +138,6 @@ export const Content = styled.div`
   height: 90vh;
   justify-content: space-between;
   align-items: center;
-  /* padding: 20px; */
   flex-direction: column;
   gap: 10px;
   font-size: 20px;
@@ -211,17 +217,6 @@ export const ContentHeader = styled.div`
     color: #f1f1f1;
     margin-left: 39%;
   }
-`;
-
-export const CloseModalDelete = styled(CloseOutline)`
-  color: #de5353;
-  height: 5vh;
-  width: 5vh;
-  min-widht: 30px;
-  min-height: 30px;
-  cursor: pointer;
-  margin-right: 1%;
-  margin-top: 3%;
 `;
 
 export const CloseModalGeneral = styled(CloseOutline)`
