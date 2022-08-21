@@ -80,6 +80,7 @@ function Processes() {
       setRegistro(proc.registro);
       setApelido(proc.apelido);
       setProcessesId(proc._id);
+      setFlowId(proc.fluxoId);
     } else setEditOrCreate('create');
 
     console.log(editOrCreate);
