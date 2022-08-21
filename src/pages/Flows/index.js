@@ -253,6 +253,7 @@ function Flows() {
             <Modal>
               <Content>
                 <ContentHeader>
+                  <span>Editar fluxo</span>
                   <CloseModalGeneral
                     onClick={() => {
                       setShowFlow(-1);
@@ -263,7 +264,6 @@ function Flows() {
                       });
                     }}
                   ></CloseModalGeneral>
-                  <h3>Editar fluxo</h3>
                 </ContentHeader>
                 <span>Nome</span>
                 <TextInput
@@ -307,6 +307,7 @@ function Flows() {
         <Modal>
           <Content>
             <ContentHeader>
+              <span>Novo Fluxo</span>
               <CloseModalGeneral
                 onClick={() => {
                   setNewFlow({
@@ -317,7 +318,6 @@ function Flows() {
                   setModalOpen(false);
                 }}
               ></CloseModalGeneral>
-              <h3>Novo Fluxo</h3>
             </ContentHeader>
             <TextInput
               placeholder={'Nome do fluxo'}

@@ -199,14 +199,17 @@ export const ContentHeader = styled.div`
   display: flex;
   background-color: #7a7b4f;
   min-width: 800px;
+  max-height: 50px;
   justify-content: space-between;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row;
   font-size: 32px;
   height: 15vh;
-  width: 100%;
-  h3 {
+  width: 50%;
+  padding: 5px;
+  span {
     color: #f1f1f1;
+    margin-left: 39%;
   }
 `;
 
@@ -222,13 +225,13 @@ export const CloseModalDelete = styled(CloseOutline)`
 `;
 
 export const CloseModalGeneral = styled(CloseOutline)`
-  color: #de5353;
-  height: 5vh;
-  width: 5vh;
+  color: #f1f1f1;
+  height: 32px;
+  width: 32px;
   cursor: pointer;
-  margin-left: 93%;
-  min-widht: 40px;
-  min-height: 45px;
+  // margin-left: 95%;
+  min-widht: 35px;
+  min-height: 35px;
 `;
 
 export const FlowsButtons = styled.div`
