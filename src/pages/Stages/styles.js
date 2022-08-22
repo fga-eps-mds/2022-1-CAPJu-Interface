@@ -50,29 +50,25 @@ export const StageItem = styled.div`
   align-items: center;
 `;
 
-export const Modal = styled.div`
-  position: absolute;
-  backdrop-filter: blur(5px);
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  font-size: 20px;
-  background-color: rgba(0, 0, 0, 0.5);
-`;
-
 export const Content = styled.div`
   display: flex;
   background-color: white;
   width: 400px;
-  height: 400px;
   justify-content: center;
   align-items: center;
   padding: 20px;
   flex-direction: column;
-  gap: 50px;
+  gap: 20px;
   font-size: 20px;
   border-radius: 10px;
+`;
+
+export const Modal = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  width: 100%;
+  height: 300%;
+  border: solid 1px;
+  border-radius: 20px;
 `;

@@ -1,16 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import authConfig from '../../services/config.js';
 import { Container, Form, FormElement } from './styles';
 import Button from '../../components/Button';
 import toast from 'react-hot-toast';
 import { useNavigate, useLocation } from 'react-router-dom';
 import api from '../../services/api';
+import { AuthContext } from 'context/AuthContext.js';
+import React from 'react';
 
 function RegisterProcess() {
   const [registro, setRegistro] = useState('');
   const [apelido, setApelido] = useState('');
   const location = useLocation();
   const flow = location.state;
+
+  const { value: user } = useContext(AuthContext);
 
   const [periods, setPeriods] = useState([]);
 

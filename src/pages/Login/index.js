@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import { Container, Menu, Modal } from './styles';
+import { Container, Menu, MenuElement } from './styles';
 import { useState } from 'react';
 import TextInput from 'components/TextInput';
 import Button from 'components/Button';
@@ -9,15 +9,48 @@ import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import user from 'services/user';
 function Login() {
-  const [newEmail, setEmail] = useState('');
-  const [newPassword, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [newName, setNewName] = useState('');
+  const [newEmail, setNewEmail] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [newPassword2, setNewPassword2] = useState('');
+
+  const [selectedTab, setSelectedTab] = useState('login');
 
   const navigate = useNavigate();
 
-  async function login() {
-    const response = await user.post('/login', {
+  async function register() {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    console.log(newEmail, re.test(newEmail));
+    if (!re.test(newEmail)) {
+      toast.error('E-mail Inválido');
+      return;
+    }
+    if (newPassword != newPassword2) {
+      toast.error('Password invalida');
+      return;
+    }
+
+    const response = await user.post('/newUser', {
+      name: newName,
       email: newEmail,
       password: newPassword
+    });
+
+    if (response.status == 200) {
+      toast.success('Usuário cadastrado com  sucesso');
+      navigate('login');
+    } else {
+      toast.error('Erro no cadastro: ' + response.data?.message);
+    }
+  }
+
+  async function login() {
+    const response = await user.post('/login', {
+      email: email,
+      password: password
     });
     if (response.status == 200) {
       if (response.data) {
@@ -33,31 +66,80 @@ function Login() {
   return (
     <Container>
       <Content>
-        <Modal>
-          <Menu>
-            <h2>Login</h2>
-            <h2>Cadastro</h2>
-          </Menu>
-          <h1>Login</h1>
-          <TextInput
-            set={setEmail}
-            value={newEmail}
-            placeholder="Email"
-          ></TextInput>
-          <TextInput
-            set={setPassword}
-            value={newPassword}
-            placeholder="Senha"
-            type="password"
-          ></TextInput>
-          <Button
-            onClick={async () => {
-              login();
+        <Menu>
+          <MenuElement
+            onClick={() => {
+              setSelectedTab('login');
             }}
+            selected={selectedTab == 'login'}
           >
-            Entrar
-          </Button>
-        </Modal>
+            Login
+          </MenuElement>
+          <MenuElement
+            onClick={() => {
+              setSelectedTab('register');
+            }}
+            selected={selectedTab == 'register'}
+          >
+            Cadastro
+          </MenuElement>
+        </Menu>
+        {selectedTab == 'login' ? (
+          <>
+            <h1>Login</h1>
+            <TextInput
+              set={setEmail}
+              value={email}
+              placeholder="Email"
+            ></TextInput>
+            <TextInput
+              set={setPassword}
+              value={password}
+              placeholder="Senha"
+              type="password"
+            ></TextInput>
+            <Button
+              onClick={async () => {
+                login();
+              }}
+            >
+              Entrar
+            </Button>
+          </>
+        ) : (
+          <>
+            <h1>Cadastre-se </h1>
+            <TextInput
+              set={setNewName}
+              value={newName}
+              placeholder="Nome completo"
+            ></TextInput>
+            <TextInput
+              set={setNewEmail}
+              value={newEmail}
+              placeholder="Email"
+            ></TextInput>
+            <TextInput
+              set={setNewPassword}
+              value={newPassword}
+              placeholder="Crie uma senha"
+              type="password"
+            ></TextInput>
+            <TextInput
+              set={setNewPassword2}
+              value={newPassword2}
+              placeholder="Confirme a senha"
+              type="password"
+            ></TextInput>
+            <Button
+              onClick={() => {
+                register();
+              }}
+            >
+              Cadastrar
+            </Button>
+          </>
+        )}
       </Content>
     </Container>
   );

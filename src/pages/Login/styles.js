@@ -13,18 +13,18 @@ export const Container = styled.div`
 export const Menu = styled.div`
   display: flex;
   flex-direction: row;
-  h2 {
-    width: 100px;
-    margin: 10px;
-    text-align: center;
-  }
+  gap: 20px;
 `;
-export const Modal = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 50px;
-  width: 100%;
-  height: 300%;
-  border: solid 1px;
-  border-radius: 20px;
+
+export const MenuElement = styled.div.attrs((props) => ({
+  selected: props.selected
+}))`
+  margin: 10px;
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  cursor: pointer;
+
+  border-bottom: ${(props) =>
+    props.selected ? '3px solid lightblue' : '1px solid black'};
 `;
