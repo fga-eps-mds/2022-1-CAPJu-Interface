@@ -15,6 +15,7 @@ import {
 import { DeleteForever } from '@styled-icons/material';
 import { CloseOutline } from '@styled-icons/evaicons-outline/CloseOutline';
 import { CheckCircle } from '@styled-icons/material';
+import AxiosError from 'axios/lib/core/AxiosError';
 
 const closeBtn = {
   maxWidth: '40px'
@@ -56,8 +57,11 @@ function Stages() {
         toast.error('Erro ao adicionar a etapa');
       }
     } catch (e) {
-      console.log(e);
-      toast.error('Erro ao adicionar a etapa');
+      if (e instanceof AxiosError) toast.error('Etapa já existe');
+      else {
+        console.log(e);
+        toast.error('Erro ao adicionar a etapa');
+      }
     }
   }
 
