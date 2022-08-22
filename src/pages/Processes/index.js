@@ -218,9 +218,13 @@ function Processes() {
               arrowClassName="dropdown-arrow"
             />
             <p> Registro </p>
-            <TextInput value={registro} set={setRegistro} />
+            <TextInput
+              value={registro}
+              set={setRegistro}
+              placeholder="registro"
+            />
             <p> Apelido</p>
-            <TextInput value={apelido} set={setApelido} />
+            <TextInput value={apelido} set={setApelido} placeholder="apelido" />
             <Button
               onClick={async () => {
                 if (editOrCreate == 'edit') await editProcess();
