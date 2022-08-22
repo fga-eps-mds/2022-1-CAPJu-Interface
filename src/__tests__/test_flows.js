@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import nock from 'nock';
 import axios from 'axios';
@@ -40,6 +40,17 @@ test('Testando criar fluxo no componente Flows', async () => {
     })
     .post('/newFlow', flowData)
     .reply(200, { ...flowData, deleted: false });
+
+  const buttonFlow = screen.getByText('+ Adicionar Fluxo');
+  fireEvent.click(buttonFlow);
+
+  const modalName = screen.getByText('Novo Fluxo');
+  const inputFlow = screen.getByPlaceholderText('Nome do fluxo');
+  const button = screen.getByText('Salvar');
+
+  fireEvent.change(inputFlow, { target: { value: 'perito' } });
+  expect(modalName).toHaveTextContent('Novo Fluxo');
+  fireEvent.click(button);
 });
 
 afterAll(() => nock.restore());
