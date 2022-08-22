@@ -1,16 +1,10 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/display-name */
-import {
-  render,
-  waitFor,
-  screen,
-  fireEvent,
-  getByPlaceholderText
-} from '@testing-library/react';
+import { render, waitFor, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import TextInput from '../components/TextInput';
 import nock from 'nock';
 import axios from 'axios';
-import { Toaster } from 'react-hot-toast';
 import { baseURL } from '../services/api';
 import Processes from '../pages/Processes';
 import ShowProcess from '../pages/ShowProcess';
@@ -182,7 +176,8 @@ test('teste processos', async () => {
   );
   // mostrando conteúdo
   await waitFor(() => expect(scopeGet.isDone()).toBe(true));
-  const r1111 = await waitFor(() => screen.getByText('1111 - sdlkfja'));
+  const r1111 = await waitFor(() => screen.queryByText('1111 - sdlkfja'));
+  expect(r1111).toBeInTheDocument();
 
   // criando processo
   const createButton = screen.getByText('+ Adicionar Processo');
