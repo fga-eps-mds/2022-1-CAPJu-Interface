@@ -30,8 +30,6 @@ function Login() {
 
   const navigate = useNavigate();
 
-  console.log('rendering');
-
   async function register() {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     console.log(newEmail, re.test(newEmail));

@@ -12,6 +12,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import Stages from 'pages/Stages/index.js';
 import Flows from 'pages/Flows/index.js';
 import { AuthContext } from 'context/AuthContext';
+import Recovery from 'pages/Recovery/index.js';
 
 function App() {
   const location = useLocation();
@@ -37,6 +38,9 @@ function App() {
             <Routes>
               <Route path="/" element={<Flows />} />
               <Route path="login" element={<Login />} />
+              <Route path="recovery">
+                <Route path=":hash" element={<Recovery />} />
+              </Route>
               <Route path="stages" element={<Stages />} />
               <Route path="processes" element={<Processes />} />
               <Route
