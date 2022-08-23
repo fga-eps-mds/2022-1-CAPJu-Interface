@@ -17,13 +17,21 @@ import Recovery from 'pages/Recovery/index.js';
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
-  const [user, setUser] = useState({ name: 'oxi' });
+  const [user, setUser] = useState(null);
+
+  console.log(location.pathname);
 
   useEffect(() => {
-    if (!localStorage.getItem('user') && location.pathname != '/Login') {
-      console.log('uai po');
+    if (
+      !localStorage.getItem('user') &&
+      location.pathname != '/Login' &&
+      !location.pathname.startsWith('/recovery/')
+    ) {
       navigate('Login');
-      console.log('wtfff');
+    }
+
+    if (!user) {
+      setUser(localStorage.getItem('user'));
     }
   });
 
