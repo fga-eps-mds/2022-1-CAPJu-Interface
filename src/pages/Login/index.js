@@ -1,6 +1,13 @@
 // @ts-nocheck
 import React from 'react';
-import { Container, Menu, MenuElement } from './styles';
+import {
+  Container,
+  Menu,
+  MenuElement,
+  Modal,
+  ForgotPassword,
+  ContentHeader
+} from './styles';
 import { useState } from 'react';
 import TextInput from 'components/TextInput';
 import Button from 'components/Button';
@@ -9,6 +16,8 @@ import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import user from 'services/user';
 function Login() {
+  const [isModalOpen, setModalOpen] = useState(false);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -20,6 +29,8 @@ function Login() {
   const [selectedTab, setSelectedTab] = useState('login');
 
   const navigate = useNavigate();
+
+  console.log('rendering');
 
   async function register() {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -41,7 +52,7 @@ function Login() {
 
     if (response.status == 200) {
       toast.success('Usuário cadastrado com  sucesso');
-      navigate('login');
+      navigate('/login');
     } else {
       toast.error('Erro no cadastro: ' + response.data?.message);
     }
@@ -57,9 +68,20 @@ function Login() {
         localStorage.setItem('user', JSON.stringify(response.data));
       }
       toast.success('Usuário logado com  sucesso');
-      navigate('stages');
+      navigate('/Stages');
     } else {
       toast.error('Erro no login: ' + response.data?.message);
+    }
+  }
+
+  async function requestNewPassword() {
+    const response = await user.post('/requestRecovery', {
+      email: email
+    });
+    if (response.status == 200) {
+      toast.success('Solicitação enviada com sucesso');
+    } else {
+      toast.error('Erro ao solicitar email');
     }
   }
 
@@ -87,24 +109,35 @@ function Login() {
         {selectedTab == 'login' ? (
           <>
             <h1>Login</h1>
-            <TextInput
-              set={setEmail}
-              value={email}
-              placeholder="Email"
-            ></TextInput>
-            <TextInput
-              set={setPassword}
-              value={password}
-              placeholder="Senha"
-              type="password"
-            ></TextInput>
-            <Button
-              onClick={async () => {
-                login();
-              }}
-            >
-              Entrar
-            </Button>
+            <div>
+              <TextInput
+                set={setEmail}
+                value={email}
+                placeholder="Email"
+              ></TextInput>
+              <br></br>
+              <br></br>
+              <TextInput
+                set={setPassword}
+                value={password}
+                placeholder="Senha"
+                type="password"
+              ></TextInput>
+              <ForgotPassword
+                onClick={() => {
+                  setModalOpen(true);
+                }}
+              >
+                Esqueceu a senha?
+              </ForgotPassword>
+              <Button
+                onClick={async () => {
+                  login();
+                }}
+              >
+                Entrar
+              </Button>
+            </div>
           </>
         ) : (
           <>
@@ -139,6 +172,31 @@ function Login() {
               Cadastrar
             </Button>
           </>
+        )}
+        {isModalOpen && (
+          <Modal>
+            <Content>
+              <h2>Alteração de senha</h2>
+              <TextInput set={setEmail} value={email} />
+
+              <Button
+                onClick={() => {
+                  requestNewPassword();
+                  setModalOpen(false);
+                }}
+              >
+                Solicitar E-mail
+              </Button>
+              <Button
+                onClick={() => {
+                  setModalOpen(false);
+                }}
+                background="#de5353"
+              >
+                Cancelar
+              </Button>
+            </Content>
+          </Modal>
         )}
       </Content>
     </Container>
