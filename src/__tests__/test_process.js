@@ -11,6 +11,7 @@ import ShowProcess from '../pages/ShowProcess';
 
 import React from 'react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import ModalHeader from 'components/ModalHeader';
 
 axios.defaults.adapter = require('axios/lib/adapters/http');
 
@@ -31,7 +32,7 @@ jest.mock('react-dropdown', () => ({ options, value, onChange }) => {
   return (
     <select
       data-testid="react-select-mock"
-      defaultValue={value}
+      value={value}
       onChange={(e) => onChange(e.target)}
     >
       {options.map(({ label, value }) => (
@@ -182,8 +183,8 @@ test('teste processos', async () => {
   // criando processo
   const createButton = screen.getByText('+ Adicionar Processo');
   fireEvent.click(createButton);
-  let modelHeader = screen.queryByText('Criar Processo');
-  expect(modelHeader).toBeInTheDocument();
+  let modalHeader = screen.queryByText('Criar Processo');
+  expect(modalHeader).toBeInTheDocument();
   let fluxoInput = screen.getByTestId('react-select-mock');
   let registroInput = screen.getByPlaceholderText('registro');
   let apelidoInput = screen.getByPlaceholderText('apelido');
@@ -192,8 +193,35 @@ test('teste processos', async () => {
   fireEvent.change(registroInput, { target: { value: newProcess.registro } });
   fireEvent.change(apelidoInput, { target: { value: newProcess.apelido } });
   fireEvent.click(submit);
-
   await waitFor(() => expect(scopePost.isDone()).toBe(true));
+
+  //editando processo
+  const process = processResponse.processes[0];
+  const putURL = `/updateProcess/${process._id}`;
+  const scopeEdit = nock(baseURL)
+    .defaultReplyHeaders({
+      'access-control-allow-origin': '*',
+      'access-control-allow-credentials': 'true'
+    })
+    .options(putURL)
+    .reply(200, 'ok')
+    .put(putURL, {
+      fluxoId: /.*/,
+      registro: /.*/,
+      apelido: /.*/
+    })
+    .reply(200, { result: 'atualizado' });
+  const editIcon = screen.getByTestId('EditIcon');
+  fireEvent.click(editIcon);
+  modalHeader = screen.queryByText('Editar Processo');
+  expect(modalHeader).toBeInTheDocument();
+  fluxoInput = screen.getByTestId('react-select-mock');
+  expect(fluxoInput).toHaveValue(process.fluxoId);
+  registroInput = screen.getByDisplayValue(process.registro);
+  apelidoInput = screen.getByDisplayValue(process.apelido);
+  fireEvent.change(apelidoInput, { target: { value: 'novoApelido' } });
+  fireEvent.click(submit);
+  await waitFor(() => expect(scopeEdit.isDone()).toBe(true));
 });
 
 afterAll(() => nock.restore());
