@@ -28,159 +28,155 @@ function Stages() {
   const [stageTime, setStageTime] = useState('');
   const [currentStage, setCurrentStage] = useState({ name: '', time: '' });
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalInfoOpen, setModalInfoOpen] = useState(false);
+
   useEffect(() => {
     updateStages();
   }, []);
-}
-async function updateStages() {
-  const config = authConfig();
-  const response = await api.get('/stages', config);
-  console.log(response);
 
-  setStages(response.data.Stages);
-}
+  async function updateStages() {
+    const config = authConfig();
+    const response = await api.get('/stages', config);
+    console.log(response);
 
-async function addStage() {
-  const config = authConfig();
-  try {
-    const response = await api.post(
-      '/newStage',
-      {
-        name: newStage
-      },
-      config
-    );
-  } catch (e) {
-    console.log(e);
-    toast.error('Erro ao remover a etapa');
+    setStages(response.data.Stages);
   }
-  console.log(stageTime);
-  try {
-    const response = await api.post('/newStage', {
-      name: stageName,
-      time: stageTime
-    });
 
-    if (response.status == 200) {
-      toast.success('Etapa Adicionada com sucesso');
-      updateStages();
-    } else {
+  async function addStage() {
+    const config = authConfig();
+
+    console.log(stageTime);
+    try {
+      const response = await api.post(
+        '/newStage',
+        {
+          name: stageName,
+          time: stageTime
+        },
+        config
+      );
+
+      if (response.status == 200) {
+        toast.success('Etapa Adicionada com sucesso');
+        updateStages();
+      } else {
+        toast.error('Erro ao adicionar a etapa');
+      }
+    } catch (e) {
+      console.log(e);
       toast.error('Erro ao adicionar a etapa');
     }
-  } catch (e) {
-    console.log(e);
-    toast.error('Erro ao adicionar a etapa');
   }
-}
 
-async function deleteStage(id) {
-  const config = authConfig();
-  try {
-    const response = await api.post(
-      '/deleteStage',
-      {
-        stageId: id
-      },
-      config
-    );
-    if (response.status == 200) {
-      toast.success('Etapa Deletada com sucesso');
-      updateStages();
-    } else {
-      toast.error('Erro ao deletar a etapa');
+  async function deleteStage(id) {
+    const config = authConfig();
+    try {
+      const response = await api.post(
+        '/deleteStage',
+        {
+          stageId: id
+        },
+        config
+      );
+      if (response.status == 200) {
+        toast.success('Etapa Deletada com sucesso');
+        updateStages();
+      } else {
+        toast.error('Erro ao deletar a etapa');
+      }
+    } catch (e) {
+      console.log(e);
+      toast.error('Erro ao remover a etapa');
     }
-  } catch (e) {
-    console.log(e);
-    toast.error('Erro ao remover a etapa');
   }
-}
 
-return (
-  <>
-    <Container>
-      Etapas
-      <StagesArea>
-        {stages.map((stage, index) => {
-          return (
-            <StageItem key={index}>
-              {stage.name}{' '}
-              <Visibility
-                onClick={() => {
-                  setModalInfoOpen(true);
-                  setCurrentStage(stage);
-                }}
-              />
-              <DeleteForever
-                size={30}
-                onClick={() => {
-                  deleteStage(stage._id);
-                }}
-              />
-            </StageItem>
-          );
-        })}
-      </StagesArea>
-      <AddStageButton
-        onClick={() => {
-          setModalOpen(true);
-        }}
-      >
-        + Adicionar Etapa
-      </AddStageButton>
-      <></>
-    </Container>
-    {isModalOpen && (
-      <Modal>
-        <Content>
-          <CloseOutline
-            style={closeBtn}
-            onClick={() => {
-              setModalOpen(false);
-            }}
-          ></CloseOutline>
-          <h2>Nova Etapa</h2>
-          <TextInput
-            set={setStageName}
-            value={stageName}
-            placeholder="Nome da etapa"
-          ></TextInput>
-          <TextInput
-            set={setStageTime}
-            value={stageTime}
-            placeholder="Duração (dias)"
-          ></TextInput>
-          <Button
-            onClick={() => {
-              addStage();
-              setModalOpen(false);
-            }}
-          >
-            Salvar
-          </Button>
-        </Content>
-      </Modal>
-    )}
-    {isModalInfoOpen && (
-      <Modal>
-        <Content>
-          <CloseOutline
-            style={closeBtn}
-            onClick={() => {
-              setModalInfoOpen(false);
-            }}
-          ></CloseOutline>
-          <div className="stage-info">
-            <strong>Nome da etapa</strong>
-            <span>{currentStage.name}</span>
-          </div>
-          <div className="stage-info">
-            <strong>Duração da etapa</strong>
-            <span>{currentStage.time}</span>
-          </div>
-        </Content>
-      </Modal>
-    )}
-  </>
-);
+  return (
+    <>
+      <Container>
+        Etapas
+        <StagesArea>
+          {stages.map((stage, index) => {
+            return (
+              <StageItem key={index}>
+                {stage.name}{' '}
+                <Visibility
+                  onClick={() => {
+                    setModalInfoOpen(true);
+                    setCurrentStage(stage);
+                  }}
+                />
+                <DeleteForever
+                  size={30}
+                  onClick={() => {
+                    deleteStage(stage._id);
+                  }}
+                />
+              </StageItem>
+            );
+          })}
+        </StagesArea>
+        <AddStageButton
+          onClick={() => {
+            setModalOpen(true);
+          }}
+        >
+          + Adicionar Etapa
+        </AddStageButton>
+        <></>
+      </Container>
+      {isModalOpen && (
+        <Modal>
+          <Content>
+            <CloseOutline
+              style={closeBtn}
+              onClick={() => {
+                setModalOpen(false);
+              }}
+            ></CloseOutline>
+            <h2>Nova Etapa</h2>
+            <TextInput
+              set={setStageName}
+              value={stageName}
+              placeholder="Nome da etapa"
+            ></TextInput>
+            <TextInput
+              set={setStageTime}
+              value={stageTime}
+              placeholder="Duração (dias)"
+            ></TextInput>
+            <Button
+              onClick={() => {
+                addStage();
+                setModalOpen(false);
+              }}
+            >
+              Salvar
+            </Button>
+          </Content>
+        </Modal>
+      )}
+      {isModalInfoOpen && (
+        <Modal>
+          <Content>
+            <CloseOutline
+              style={closeBtn}
+              onClick={() => {
+                setModalInfoOpen(false);
+              }}
+            ></CloseOutline>
+            <div className="stage-info">
+              <strong>Nome da etapa</strong>
+              <span>{currentStage.name}</span>
+            </div>
+            <div className="stage-info">
+              <strong>Duração da etapa</strong>
+              <span>{currentStage.time}</span>
+            </div>
+          </Content>
+        </Modal>
+      )}
+    </>
+  );
+}
 
 export default Stages;

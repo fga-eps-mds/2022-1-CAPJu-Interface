@@ -8,7 +8,7 @@ import { Container, Content } from './styles';
 import RegisterProcess from './pages/RegisterProcess/index.js';
 import GlobalStyle from './globalStyles';
 import { Toaster } from 'react-hot-toast';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Stages from 'pages/Stages/index.js';
 import Flows from 'pages/Flows/index.js';
 import { AuthContext } from 'context/AuthContext';

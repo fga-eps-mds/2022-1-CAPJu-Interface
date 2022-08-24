@@ -1,13 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import {
-  Container,
-  Menu,
-  MenuElement,
-  Modal,
-  ForgotPassword,
-  ContentHeader
-} from './styles';
+import { Container, Modal } from './styles';
 import { useState } from 'react';
 import TextInput from 'components/TextInput';
 import Button from 'components/Button';
@@ -27,8 +20,6 @@ function Login() {
   let { hash } = useParams();
 
   async function updatePassword() {
-    var ret = 'data-123'.replace('data-', '');
-
     if (newPassword != newPassword2) {
       toast.error('Senhas não coincidem');
       return;

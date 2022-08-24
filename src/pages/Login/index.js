@@ -1,13 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import {
-  Container,
-  Menu,
-  MenuElement,
-  Modal,
-  ForgotPassword,
-  ContentHeader
-} from './styles';
+import { Container, Menu, MenuElement, Modal, ForgotPassword } from './styles';
 import { useState } from 'react';
 import TextInput from 'components/TextInput';
 import Button from 'components/Button';
@@ -31,7 +24,7 @@ function Login() {
   const navigate = useNavigate();
 
   async function register() {
-    const re = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    const re = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
     console.log(newEmail, re.test(newEmail));
     if (!re.test(newEmail)) {
       toast.error('E-mail Inválido');

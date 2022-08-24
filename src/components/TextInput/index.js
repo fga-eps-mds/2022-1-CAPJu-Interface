@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Password } from 'styled-icons/fluentui-system-regular';
 import { Input } from './styles';
 
 function TextInput(props) {

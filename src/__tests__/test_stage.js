@@ -1,7 +1,6 @@
 import { render, waitFor, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Stages from '../pages/Stages';
-import TextInput from '../components/TextInput';
 import nock from 'nock';
 import axios from 'axios';
 import React from 'react';
