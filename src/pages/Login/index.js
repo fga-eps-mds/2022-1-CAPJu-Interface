@@ -31,7 +31,7 @@ function Login() {
   const navigate = useNavigate();
 
   async function register() {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const re = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
     console.log(newEmail, re.test(newEmail));
     if (!re.test(newEmail)) {
       toast.error('E-mail Inválido');

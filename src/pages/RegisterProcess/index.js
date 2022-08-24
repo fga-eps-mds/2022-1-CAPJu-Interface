@@ -45,10 +45,10 @@ function RegisterProcess() {
       if (registro && flow) {
         let sequences = flow.sequences;
         let stagesAndPeriods = [];
+        const config = authConfig();
 
         for (let i = 0; i < flow.stages.length; i++)
           stagesAndPeriods.push({ etapa: flow.stages[i], duracao: periods[i] });
-
         await api.post(
           '/newProcess',
           {
@@ -59,7 +59,7 @@ function RegisterProcess() {
             etapas: stagesAndPeriods,
             fluxoId: flow._id
           },
-          authConfig()
+          config
         );
       } else {
         toast.error('Registro vazio', { duration: 3000 });

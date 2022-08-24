@@ -32,6 +32,8 @@ function Flows() {
   const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
   const [stages, setStages] = useState([]);
+  const config = authConfig();
+
   const [newFlow, setNewFlow] = useState({
     name: '',
     stages: [],
@@ -46,12 +48,12 @@ function Flows() {
   }, []);
 
   async function updateFlows() {
-    const response = await api.get('/flows', authConfig());
+    const response = await api.get('/flows', config);
     setFlows(response.data.Flows);
   }
 
   async function updateStages() {
-    const response = await api.get('/stages', authConfig());
+    const response = await api.get('/stages', config);
     setStages(response.data.Stages);
     setSelectedStage(response.data.Stages[0]?._id);
   }
@@ -72,7 +74,7 @@ function Flows() {
         {
           ...newFlow
         },
-        authConfig()
+        config
       );
       responseHandler(
         response,
@@ -91,7 +93,7 @@ function Flows() {
         {
           flowId: id
         },
-        authConfig()
+        config
       );
       responseHandler(
         response,
@@ -132,7 +134,7 @@ function Flows() {
           _id: id,
           ...editedFlow
         },
-        authConfig()
+        config
       );
       responseHandler(
         response,
