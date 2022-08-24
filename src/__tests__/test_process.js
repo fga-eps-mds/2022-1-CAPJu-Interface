@@ -11,7 +11,6 @@ import ShowProcess from '../pages/ShowProcess';
 
 import React from 'react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import ModalHeader from 'components/ModalHeader';
 
 axios.defaults.adapter = require('axios/lib/adapters/http');
 
@@ -43,7 +42,7 @@ jest.mock('react-dropdown', () => ({ options, value, onChange }) => {
     </select>
   );
 });
-
+jest.mock('react-flow-renderer');
 test('testando TextInput', () => {
   let registro = '';
   const setRegistro = jest.fn((novoRegistro) => {
@@ -77,18 +76,12 @@ const flowsResponse = {
         {
           from: '62fd4ac5006730249d33b188',
           to: '62fd4acb006730249d33b18b'
-        },
-        {
-          from: '62fd4acb006730249d33b18b',
-          to: '62fd4ace006730249d33b18e'
         }
       ],
       stages: [
         '62fd4ac0006730249d33b185',
         '62fd4ac5006730249d33b188',
-        '62fd4acb006730249d33b18b',
-        '62fd4ace006730249d33b18e',
-        '62fd4ad2006730249d33b191'
+        '62fd4acb006730249d33b18b'
       ],
       updatedAt: '2022-08-17T20:09:58.530Z'
     },
@@ -133,12 +126,45 @@ const processResponse = {
     }
   ]
 };
+const process = processResponse.processes[0];
 const newProcess = {
   registro: '2222',
   apelido: 'novoReg',
   etapaAtual: flowsResponse.Flows[1].sequences[0].from,
   arquivado: false,
   fluxoId: flowsResponse.Flows[1]._id
+};
+
+const stagesResponse = {
+  Stages: [
+    {
+      _id: '62fd4ac0006730249d33b185',
+      name: 'etpa c1',
+      time: '10',
+      deleted: false,
+      createdAt: '2022-08-17T20:08:32.382+00:00',
+      updatedAt: '2022-08-17T20:08:32.382+00:00',
+      __v: 0
+    },
+    {
+      _id: '62fd4ac5006730249d33b188',
+      name: 'etpa c2',
+      time: '15',
+      deleted: false,
+      createdAt: '2022-08-17T20:08:32.382+00:00',
+      updatedAt: '2022-08-17T20:08:32.382+00:00',
+      __v: 0
+    },
+    {
+      _id: '62fd4acb006730249d33b18b',
+      name: 'etpa c3',
+      time: '15',
+      deleted: false,
+      createdAt: '2022-08-17T20:08:32.382+00:00',
+      updatedAt: '2022-08-17T20:08:32.382+00:00',
+      __v: 0
+    }
+  ]
 };
 test('teste processos', async () => {
   const scopeGet = nock(baseURL)
@@ -196,7 +222,6 @@ test('teste processos', async () => {
   await waitFor(() => expect(scopePost.isDone()).toBe(true));
 
   //editando processo
-  const process = processResponse.processes[0];
   const putURL = `/updateProcess/${process._id}`;
   const scopeEdit = nock(baseURL)
     .defaultReplyHeaders({
@@ -222,6 +247,20 @@ test('teste processos', async () => {
   fireEvent.change(apelidoInput, { target: { value: 'novoApelido' } });
   fireEvent.click(submit);
   await waitFor(() => expect(scopeEdit.isDone()).toBe(true));
+
+  // entrando em detalhar processo
+  const scopeStages = nock(baseURL)
+    .defaultReplyHeaders({
+      'access-control-allow-origin': '*',
+      'access-control-allow-credentials': 'true'
+    })
+    .get('/stages')
+    .reply(200, stagesResponse)
+    .get(`/flows/${process.fluxoId}`)
+    .reply(200, flowsResponse.Flows[0]);
+  const visibilityIcon = screen.getByTestId('VisibilityIcon');
+  fireEvent.click(visibilityIcon);
+  await waitFor(() => expect(scopeStages.isDone()).toBe(true));
 });
 
 afterAll(() => nock.restore());
