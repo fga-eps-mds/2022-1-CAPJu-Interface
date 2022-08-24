@@ -26,7 +26,15 @@ function SideBar() {
       >
         <ClipboardTaskListLtr></ClipboardTaskListLtr>Processos
       </MenuItem>
-      <Button background="#DE5353">Sair</Button>
+      <Button
+        background="#DE5353"
+        onClick={() => {
+          localStorage.removeItem('user');
+          navigate('Login');
+        }}
+      >
+        Sair
+      </Button>
     </Container>
   );
 }
