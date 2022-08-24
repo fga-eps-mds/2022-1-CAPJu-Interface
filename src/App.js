@@ -5,7 +5,6 @@ import ShowProcess from 'pages/ShowProcess/index.js';
 import Processes from 'pages/Processes/index.js';
 import { Routes, Route } from 'react-router-dom';
 import { Container, Content } from './styles';
-import RegisterProcess from './pages/RegisterProcess/index.js';
 import GlobalStyle from './globalStyles';
 import { Toaster } from 'react-hot-toast';
 import React from 'react';
@@ -25,10 +24,6 @@ function App() {
             <Route path="login" element={<Login />} />
             <Route path="stages" element={<Stages />} />
             <Route path="processes" element={<Processes />} />
-            <Route
-              path="processes/registerProcess"
-              element={<RegisterProcess />}
-            />
             <Route path="processes/showProcess" element={<ShowProcess />} />
           </Routes>
         </Content>

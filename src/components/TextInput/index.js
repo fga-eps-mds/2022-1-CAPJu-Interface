@@ -12,6 +12,7 @@ function TextInput(props) {
       placeholder={props.placeholder}
       onChange={handleUpdateElem}
       value={props.value}
+      maxLength={props.maxLength}
     ></Input>
   );
 }
@@ -19,7 +20,8 @@ function TextInput(props) {
 TextInput.propTypes = {
   value: PropTypes.string,
   placeholder: PropTypes.string,
-  set: PropTypes.func
+  set: PropTypes.func,
+  maxLength: PropTypes.number
 };
 
 export default TextInput;

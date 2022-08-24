@@ -28,7 +28,7 @@ export function AddStageInFlow(props) {
 AddStageInFlow.propTypes = {
   selectedStage: PropTypes.any,
   onClick: PropTypes.func,
-  options: PropTypes.object,
+  options: PropTypes.array,
   setSelectedStage: PropTypes.func,
   flow: PropTypes.object
 };
