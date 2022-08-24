@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Container, AddProcess } from './styles';
+import { Container, InputSearch, AddProcess } from './styles';
 import { Link, useLocation } from 'react-router-dom';
 import React from 'react';
 import api from '../../services/api';
@@ -16,8 +16,8 @@ import Dropdown from 'react-dropdown';
 
 function Processes() {
   const [processes, setProcesses] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const [modalIsOpen, setModalIsOpen] = useState(false);
-
   const [editModalIsOpen, setEditModalIsOpen] = useState(false);
   const [registro, setRegistro] = useState('');
   const [apelido, setApelido] = useState('');
@@ -52,6 +52,25 @@ function Processes() {
     console.log(flow);
     setProcesses(response.data.processes);
   }
+
+  //Catch the event when the input changes
+  const handleChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  //Filter processes by register and nickname
+  const filterProcesses = (arr) => {
+    return arr.filter((processes) => {
+      if (searchTerm == '') {
+        return processes;
+      } else if (
+        processes.registro.toLowerCase().includes(searchTerm) ||
+        processes.apelido.toLowerCase().includes(searchTerm)
+      ) {
+        return processes;
+      }
+    });
+  };
 
   async function deleteProcess(registro) {
     try {
@@ -141,9 +160,16 @@ function Processes() {
   return (
     <Container>
       <div className="processes">
-        <h1>Processos {flow ? '- ' + flow.name : ''}</h1>
+        <h1>{flow.name}</h1>
+        <div className="processSearch">
+          <InputSearch
+            value={searchTerm}
+            placeholder={'Buscar Processo'}
+            onChange={handleChange}
+          />
+        </div>
         {processes.length == 0 && 'Nenhum processo foi encontrado'}
-        {processes.map((proc, idx) => {
+        {filterProcesses(processes).map((proc, idx) => {
           return (
             <div key={idx} className="process">
               {proc.apelido.length > 0

@@ -18,6 +18,11 @@ export const Container = styled.div`
     width: 100%;
   }
 
+  div.processSearch {
+    padding: 30px;
+    width: 100vh;
+  }
+
   div.process {
     background-color: #1b9454;
     border-radius: 10px;
@@ -63,4 +68,21 @@ export const AddProcess = styled.button`
   font-size: 24px;
   border: none;
   border-radius: 20px;
+`;
+
+export const InputSearch = styled.input`
+  background-color: rgba(0, 0, 0, 0.1);
+  border: solid #888 2px;
+  padding: 15px;
+  max-width: 80vh;
+  width: 100%;
+  color: black;
+  border-radius: 10px;
+  font-size: 15px;
+  box-sizing: border-box;
+
+  :focus {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0);
+  }
 `;
