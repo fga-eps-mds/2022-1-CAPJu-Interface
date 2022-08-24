@@ -49,13 +49,16 @@ function Stages() {
           name: newStage
         },
         config
-      );
+      )}catch (e) {
+        console.log(e);
+        toast.error('Erro ao remover a etapa');
+      }
     console.log(stageTime);
     try {
       const response = await api.post('/newStage', {
         name: stageName,
         time: stageTime
-      });
+      }) ;
 
       if (response.status == 200) {
         toast.success('Etapa Adicionada com sucesso');
