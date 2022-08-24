@@ -77,8 +77,8 @@ test('Testando criar fluxo no componente Flows', async () => {
     .post('/newFlow')
     .reply(200, {
       ...flowData,
-      _id: 'meuIdAleatório',
-      name: 'flow3',
+      _id: '1',
+      name: 'pericia',
       stages: [],
       sequences: [],
       createdAt: '2022-08-17T20:11:43.499+00:00',
@@ -101,17 +101,18 @@ test('Testando criar fluxo no componente Flows', async () => {
   fireEvent.change(inputFlow, { target: { value: 'perito' } });
   expect(modalName).toHaveTextContent('Novo Fluxo');
   fireEvent.click(button);
+
   await waitFor(() => expect(scope.isDone()).toBe(true));
 });
 
-test.skip('Testando editar fluxo no componente Flows', async () => {
+test('Testando editar fluxo no componente Flows', async () => {
   const flowData = {
     name: 'pericia',
     stage: ['perito', 'quesito', 'pagamento'],
     sequences: ['perito', 'quesito']
   };
 
-  const scopeGet = nock(baseURL)
+  const scope = nock(baseURL)
     .defaultReplyHeaders({
       'access-control-allow-origin': '*',
       'access-control-allow-credentials': 'true'
@@ -122,18 +123,25 @@ test.skip('Testando editar fluxo no componente Flows', async () => {
     .get('/stages')
     .reply(200, stageBody)
     .put('/editFlow')
-    .reply(200, { ...flowData, deleted: false });
+    .reply(200, {
+      ...flowData,
+      _id: '1',
+      name: 'pericia',
+      stages: [],
+      sequences: [],
+      createdAt: '2022-08-17T20:11:43.499+00:00',
+      updatedAt: '2022-08-17T20:11:43.499+00:00',
+      __v: 0
+    });
 
-  const buttonFlowEdit = screen.getByTestId('EditIcon');
-  fireEvent.click(buttonFlowEdit);
-  // // console.log(buttonFlowEdit);
-  // const modalName = screen.getByText('Editar fluxo');
-  // // const inputFlow = screen.getByPlaceholderText('Nome do fluxo');
-  // // const button = screen.getByText('Salvar');
-  // await waitFor(() => expect(scopeGet.isDone()).toBe(true));
-  // // fireEvent.change(inputFlow, { target: { value: 'perito' } });
-  // expect(modalName).toHaveTextContent('Editar fluxo');
-  // fireEvent.click(button);
+  const modalName2 = screen.getByText('Editar Fluxo');
+  const inputFlow2 = screen.getByTestId('ChangeName');
+  const buttonSave = screen.getByText('Salvar');
+  fireEvent.change(inputFlow2, { target: { value: 'perito' } });
+  expect(modalName2).toHaveTextContent('Editar fluxo');
+  fireEvent.click(buttonSave);
+
+  await waitFor(() => expect(scope.isDone()).toBe(true));
 });
 
 afterAll(() => nock.restore());

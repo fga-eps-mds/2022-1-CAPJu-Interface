@@ -52,7 +52,6 @@ test.skip('Testando crair etapa no componente Stages', async () => {
   expect(modalName).toHaveTextContent('Nova Etapa');
   fireEvent.click(button1);
   await waitFor(() => expect(scope.isDone()).toBe(true));
-  // await waitFor(() => expect(scopePost.isDone()).toBe(true));
   expect(screen.queryByText('Nova Etapa')).toBe(null);
 });
 

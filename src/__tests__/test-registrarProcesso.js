@@ -1,5 +1,4 @@
 import { render, waitFor, screen, fireEvent } from '@testing-library/react';
-import RegisterProcess from '../pages/RegisterProcess';
 import TextInput from '../components/TextInput';
 import nock from 'nock';
 import axios from 'axios';

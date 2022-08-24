@@ -23,7 +23,7 @@ const processResponse = {
     {
       _id: '62fd4b7f006730249d33b1ab',
       registro: '1111',
-      apelido: 'sdlkfja',
+      apelido: '2222',
       etapas: [],
       arquivado: false,
       etapaAtual: '62fd4ac0006730249d33b185',
