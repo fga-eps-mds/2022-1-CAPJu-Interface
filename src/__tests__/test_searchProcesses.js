@@ -5,18 +5,12 @@ import nock from 'nock';
 import axios from 'axios';
 import { baseURL } from '../services/api';
 import Processes from '../pages/Processes';
+import Flows from '../pages/Flows';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
 axios.defaults.adapter = require('axios/lib/adapters/http');
 
 const mockNavigate = jest.fn();
-
-jest.mock('react-router-dom', () => {
-  return {
-    ...jest.requireActual('react-router-dom'),
-    useNavigate: () => mockNavigate
-  };
-});
 
 const processResponse = {
   processes: [
@@ -91,6 +85,15 @@ const flowsResponse = {
     }
   ]
 };
+
+jest.mock('react-router-dom', () => {
+  return {
+    ...jest.requireActual('react-router-dom'),
+    useLocation: () => {
+      return { state: flowsResponse.Flows[0] };
+    }
+  };
+});
 
 test('Testando busca por registro ou apelido', async () => {
   const scope = nock(baseURL)
