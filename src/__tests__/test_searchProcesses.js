@@ -5,12 +5,9 @@ import nock from 'nock';
 import axios from 'axios';
 import { baseURL } from '../services/api';
 import Processes from '../pages/Processes';
-import Flows from '../pages/Flows';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
 axios.defaults.adapter = require('axios/lib/adapters/http');
-
-const mockNavigate = jest.fn();
 
 const processResponse = {
   processes: [
