@@ -33,7 +33,7 @@ function App() {
     if (!user) {
       setUser(localStorage.getItem('user'));
     }
-  });
+  }, [user, location.pathname, navigate]);
 
   return (
     <>
