@@ -22,25 +22,26 @@ function Login() {
   ]);
   const [newStage, setNewStage] = useState('');
   const [isModalOpen, setModalOpen] = useState(false);
-
   useEffect(() => {
     updateStages();
   }, []);
 
   async function updateStages() {
-    const response = await api.get('/stages', authConfig());
+    const config = authConfig();
+    const response = await api.get('/stages', config);
     console.log(response);
     setStages(response.data.Stages);
   }
 
   async function addStage() {
+    const config = authConfig();
     try {
       const response = await api.post(
         '/newStage',
         {
           name: newStage
         },
-        authConfig()
+        config
       );
       if (response.status == 200) {
         toast.success('Etapa Adicionada com sucesso');
@@ -55,13 +56,14 @@ function Login() {
   }
 
   async function deleteStage(id) {
+    const config = authConfig();
     try {
       const response = await api.post(
         '/deleteStage',
         {
           stageId: id
         },
-        authConfig()
+        config
       );
       if (response.status == 200) {
         toast.success('Etapa Deletada com sucesso');

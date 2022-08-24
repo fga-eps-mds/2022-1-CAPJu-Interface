@@ -20,7 +20,8 @@ function Processes() {
   }, []);
 
   async function updateProcesses() {
-    const response = await api.get('/processes', authConfig());
+    const config = authConfig();
+    const response = await api.get('/processes', config);
     console.log(flow);
     setProcesses(response.data.processes);
   }

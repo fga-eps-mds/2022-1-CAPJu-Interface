@@ -8,19 +8,20 @@ import api from '../../services/api';
 function Home() {
   const [processes, setProcesses] = useState([]);
   const navigate = useNavigate();
-  const config = authConfig();
 
   useEffect(() => {
     updateProcesses();
   }, []);
 
   async function updateProcesses() {
+    const config = authConfig();
     const response = await api.get('/processes', config);
     console.log(response);
     setProcesses(response.data.processes);
   }
 
   async function deleteProcess(registro) {
+    const config = authConfig();
     await api.delete(`/deleteProcess/${registro}`, config);
   }
 
