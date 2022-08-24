@@ -165,7 +165,7 @@ function Processes() {
   return (
     <Container>
       <div className="processes">
-        <h1>{flow.name}</h1>
+        <h1>Processos {flow ? '- ' + flow.name : ''}</h1>
         <div className="processSearch">
           <InputSearch
             value={searchTerm}
