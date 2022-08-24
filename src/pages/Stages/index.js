@@ -15,10 +15,10 @@ import {
 } from './styles';
 import { DeleteForever } from '@styled-icons/material';
 import { CloseOutline } from '@styled-icons/evaicons-outline/CloseOutline';
-import Visibility from '@mui/icons-material/Visibility';
+import { CheckCircle } from '@styled-icons/material';
+import AxiosError from 'axios/lib/core/AxiosError';
 
 const closeBtn = {
-  alignSelf: 'flex-end',
   maxWidth: '40px'
 };
 
@@ -26,9 +26,9 @@ function Stages() {
   const [stages, setStages] = useState([{ name: '', time: '' }]);
   const [stageName, setStageName] = useState('');
   const [stageTime, setStageTime] = useState('');
-  const [currentStage, setCurrentStage] = useState({ name: '', time: '' });
+  const [currentStage, setCurrentStage] = useState('');
   const [isModalOpen, setModalOpen] = useState(false);
-  const [isModalInfoOpen, setModalInfoOpen] = useState(false);
+  const [isModalConfDelete, setModalConfDelete] = useState(false);
 
   useEffect(() => {
     updateStages();
@@ -37,8 +37,11 @@ function Stages() {
   async function updateStages() {
     const config = authConfig();
     const response = await api.get('/stages', config);
-    console.log(response);
-
+    console.log(response.data.Stages);
+    function compara(a, b) {
+      return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
+    }
+    response.data.Stages.sort(compara);
     setStages(response.data.Stages);
   }
 
@@ -63,8 +66,11 @@ function Stages() {
         toast.error('Erro ao adicionar a etapa');
       }
     } catch (e) {
-      console.log(e);
-      toast.error('Erro ao adicionar a etapa');
+      if (e instanceof AxiosError) toast.error('Etapa já existe');
+      else {
+        console.log(e);
+        toast.error('Erro ao adicionar a etapa');
+      }
     }
   }
 
@@ -98,17 +104,16 @@ function Stages() {
           {stages.map((stage, index) => {
             return (
               <StageItem key={index}>
-                {stage.name}{' '}
-                <Visibility
-                  onClick={() => {
-                    setModalInfoOpen(true);
-                    setCurrentStage(stage);
-                  }}
-                />
+                {'Nome da Etapa: '}
+                {stage.name}
+                <br></br>
+                {'Duração em Dias: '}
+                {stage.time} <br></br>
                 <DeleteForever
                   size={30}
                   onClick={() => {
-                    deleteStage(stage._id);
+                    setModalConfDelete(true);
+                    setCurrentStage(stage._id);
                   }}
                 />
               </StageItem>
@@ -155,23 +160,23 @@ function Stages() {
           </Content>
         </Modal>
       )}
-      {isModalInfoOpen && (
+      {isModalConfDelete && (
         <Modal>
           <Content>
+            <h3>Deseja excluir esta etapa?</h3>
+            <CheckCircle
+              style={closeBtn}
+              onClick={() => {
+                deleteStage(currentStage);
+                setModalConfDelete(false);
+              }}
+            ></CheckCircle>
             <CloseOutline
               style={closeBtn}
               onClick={() => {
-                setModalInfoOpen(false);
+                setModalConfDelete(false);
               }}
             ></CloseOutline>
-            <div className="stage-info">
-              <strong>Nome da etapa</strong>
-              <span>{currentStage.name}</span>
-            </div>
-            <div className="stage-info">
-              <strong>Duração da etapa</strong>
-              <span>{currentStage.time}</span>
-            </div>
           </Content>
         </Modal>
       )}

@@ -72,13 +72,7 @@ export const Content = styled.div`
   border-radius: 10px;
 
   div.stage-info {
-    span {
-      border-bottom: 5px solid #1b9454;
-    }
-
-    strong {
-      margin-right: 10px;
-    }
+    flex-direction: row;
   }
 `;
 

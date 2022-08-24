@@ -17,11 +17,10 @@ jest.mock('react-router-dom', () => {
   };
 });
 
-test.skip('Testando crair etapa no componente Stages', async () => {
-  render(<Stages />);
+test('Testando crair etapa no componente Stages', async () => {
   const stageData = { name: 'Perito', time: '15' };
 
-  const scope = nock(baseURL)
+  const scopeGet = nock(baseURL)
     .defaultReplyHeaders({
       'access-control-allow-origin': '*',
       'access-control-allow-credentials': 'true'
@@ -34,9 +33,16 @@ test.skip('Testando crair etapa no componente Stages', async () => {
         { name: 'natal', time: '16', _id: 'foo' },
         { name: 'ano novo', time: '17', _id: 'foo' }
       ]
+    });
+  const scopePost = nock(baseURL)
+    .defaultReplyHeaders({
+      'access-control-allow-origin': '*',
+      'access-control-allow-credentials': 'true'
     })
     .post('/newStage', stageData)
     .reply(200, { ...stageData, deleted: false });
+
+  render(<Stages />);
 
   const button = screen.getByText('+ Adicionar Etapa');
   fireEvent.click(button);
@@ -50,9 +56,8 @@ test.skip('Testando crair etapa no componente Stages', async () => {
   fireEvent.change(inputTime, { target: { value: '15' } });
   expect(modalName).toHaveTextContent('Nova Etapa');
   fireEvent.click(button1);
-  screen.debug();
-  await waitFor(() => expect(scope.isDone()).toBe(true));
-  // await waitFor(() => expect(scopePost.isDone()).toBe(true));
+  await waitFor(() => expect(scopeGet.isDone()).toBe(true));
+  await waitFor(() => expect(scopePost.isDone()).toBe(true));
   expect(screen.queryByText('Nova Etapa')).toBe(null);
 });
 
