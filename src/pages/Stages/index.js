@@ -31,7 +31,7 @@ function Stages() {
   useEffect(() => {
     updateStages();
   }, []);
-
+}
   async function updateStages() {
     const config = authConfig();
     const response = await api.get('/stages', config);
