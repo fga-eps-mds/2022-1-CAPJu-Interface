@@ -17,7 +17,7 @@ jest.mock('react-router-dom', () => {
   };
 });
 
-test('Testando crair etapa no componente Stages', async () => {
+test.skip('Testando crair etapa no componente Stages', async () => {
   render(<Stages />);
   const stageData = { name: 'Perito', time: '15' };
 
