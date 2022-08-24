@@ -99,6 +99,7 @@ function Processes() {
       setRegistro(proc.registro);
       setApelido(proc.apelido);
       setProcessesId(proc._id);
+      setFlowId(proc.fluxoId);
     } else setEditOrCreate('create');
 
     console.log(editOrCreate);
@@ -243,9 +244,13 @@ function Processes() {
               arrowClassName="dropdown-arrow"
             />
             <p> Registro </p>
-            <TextInput value={registro} set={setRegistro} />
+            <TextInput
+              value={registro}
+              set={setRegistro}
+              placeholder="registro"
+            />
             <p> Apelido</p>
-            <TextInput value={apelido} set={setApelido} />
+            <TextInput value={apelido} set={setApelido} placeholder="apelido" />
             <Button
               onClick={async () => {
                 if (editOrCreate == 'edit') await editProcess();

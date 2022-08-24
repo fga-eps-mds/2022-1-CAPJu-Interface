@@ -12,8 +12,6 @@ import ModalHeader from 'components/ModalHeader';
 import ModalBody from 'components/ModalBody';
 import { Ring } from 'react-awesome-spinners';
 
-Modal.setAppElement('#root');
-
 const customStyles = {
   content: {
     top: '30%',
@@ -92,6 +90,7 @@ function ShowProcess() {
           break;
         }
       }
+
       await api.put('/processNextStage/', {
         processId: proc._id,
         stageIdTo: stageTo,
