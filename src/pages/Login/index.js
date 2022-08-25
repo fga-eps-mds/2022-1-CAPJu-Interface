@@ -34,6 +34,10 @@ function Login() {
       toast.error('Password invalida');
       return;
     }
+    if (newPassword.lenght < 6) {
+      toast.error('Password muito curta');
+      return;
+    }
 
     const response = await user.post('/newUser', {
       name: newName,
@@ -43,7 +47,10 @@ function Login() {
 
     if (response.status == 200) {
       toast.success('Usuário cadastrado com  sucesso');
-      navigate('/login');
+      setNewPassword('');
+      setEmail('');
+      setNewPassword2('');
+      setSelectedTab('login');
     } else {
       toast.error('Erro no cadastro: ' + response.data?.message);
     }
@@ -59,7 +66,7 @@ function Login() {
         localStorage.setItem('user', JSON.stringify(response.data));
       }
       toast.success('Usuário logado com  sucesso');
-      navigate('/Stages');
+      navigate('/Flows');
     } else {
       toast.error('Erro no login: ' + response.data?.message);
     }
@@ -167,7 +174,7 @@ function Login() {
         {isModalOpen && (
           <Modal>
             <Content>
-              <h2>Alteração de senha</h2>
+              <h2>Digite seu email cadastrado</h2>
               <TextInput set={setEmail} value={email} />
 
               <Button
@@ -176,7 +183,7 @@ function Login() {
                   setModalOpen(false);
                 }}
               >
-                Solicitar E-mail
+                Solicitar recuperação
               </Button>
               <Button
                 onClick={() => {
