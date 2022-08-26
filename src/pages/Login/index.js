@@ -30,12 +30,12 @@ function Login() {
       toast.error('E-mail Inválido');
       return;
     }
-    if (newPassword != newPassword2) {
-      toast.error('Password invalida');
+    if (newPassword.lenght < 6) {
+      toast.error('Password precisa ter mais que 6 caracteres');
       return;
     }
-    if (newPassword.lenght < 6) {
-      toast.error('Password muito curta');
+    if (newPassword != newPassword2) {
+      toast.error('Password invalida');
       return;
     }
 
@@ -174,8 +174,11 @@ function Login() {
         {isModalOpen && (
           <Modal>
             <Content>
-              <h2>Digite seu email cadastrado</h2>
-              <TextInput set={setEmail} value={email} />
+              <TextInput
+                set={setEmail}
+                value={email}
+                placeholder="Coloque seu email"
+              ></TextInput>
 
               <Button
                 onClick={() => {
