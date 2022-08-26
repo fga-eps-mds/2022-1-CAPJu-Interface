@@ -3,7 +3,6 @@ import SideBar from './components/SideBar';
 import Login from './pages/Login';
 import ShowProcess from 'pages/ShowProcess/index.js';
 import Processes from 'pages/Processes/index.js';
-import RegisterProcess from 'pages/RegisterProcess/index.js';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { Container, Content } from './styles';
 import GlobalStyle from './globalStyles';
@@ -51,10 +50,6 @@ function App() {
               </Route>
               <Route path="stages" element={<Stages />} />
               <Route path="processes" element={<Processes />} />
-              <Route
-                path="processes/registerProcess"
-                element={<RegisterProcess />}
-              />
               <Route path="processes/showProcess" element={<ShowProcess />} />
             </Routes>
           </Content>
