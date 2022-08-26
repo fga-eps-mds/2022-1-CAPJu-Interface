@@ -1,6 +1,13 @@
 // @ts-nocheck
 import React from 'react';
-import { Container, Menu, MenuElement, Modal, ForgotPassword } from './styles';
+import {
+  Container,
+  Menu,
+  MenuElement,
+  Modal,
+  ForgotPassword,
+  Criterios
+} from './styles';
 import { useState } from 'react';
 import TextInput from 'components/TextInput';
 import Button from 'components/Button';
@@ -25,13 +32,15 @@ function Login() {
 
   async function register() {
     const re = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    const pass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z$*&@#]{6,}$/;
     console.log(newEmail, re.test(newEmail));
     if (!re.test(newEmail)) {
       toast.error('E-mail Inválido');
       return;
     }
-    if (newPassword.lenght < 6) {
-      toast.error('Password precisa ter mais que 6 caracteres');
+    console.log(newPassword, pass.test(newPassword));
+    if (!pass.test(newPassword)) {
+      toast.error('Password invalida');
       return;
     }
     if (newPassword != newPassword2) {
@@ -47,8 +56,9 @@ function Login() {
 
     if (response.status == 200) {
       toast.success('Usuário cadastrado com  sucesso');
+      setNewName('');
       setNewPassword('');
-      setEmail('');
+      setNewEmail('');
       setNewPassword2('');
       setSelectedTab('login');
     } else {
@@ -145,23 +155,36 @@ function Login() {
               value={newName}
               placeholder="Nome completo"
             ></TextInput>
+            <br></br>
             <TextInput
               set={setNewEmail}
               value={newEmail}
               placeholder="Email"
             ></TextInput>
+            <br></br>
             <TextInput
               set={setNewPassword}
               value={newPassword}
               placeholder="Crie uma senha"
               type="password"
             ></TextInput>
+            <br></br>
             <TextInput
               set={setNewPassword2}
               value={newPassword2}
               placeholder="Confirme a senha"
               type="password"
             ></TextInput>
+            <Criterios>
+              <ul>
+                <h6>
+                  <strong>Critérios para aceitação de senha:</strong>
+                  <li>Deve conter ao menos um dígito;</li>
+                  <li>Deve conter ao menos uma letra minúscula;</li>
+                  <li>Deve conter ao menos 6 dos caracteres;</li>
+                </h6>
+              </ul>
+            </Criterios>
             <Button
               onClick={() => {
                 register();
@@ -174,6 +197,7 @@ function Login() {
         {isModalOpen && (
           <Modal>
             <Content>
+              <h3>Esqueceu a senha?</h3>
               <TextInput
                 set={setEmail}
                 value={email}
