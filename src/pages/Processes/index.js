@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import authConfig from '../../services/config.js';
 import { Container, InputSearch, AddProcess } from './styles';
 import { Link, useLocation } from 'react-router-dom';
 import React from 'react';
@@ -49,11 +48,7 @@ function Processes() {
   }, []);
 
   async function updateProcesses() {
-    const config = authConfig();
-    const response = await api.get(
-      `/processes/${flow ? flow._id : ''}`,
-      config
-    );
+    const response = await api.get(`/processes/${flow ? flow._id : ''}`);
     console.log(flow);
     setProcesses(response.data.processes);
   }

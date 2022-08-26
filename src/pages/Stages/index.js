@@ -1,5 +1,4 @@
 import api from '../../services/api';
-import authConfig from '../../services/config.js';
 import Button from 'components/Button';
 import TextInput from 'components/TextInput';
 import React from 'react';
@@ -35,8 +34,7 @@ function Stages() {
   }, []);
 
   async function updateStages() {
-    const config = authConfig();
-    const response = await api.get('/stages', config);
+    const response = await api.get('/stages');
     console.log(response.data.Stages);
     function compara(a, b) {
       return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
@@ -46,18 +44,12 @@ function Stages() {
   }
 
   async function addStage() {
-    const config = authConfig();
-
     console.log(stageTime);
     try {
-      const response = await api.post(
-        '/newStage',
-        {
-          name: stageName,
-          time: stageTime
-        },
-        config
-      );
+      const response = await api.post('/newStage', {
+        name: stageName,
+        time: stageTime
+      });
 
       if (response.status == 200) {
         toast.success('Etapa Adicionada com sucesso');
@@ -75,15 +67,10 @@ function Stages() {
   }
 
   async function deleteStage(id) {
-    const config = authConfig();
     try {
-      const response = await api.post(
-        '/deleteStage',
-        {
-          stageId: id
-        },
-        config
-      );
+      const response = await api.post('/deleteStage', {
+        stageId: id
+      });
       if (response.status == 200) {
         toast.success('Etapa Deletada com sucesso');
         updateStages();

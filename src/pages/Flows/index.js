@@ -1,5 +1,4 @@
 import api from '../../services/api';
-import authConfig from '../../services/config.js';
 import Button from 'components/Button';
 import TextInput from 'components/TextInput';
 import { StagesInFlow } from 'components/StagesInFlow';
@@ -55,14 +54,12 @@ function Flows() {
   }, []);
 
   async function updateFlows() {
-    const config = authConfig();
-    const response = await api.get('/flows', config);
+    const response = await api.get('/flows');
     setFlows(response.data.Flows);
   }
 
   async function updateStages() {
-    const config = authConfig();
-    const response = await api.get('/stages', config);
+    const response = await api.get('/stages');
     setStages(response.data.Stages);
     setSelectedStage(response.data.Stages[0]?._id);
   }
@@ -78,14 +75,9 @@ function Flows() {
 
   async function addFlow() {
     try {
-      const config = authConfig();
-      const response = await api.post(
-        '/newFlow',
-        {
-          ...newFlow
-        },
-        config
-      );
+      const response = await api.post('/newFlow', {
+        ...newFlow
+      });
       responseHandler(
         response,
         'Fluxo Adicionado com sucesso',
@@ -98,14 +90,9 @@ function Flows() {
 
   async function deleteFlow(id) {
     try {
-      const config = authConfig();
-      const response = await api.post(
-        '/deleteFlow',
-        {
-          flowId: id
-        },
-        config
-      );
+      const response = await api.post('/deleteFlow', {
+        flowId: id
+      });
       responseHandler(
         response,
         'Fluxo Deletada com sucesso',
@@ -120,7 +107,6 @@ function Flows() {
   async function editFlow(id) {
     try {
       let editedFlow = { ...newFlow };
-      const config = authConfig();
 
       let newSequences = editedFlow.sequences.filter((sequence) => {
         if (
@@ -140,14 +126,10 @@ function Flows() {
 
       console.log('edited', editedFlow);
 
-      const response = await api.put(
-        '/editFlow',
-        {
-          _id: id,
-          ...editedFlow
-        },
-        config
-      );
+      const response = await api.put('/editFlow', {
+        _id: id,
+        ...editedFlow
+      });
       responseHandler(
         response,
         'Fluxo Editado com sucesso',

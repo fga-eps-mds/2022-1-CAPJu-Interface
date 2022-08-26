@@ -1,10 +1,12 @@
 import axios from 'axios';
+import authConfig from './config.js';
 
-export const baseURL = process.env.PROD
-  ? 'https://capju-service.herokuapp.com/'
-  : 'http://localhost:3333';
+export const baseURL = process.env.DEV
+  ? 'http://localhost:3333'
+  : 'https://capju-service.herokuapp.com/';
 const api = axios.create({
-  baseURL: 'https://capju-service.herokuapp.com/'
+  baseURL: baseURL,
+  headers: authConfig().headers
 });
 
 export default api;
