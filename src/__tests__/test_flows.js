@@ -58,7 +58,7 @@ const stageBody = {
   ]
 };
 
-test.skip('Testando criar fluxo no componente Flows', async () => {
+test('Testando criar fluxo no componente Flows', async () => {
   const flowData = {
     name: 'pericia',
     stage: ['perito', 'quesito', 'pagamento']

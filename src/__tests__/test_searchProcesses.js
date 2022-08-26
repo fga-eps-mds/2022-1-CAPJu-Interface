@@ -92,7 +92,7 @@ jest.mock('react-router-dom', () => {
   };
 });
 
-test.skip('Testando busca por registro ou apelido', async () => {
+test('Testando busca por registro ou apelido', async () => {
   const scope = nock(baseURL)
     .defaultReplyHeaders({
       'access-control-allow-origin': '*',

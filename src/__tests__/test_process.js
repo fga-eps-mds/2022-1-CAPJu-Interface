@@ -43,7 +43,7 @@ jest.mock('react-dropdown', () => ({ options, value, onChange }) => {
   );
 });
 jest.mock('react-flow-renderer');
-test.skip('testando TextInput', () => {
+test('testando TextInput', () => {
   let registro = '';
   const setRegistro = jest.fn((novoRegistro) => {
     registro = novoRegistro;
@@ -166,7 +166,7 @@ const stagesResponse = {
     }
   ]
 };
-test.skip('teste processos', async () => {
+test('teste processos', async () => {
   const scopeGet = nock(baseURL)
     .defaultReplyHeaders({
       'access-control-allow-origin': '*',
