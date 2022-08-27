@@ -291,6 +291,70 @@ function Flows() {
                   }}
                 />
                 <FlowViewer flow={newFlow} stages={stages || []}></FlowViewer>
+                {newFlow.stages.length > 0 && (
+                  <>
+                    <>Sequências</>
+                    <SelectorWrapper>
+                      <Dropdown
+                        options={selectedOptions}
+                        onChange={(e) => {
+                          setFrom(e.value);
+                        }}
+                        value={from}
+                        placeholder="Selecione a etapa"
+                        className="dropdown"
+                        controlClassName="dropdown-control"
+                        placeholderClassName="dropdown-placeholder"
+                        menuClassName="dropdown-menu"
+                        arrowClassName="dropdown-arrow"
+                      />
+                      {'=>'}
+                      <Dropdown
+                        options={selectedOptions}
+                        onChange={(e) => {
+                          setTo(e.value);
+                        }}
+                        value={to}
+                        placeholder="Selecione a etapa"
+                        className="dropdown"
+                        controlClassName="dropdown-control"
+                        placeholderClassName="dropdown-placeholder"
+                        menuClassName="dropdown-menu"
+                        arrowClassName="dropdown-arrow"
+                      />
+                      <div
+                        onClick={() => {
+                          addSequence();
+                        }}
+                      >
+                        <span>Adicionar</span>
+                      </div>
+                    </SelectorWrapper>
+                    <SequencesWrapper>
+                      {newFlow.sequences.map((sequence, idx) => {
+                        return (
+                          <SequenceItem key={idx}>
+                            <StageName>
+                              {
+                                stages.find((stage) => {
+                                  return sequence.from == stage._id;
+                                }).name
+                              }
+                            </StageName>
+                            {'=>'}
+                            <StageName>
+                              {
+                                stages.find((stage) => {
+                                  return sequence.to == stage._id;
+                                }).name
+                              }
+                            </StageName>
+                          </SequenceItem>
+                        );
+                      })}
+                    </SequencesWrapper>
+                  </>
+                )}
                 <Button
                   onClick={() => {
                     editFlow(showFlow);
@@ -359,7 +423,7 @@ function Flows() {
                     menuClassName="dropdown-menu"
                     arrowClassName="dropdown-arrow"
                   />
-                  {'->'}
+                  {'=>'}
                   <Dropdown
                     options={selectedOptions}
                     onChange={(e) => {
@@ -392,7 +456,7 @@ function Flows() {
                             }).name
                           }
                         </StageName>
-                        {'->'}
+                        {'=>'}
                         <StageName>
                           {
                             stages.find((stage) => {
