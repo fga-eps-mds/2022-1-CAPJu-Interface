@@ -170,7 +170,6 @@ function Flows() {
     .map((stage) => {
       return { label: <>{stage.name}</>, value: stage._id };
     });
-
   return (
     <>
       <Container>
@@ -330,29 +329,6 @@ function Flows() {
                         <span>Adicionar</span>
                       </div>
                     </SelectorWrapper>
-                    <SequencesWrapper>
-                      {newFlow.sequences.map((sequence, idx) => {
-                        return (
-                          <SequenceItem key={idx}>
-                            <StageName>
-                              {
-                                stages.find((stage) => {
-                                  return sequence.from == stage._id;
-                                }).name
-                              }
-                            </StageName>
-                            {'=>'}
-                            <StageName>
-                              {
-                                stages.find((stage) => {
-                                  return sequence.to == stage._id;
-                                }).name
-                              }
-                            </StageName>
-                          </SequenceItem>
-                        );
-                      })}
-                    </SequencesWrapper>
                   </>
                 )}
                 <Button
