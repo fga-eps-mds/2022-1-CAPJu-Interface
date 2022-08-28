@@ -176,7 +176,9 @@ test('teste processos', async () => {
     .get(/\/processes\/(.+)?/)
     .reply(200, processResponse)
     .get('/flows/')
-    .reply(200, flowsResponse);
+    .reply(200, flowsResponse)
+    .get('/stages')
+    .reply(200, stagesResponse);
 
   const scopePost = nock(baseURL)
     .defaultReplyHeaders({
@@ -254,8 +256,6 @@ test('teste processos', async () => {
       'access-control-allow-origin': '*',
       'access-control-allow-credentials': 'true'
     })
-    .get('/stages')
-    .reply(200, stagesResponse)
     .get(`/flows/${process.fluxoId}`)
     .reply(200, flowsResponse.Flows[0]);
   const visibilityIcon = screen.getByTestId('VisibilityIcon');
