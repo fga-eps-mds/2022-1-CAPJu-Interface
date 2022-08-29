@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Container } from './styles';
 import ReactFlow, { MarkerType } from 'react-flow-renderer';
-import { addDays, format } from 'date-fns';
 
 function FlowViewer(props) {
   const procStages = props.proc.etapas;
@@ -33,9 +32,8 @@ function FlowViewer(props) {
   function deadlineDate(stage) {
     const stageDate = getStageDate(stage._id);
     if (stageDate instanceof Date && !isNaN(stageDate)) {
-      console.log(stageDate);
-      const deadline = addDays(stageDate, parseInt(stage.time));
-      return format(deadline, 'dd/MM/yyyy');
+      stageDate.setDate(stageDate.getDate() + parseInt(stage.time), 10);
+      return stageDate.toLocaleDateString();
     }
   }
   const nodes = props.stages
