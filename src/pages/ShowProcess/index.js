@@ -12,7 +12,7 @@ import ModalHeader from 'components/ModalHeader';
 import ModalBody from 'components/ModalBody';
 import { Ring } from 'react-awesome-spinners';
 
-Modal.setAppElement('#root');
+Modal.setAppElement('body');
 
 const customStyles = {
   content: {

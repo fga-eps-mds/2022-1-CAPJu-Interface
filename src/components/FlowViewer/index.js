@@ -2,21 +2,26 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Container } from './styles';
 import ReactFlow, { MarkerType } from 'react-flow-renderer';
+import { addDays, format } from 'date-fns';
 
 function FlowViewer(props) {
   const procStages = props.proc.etapas;
-  function getStageDate() {
-    if (props.highlight === props.flow.sequences[0].from) {
+  function getStageDate(stageId) {
+    if (stageId === props.flow.sequences[0].from) {
       return new Date(props.proc.createdAt);
     } else {
-      return new Date(props.proc.etapas.at(-1).createdAt);
+      let currentStage = props.proc.etapas.find(
+        (el) => el.stageIdTo === stageId
+      );
+      if (currentStage) return new Date(currentStage.createdAt);
+      else return null;
     }
   }
 
   function isLate(stage) {
     const today = new Date();
     const dayInMilisseconds = 24 * 3600 * 1000;
-    const stageDate = getStageDate();
+    const stageDate = getStageDate(props.highlight);
 
     const timeInDays = Math.abs(today - stageDate) / dayInMilisseconds;
     if (timeInDays > parseInt(stage.time)) {
@@ -26,19 +31,29 @@ function FlowViewer(props) {
   }
 
   function deadlineDate(stage) {
-    const today = new Date();
-
-    return (today + parseInt(stage.time)).toLocaleString('pt-BR');
+    const stageDate = getStageDate(stage._id);
+    if (stageDate instanceof Date && !isNaN(stageDate)) {
+      console.log(stageDate);
+      const deadline = addDays(stageDate, parseInt(stage.time));
+      return format(deadline, 'dd/MM/yyyy');
+    }
   }
   const nodes = props.stages
     .filter((stage) => {
       return props.flow.stages.includes(stage._id);
     })
     .map((stage, idx) => {
+      const deadline = deadlineDate(stage);
       return {
         id: stage._id,
-        data: { label: `${stage.name}\nVencimento: ${deadlineDate(stage)}` },
-        position: { x: (idx % 2) * 100, y: 80 * idx },
+        data: {
+          label: (
+            <>
+              {stage.name} <br /> {deadline ? `Vencimento: ${deadline}` : ``}
+            </>
+          )
+        },
+        position: { x: (idx % 2) * 130, y: 140 * idx },
         style:
           props.highlight == stage._id
             ? {
