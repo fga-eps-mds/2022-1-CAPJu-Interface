@@ -5,21 +5,30 @@ import ReactFlow, { MarkerType } from 'react-flow-renderer';
 
 function FlowViewer(props) {
   const procStages = props.proc.etapas;
+  function getStageDate() {
+    if (props.highlight === props.flow.sequences[0].from) {
+      return new Date(props.proc.createdAt);
+    } else {
+      return new Date(props.proc.etapas.at(-1).createdAt);
+    }
+  }
+
   function isLate(stage) {
     const today = new Date();
     const dayInMilisseconds = 24 * 3600 * 1000;
-    let stageDate;
-    if (props.highlight === props.flow.sequences[0].from) {
-      stageDate = new Date(props.proc.createdAt);
-    } else {
-      stageDate = new Date(props.proc.etapas.at(-1).createdAt);
-    }
+    const stageDate = getStageDate();
+
     const timeInDays = Math.abs(today - stageDate) / dayInMilisseconds;
-    console.warn(timeInDays);
     if (timeInDays > parseInt(stage.time)) {
       return true;
     }
     return false;
+  }
+
+  function deadlineDate(stage) {
+    const today = new Date();
+
+    return (today + parseInt(stage.time)).toLocaleString('pt-BR');
   }
   const nodes = props.stages
     .filter((stage) => {
@@ -28,7 +37,7 @@ function FlowViewer(props) {
     .map((stage, idx) => {
       return {
         id: stage._id,
-        data: { label: stage.name },
+        data: { label: `${stage.name}\nVencimento: ${deadlineDate(stage)}` },
         position: { x: (idx % 2) * 100, y: 80 * idx },
         style:
           props.highlight == stage._id
