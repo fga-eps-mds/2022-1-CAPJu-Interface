@@ -270,6 +270,7 @@ function Flows() {
                   set={updateFlowName}
                   value={newFlow.name}
                   maxLength={40}
+                  data-testid="flowName"
                 />
                 <label>
                   <span>Etapas</span>
@@ -358,6 +359,7 @@ function Flows() {
                   });
                   setModalOpen(false);
                 }}
+                data-testid="close"
               ></CloseModalGeneral>
             </ContentHeader>
             <TextInput
