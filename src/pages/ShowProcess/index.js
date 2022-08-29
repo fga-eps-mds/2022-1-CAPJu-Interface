@@ -12,6 +12,8 @@ import ModalHeader from 'components/ModalHeader';
 import ModalBody from 'components/ModalBody';
 import { Ring } from 'react-awesome-spinners';
 
+Modal.setAppElement('#root');
+
 const customStyles = {
   content: {
     top: '30%',
@@ -136,7 +138,7 @@ function ShowProcess() {
               stages={stages}
               flow={flow}
               highlight={proc.etapaAtual}
-              procStages={proc.etapas}
+              proc={proc}
             ></FlowViewer>
           </FlowWrapper>
         ) : (
