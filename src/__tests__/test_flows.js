@@ -92,6 +92,15 @@ const stageBody = {
       createdAt: '2022-08-17T20:08:32.382+00:00',
       updatedAt: '2022-08-17T20:08:32.382+00:00',
       __v: 0
+    },
+    {
+      _id: '62fd4acb006730249d33b18c',
+      name: 'etpa c4',
+      time: '12',
+      deleted: false,
+      createdAt: '2022-08-17T20:08:32.382+00:00',
+      updatedAt: '2022-08-17T20:08:32.382+00:00',
+      __v: 0
     }
   ]
 };
@@ -175,12 +184,17 @@ test('Testando editar fluxo no componente Flows', async () => {
         {
           from: '62fd4ac5006730249d33b188',
           to: '62fd4acb006730249d33b18b'
+        },
+        {
+          from: '62fd4acb006730249d33b18b',
+          to: '62fd4acb006730249d33b18c'
         }
       ],
       stages: [
         '62fd4ac0006730249d33b185',
         '62fd4ac5006730249d33b188',
-        '62fd4acb006730249d33b18b'
+        '62fd4acb006730249d33b18b',
+        '62fd4acb006730249d33b18c'
       ],
       updatedAt: '2022-08-17T20:09:58.530Z'
     });
@@ -199,13 +213,28 @@ test('Testando editar fluxo no componente Flows', async () => {
 
   const editIcon = screen.getByTestId('EditIcon');
   fireEvent.click(editIcon);
-  screen.debug();
   const editModal = screen.getByText('Editar fluxo');
   const input = screen.getByDisplayValue('fluxo 1');
   const button = screen.getByText('Salvar');
+  const dropdown = screen.queryAllByTestId('react-select-mock');
+  const add = screen.queryAllByText('Adicionar');
   fireEvent.change(input, { target: { value: 'flow4' } });
-  fireEvent.click(button);
+  fireEvent.change(dropdown[0], {
+    target: { value: '62fd4acb006730249d33b18c' }
+  });
+  fireEvent.click(add[0]);
+  const stage = screen.getAllByText('etpa c4');
+  screen.debug();
+  expect(stage[1]).toHaveTextContent('etpa c4');
+  fireEvent.change(dropdown[1], {
+    target: { value: '62fd4acb006730249d33b18b' }
+  });
+  fireEvent.change(dropdown[2], {
+    target: { value: '62fd4acb006730249d33b18b' }
+  });
+  fireEvent.click(add[1]);
   expect(editModal).toHaveTextContent('Editar fluxo');
+  fireEvent.click(button);
   await waitFor(() => expect(scopeEditar.isDone()).toBe(true));
 });
 
