@@ -40,11 +40,11 @@ function Login() {
     }
     console.log(newPassword, pass.test(newPassword));
     if (!pass.test(newPassword)) {
-      toast.error('Password invalida');
+      toast.error('Senha não cumpre os criterios');
       return;
     }
     if (newPassword != newPassword2) {
-      toast.error('Password invalida');
+      toast.error('Senha invalida');
       return;
     }
 
@@ -53,16 +53,19 @@ function Login() {
       email: newEmail,
       password: newPassword
     });
-
-    if (response.status == 200) {
-      toast.success('Usuário cadastrado com  sucesso');
-      setNewName('');
-      setNewPassword('');
-      setNewEmail('');
-      setNewPassword2('');
-      setSelectedTab('login');
-    } else {
-      toast.error('Erro no cadastro: ' + response.data?.message);
+    try {
+      if (response.status == 200) {
+        toast.success('Usuário cadastrado com  sucesso');
+        setNewName('');
+        setNewPassword('');
+        setNewEmail('');
+        setNewPassword2('');
+        setSelectedTab('login');
+      } else {
+        toast.error('Erro no cadastro: ' + response.data?.message);
+      }
+    } catch (error) {
+      toast.error('Erro no cadastrar \n' + error.response.data.message);
     }
   }
 
@@ -76,7 +79,7 @@ function Login() {
         localStorage.setItem('user', JSON.stringify(response.data));
       }
       toast.success('Usuário logado com  sucesso');
-      navigate('/Flows');
+      navigate('/Stages');
     } else {
       toast.error('Erro no login: ' + response.data?.message);
     }
@@ -180,7 +183,7 @@ function Login() {
                 <h6>
                   <strong>Critérios para aceitação de senha:</strong>
                   <li>Deve conter ao menos um dígito;</li>
-                  <li>Deve conter ao menos uma letra minúscula;</li>
+                  <li>Deve conter ao menos uma letra maiúscula;</li>
                   <li>Deve conter ao menos 6 dos caracteres;</li>
                 </h6>
               </ul>
