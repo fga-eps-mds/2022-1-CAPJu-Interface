@@ -24,7 +24,6 @@ import {
   FlowsButtons,
   CloseModalGeneral
 } from './styles';
-import Dropdown from 'react-dropdown';
 import FlowViewer from 'components/FlowViewer';
 import DescriptionIcon from '@mui/icons-material/Description';
 import EditIcon from '@mui/icons-material/Edit';
