@@ -61,6 +61,29 @@ const flowBody = {
         '62fd4acb006730249d33b18b'
       ],
       updatedAt: '2022-08-17T20:09:58.530Z'
+    },
+    {
+      __v: 0,
+      _id: '62fd4b16006730249d33b20e',
+      createdAt: '2022-08-17T20:09:58.530Z',
+      deleted: false,
+      name: 'fluxo 2',
+      sequences: [
+        {
+          from: '62fd4ac0006730249d33b185',
+          to: '62fd4ac5006730249d33b188'
+        },
+        {
+          from: '62fd4ac5006730249d33b188',
+          to: '62fd4acb006730249d33b18b'
+        }
+      ],
+      stages: [
+        '62fd4ac0006730249d33b185',
+        '62fd4ac5006730249d33b188',
+        '62fd4acb006730249d33b18b'
+      ],
+      updatedAt: '2022-08-17T20:09:58.530Z'
     }
   ]
 };
@@ -112,10 +135,6 @@ test.skip('Testando criar fluxo no componente Flows', async () => {
       'access-control-allow-credentials': 'true'
     })
     .persist()
-    .get('/flows')
-    .reply(200, flowBody)
-    .get('/stages')
-    .reply(200, stageBody)
     .post('/newFlow')
     .reply(200, {
       _id: 'meuIdAleatório',
@@ -211,8 +230,8 @@ test('Testando editar fluxo no componente Flows', async () => {
   const flow = await waitFor(() => screen.queryByText('fluxo 1'));
   expect(flow).toBeInTheDocument();
 
-  const editIcon = screen.getByTestId('EditIcon');
-  fireEvent.click(editIcon);
+  const editIcon = screen.queryAllByTestId('EditIcon');
+  fireEvent.click(editIcon[0]);
   const editModal = screen.getByText('Editar fluxo');
   const input = screen.getByDisplayValue('fluxo 1');
   const button = screen.getByText('Salvar');
@@ -224,7 +243,6 @@ test('Testando editar fluxo no componente Flows', async () => {
   });
   fireEvent.click(add[0]);
   const stage = screen.getAllByText('etpa c4');
-  screen.debug();
   expect(stage[1]).toHaveTextContent('etpa c4');
   fireEvent.change(dropdown[1], {
     target: { value: '62fd4acb006730249d33b18b' }
@@ -233,9 +251,51 @@ test('Testando editar fluxo no componente Flows', async () => {
     target: { value: '62fd4acb006730249d33b18b' }
   });
   fireEvent.click(add[1]);
+  const retreat = screen.getByText('Retroceder');
+  fireEvent.click(retreat);
+  fireEvent.change(dropdown[1], {
+    target: { value: '62fd4acb006730249d33b18b' }
+  });
+  fireEvent.change(dropdown[2], {
+    target: { value: '62fd4acb006730249d33b18b' }
+  });
+  fireEvent.click(add[1]);
   expect(editModal).toHaveTextContent('Editar fluxo');
+  expect(retreat).toHaveTextContent('Retroceder');
   fireEvent.click(button);
   await waitFor(() => expect(scopeEditar.isDone()).toBe(true));
+});
+
+test.skip('Testando deletar fluxo no componente Flows', async () => {
+  const scopeDelete = nock(baseURL)
+    .defaultReplyHeaders({
+      'access-control-allow-origin': '*',
+      'access-control-allow-credentials': 'true'
+    })
+    .persist()
+    .post('/deleteFlow')
+    .reply(200, {
+      result: 'Deletado com sucesso'
+    });
+
+  render(
+    <MemoryRouter initialEntries={['/']}>
+      <Routes>
+        <Route path="/" element={<Flows />} />
+      </Routes>
+    </MemoryRouter>
+  );
+
+  screen.debug();
+  const deleteIcon = screen.queryAllByTestId('DeleteForeverIcon');
+  fireEvent.click(deleteIcon[1]);
+
+  const modalName = screen.getByText('Deseja realmente excluir este Fluxo?');
+  const button = screen.getByText('Excluir');
+  fireEvent.click(button);
+  expect(screen.getByText('fluxo 2')).toBeNull();
+  expect(modalName).toHaveTextContent('Deseja realmente excluir este Fluxo?');
+  await waitFor(() => expect(scopeDelete.isDone()).toBe(true));
 });
 
 afterAll(() => nock.restore());
