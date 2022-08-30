@@ -10,6 +10,7 @@ import { Toaster } from 'react-hot-toast';
 import React, { useEffect, useState } from 'react';
 import Stages from 'pages/Stages/index.js';
 import Flows from 'pages/Flows/index.js';
+import Statistics from 'pages/Statistics/index.js';
 import { AuthContext } from 'context/AuthContext';
 import Recovery from 'pages/Recovery/index.js';
 
@@ -51,6 +52,7 @@ function App() {
               <Route path="stages" element={<Stages />} />
               <Route path="processes" element={<Processes />} />
               <Route path="processes/showProcess" element={<ShowProcess />} />
+              <Route path="statistics" element={<Statistics />} />
             </Routes>
           </Content>
         </AuthContext.Provider>
