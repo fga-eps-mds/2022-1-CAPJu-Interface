@@ -158,7 +158,11 @@ function Flows() {
     tmp.sequences.push({ from, to });
     setNewFlow(tmp);
   }
-
+  function removeSequence() {
+    let tmp = { ...newFlow };
+    tmp.sequences.pop();
+    setNewFlow(tmp);
+  }
   const allOptions = stages.map((stage) => {
     return { label: <>{stage.name}</>, value: stage._id };
   });
@@ -330,6 +334,14 @@ function Flows() {
                         <span>Adicionar</span>
                       </div>
                     </SelectorWrapper>
+                    <Button
+                      background="#de5353"
+                      onClick={() => {
+                        removeSequence();
+                      }}
+                    >
+                      <span>Retroceder</span>
+                    </Button>
                   </>
                 )}
                 <Button
