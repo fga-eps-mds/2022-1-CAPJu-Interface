@@ -24,13 +24,13 @@ import {
   FlowsButtons,
   CloseModalGeneral
 } from './styles';
-import Dropdown from 'react-dropdown';
 import FlowViewer from 'components/FlowViewer';
 import DescriptionIcon from '@mui/icons-material/Description';
 import EditIcon from '@mui/icons-material/Edit';
 import { Link } from 'react-router-dom';
 import { DeleteForever } from '@mui/icons-material';
 import Tooltip from '@mui/material/Tooltip';
+import { AddSequenceInFlow } from 'components/AddSequenceInFlow';
 
 function Flows() {
   const [flows, setFlows] = useState([]);
@@ -158,7 +158,11 @@ function Flows() {
     tmp.sequences.push({ from, to });
     setNewFlow(tmp);
   }
-
+  function removeSequence() {
+    let tmp = { ...newFlow };
+    tmp.sequences.pop();
+    setNewFlow(tmp);
+  }
   const allOptions = stages.map((stage) => {
     return { label: <>{stage.name}</>, value: stage._id };
   });
@@ -170,7 +174,6 @@ function Flows() {
     .map((stage) => {
       return { label: <>{stage.name}</>, value: stage._id };
     });
-
   return (
     <>
       <Container>
@@ -271,6 +274,7 @@ function Flows() {
                   set={updateFlowName}
                   value={newFlow.name}
                   maxLength={40}
+                  data-testid="flowName"
                 />
                 <label>
                   <span>Etapas</span>
@@ -291,6 +295,39 @@ function Flows() {
                   }}
                 />
                 <FlowViewer flow={newFlow} stages={stages || []}></FlowViewer>
+                {newFlow.stages.length > 0 && (
+                  <>
+                    <>Sequências</>
+                    <SelectorWrapper>
+                      <AddSequenceInFlow
+                        value={from}
+                        setValue={setFrom}
+                        options={selectedOptions}
+                      />
+                      {'=>'}
+                      <AddSequenceInFlow
+                        value={to}
+                        setValue={setTo}
+                        options={selectedOptions}
+                      />
+                      <div
+                        onClick={() => {
+                          addSequence();
+                        }}
+                      >
+                        <span>Adicionar</span>
+                      </div>
+                    </SelectorWrapper>
+                    <Button
+                      background="#de5353"
+                      onClick={() => {
+                        removeSequence();
+                      }}
+                    >
+                      <span>Retroceder</span>
+                    </Button>
+                  </>
+                )}
                 <Button
                   onClick={() => {
                     editFlow(showFlow);
@@ -318,6 +355,7 @@ function Flows() {
                   });
                   setModalOpen(false);
                 }}
+                data-testid="close"
               ></CloseModalGeneral>
             </ContentHeader>
             <TextInput
@@ -346,32 +384,16 @@ function Flows() {
               <>
                 <>Sequências</>
                 <SelectorWrapper>
-                  <Dropdown
-                    options={selectedOptions}
-                    onChange={(e) => {
-                      setFrom(e.value);
-                    }}
+                  <AddSequenceInFlow
                     value={from}
-                    placeholder="Selecione a etapa"
-                    className="dropdown"
-                    controlClassName="dropdown-control"
-                    placeholderClassName="dropdown-placeholder"
-                    menuClassName="dropdown-menu"
-                    arrowClassName="dropdown-arrow"
-                  />
-                  {'->'}
-                  <Dropdown
+                    setValue={setFrom}
                     options={selectedOptions}
-                    onChange={(e) => {
-                      setTo(e.value);
-                    }}
+                  />
+                  {'=>'}
+                  <AddSequenceInFlow
                     value={to}
-                    placeholder="Selecione a etapa"
-                    className="dropdown"
-                    controlClassName="dropdown-control"
-                    placeholderClassName="dropdown-placeholder"
-                    menuClassName="dropdown-menu"
-                    arrowClassName="dropdown-arrow"
+                    setValue={setTo}
+                    options={selectedOptions}
                   />
                   <div
                     onClick={() => {
@@ -392,7 +414,7 @@ function Flows() {
                             }).name
                           }
                         </StageName>
-                        {'->'}
+                        {'=>'}
                         <StageName>
                           {
                             stages.find((stage) => {

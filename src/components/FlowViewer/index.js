@@ -50,7 +50,8 @@ function FlowViewer(props) {
           id: id,
           source: sequence.from,
           target: sequence.to,
-          animated: true
+          animated: true,
+          style: { stroke: 'black' }
         };
       }) || [];
     edges = edgesProcs.concat(edgesFlows);
@@ -61,7 +62,8 @@ function FlowViewer(props) {
         id: id,
         source: sequence.from,
         target: sequence.to,
-        animated: true
+        animated: true,
+        style: { stroke: 'black' }
       };
     });
   }
