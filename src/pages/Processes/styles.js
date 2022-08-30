@@ -24,6 +24,11 @@ export const Container = styled.div`
   }
 
   div.process {
+    display: flex;
+    gap: 20px;
+  }
+
+  div.processName {
     background-color: #1b9454;
     border-radius: 10px;
     padding: 5px;
@@ -36,7 +41,7 @@ export const Container = styled.div`
     margin-bottom: 10px;
   }
 
-  div.process > :first-child {
+  div.processName > :first-child {
     margin-left: 0.5em;
   }
 
@@ -53,6 +58,15 @@ export const Container = styled.div`
   svg.delete-process {
     color: #de5353;
     cursor: pointer;
+  }
+
+  div.currentStage {
+    background-color: #fbe304;
+    color: black;
+  }
+
+  div.finalStage {
+    background-color: #304974;
   }
 `;
 

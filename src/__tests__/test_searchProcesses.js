@@ -102,7 +102,9 @@ test('Testando busca por registro ou apelido', async () => {
     .get(/\/processes\/(.+)?/)
     .reply(200, processResponse)
     .get('/flows/')
-    .reply(200, flowsResponse);
+    .reply(200, flowsResponse)
+    .get('/stages')
+    .reply(200, { Stages: null });
 
   render(
     <MemoryRouter initialEntries={['/processes']}>
