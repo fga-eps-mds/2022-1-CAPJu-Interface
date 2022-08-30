@@ -8,7 +8,6 @@ import axios from 'axios';
 import { baseURL } from '../services/api';
 import Flows from '../pages/Flows';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { Target } from 'styled-icons/fluentui-system-regular';
 
 axios.defaults.adapter = require('axios/lib/adapters/http');
 
