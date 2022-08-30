@@ -31,6 +31,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Link } from 'react-router-dom';
 import { DeleteForever } from '@mui/icons-material';
 import Tooltip from '@mui/material/Tooltip';
+import { AddSequenceInFlow } from 'components/AddSequenceInFlow';
 
 function Flows() {
   const [flows, setFlows] = useState([]);
@@ -299,32 +300,16 @@ function Flows() {
                   <>
                     <>Sequências</>
                     <SelectorWrapper>
-                      <Dropdown
-                        options={selectedOptions}
-                        onChange={(e) => {
-                          setFrom(e.value);
-                        }}
+                      <AddSequenceInFlow
                         value={from}
-                        placeholder="Selecione a etapa"
-                        className="dropdown"
-                        controlClassName="dropdown-control"
-                        placeholderClassName="dropdown-placeholder"
-                        menuClassName="dropdown-menu"
-                        arrowClassName="dropdown-arrow"
+                        setValue={setFrom}
+                        options={selectedOptions}
                       />
                       {'=>'}
-                      <Dropdown
-                        options={selectedOptions}
-                        onChange={(e) => {
-                          setTo(e.value);
-                        }}
+                      <AddSequenceInFlow
                         value={to}
-                        placeholder="Selecione a etapa"
-                        className="dropdown"
-                        controlClassName="dropdown-control"
-                        placeholderClassName="dropdown-placeholder"
-                        menuClassName="dropdown-menu"
-                        arrowClassName="dropdown-arrow"
+                        setValue={setTo}
+                        options={selectedOptions}
                       />
                       <div
                         onClick={() => {
@@ -400,32 +385,16 @@ function Flows() {
               <>
                 <>Sequências</>
                 <SelectorWrapper>
-                  <Dropdown
-                    options={selectedOptions}
-                    onChange={(e) => {
-                      setFrom(e.value);
-                    }}
+                  <AddSequenceInFlow
                     value={from}
-                    placeholder="Selecione a etapa"
-                    className="dropdown"
-                    controlClassName="dropdown-control"
-                    placeholderClassName="dropdown-placeholder"
-                    menuClassName="dropdown-menu"
-                    arrowClassName="dropdown-arrow"
+                    setValue={setFrom}
+                    options={selectedOptions}
                   />
                   {'=>'}
-                  <Dropdown
-                    options={selectedOptions}
-                    onChange={(e) => {
-                      setTo(e.value);
-                    }}
+                  <AddSequenceInFlow
                     value={to}
-                    placeholder="Selecione a etapa"
-                    className="dropdown"
-                    controlClassName="dropdown-control"
-                    placeholderClassName="dropdown-placeholder"
-                    menuClassName="dropdown-menu"
-                    arrowClassName="dropdown-arrow"
+                    setValue={setTo}
+                    options={selectedOptions}
                   />
                   <div
                     onClick={() => {
