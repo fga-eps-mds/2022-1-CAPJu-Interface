@@ -48,24 +48,21 @@ function Login() {
       return;
     }
 
-    const response = await user.post('/newUser', {
-      name: newName,
-      email: newEmail,
-      password: newPassword
-    });
     try {
-      if (response.status == 200) {
-        toast.success('Usuário cadastrado com  sucesso');
-        setNewName('');
-        setNewPassword('');
-        setNewEmail('');
-        setNewPassword2('');
-        setSelectedTab('login');
-      } else {
-        toast.error('Erro no cadastro: ' + response.data?.message);
-      }
+      const response = await user.post('/newUser', {
+        name: newName,
+        email: newEmail,
+        password: newPassword
+      });
+      response.status == 200;
+      toast.success('Usuário cadastrado com  sucesso');
+      setNewName('');
+      setNewPassword('');
+      setNewEmail('');
+      setNewPassword2('');
+      setSelectedTab('login');
     } catch (error) {
-      toast.error('Erro no cadastrar \n' + error.response.data.message);
+      toast.error('Erro ao cadastrar \n' + error.response.data.message);
     }
   }
 
