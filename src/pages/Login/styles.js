@@ -46,3 +46,10 @@ export const ForgotPassword = styled.h6`
   cursor: pointer;
   text-decoration: underline;
 `;
+export const Criterios = styled.div`
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+`;

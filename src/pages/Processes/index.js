@@ -27,6 +27,7 @@ function Processes() {
   const flow = location.state;
   const [flows, setFlows] = useState([]);
   const [flowId, setFlowId] = useState(flow ? flow._id : '');
+  const [stages, setStages] = useState([]);
 
   const customStyles = {
     content: {
@@ -43,6 +44,7 @@ function Processes() {
   useEffect(() => {
     updateProcesses();
     getFlows();
+    getStages();
     console.log(flows);
     // eslint-disable-next-line
   }, []);
@@ -157,6 +159,18 @@ function Processes() {
     }
   }
 
+  async function getStages() {
+    try {
+      const Stage = await api.get(`/stages`);
+
+      setStages(Stage.data.Stages);
+    } catch (error) {
+      toast.error('Erro ao pegar etapa\n ' + error.response.data.message, {
+        duration: 3000
+      });
+    }
+  }
+
   return (
     <Container>
       <div className="processes">
@@ -169,55 +183,80 @@ function Processes() {
           />
         </div>
         {processes.length == 0 && 'Nenhum processo foi encontrado'}
-        {filterProcesses(processes).map((proc, idx) => {
-          return (
-            <div key={idx} className="process">
-              {proc.apelido.length > 0
-                ? `${proc.registro} - ${proc.apelido}`
-                : `${proc.registro}`}
-              {
-                <Link to="showProcess" state={{ proc, flow }}>
-                  <Visibility className="see-process"></Visibility>
-                </Link>
-              }
+        {filterProcesses(processes)
+          .sort((a, b) => b.etapas.length - a.etapas.length)
+          .map((proc, idx) => {
+            let CurrentStage, FinalStage;
 
-              <EditIcon
-                className="edit-process"
-                onClick={() => openEditModal(proc)}
-              />
+            if (flow && stages) {
+              CurrentStage = stages.find((el) => el._id === proc.etapaAtual);
+              FinalStage = stages.find(
+                (el) => el._id === flow.sequences.at(-1).to
+              );
+            }
 
-              <DeleteForeverIcon
-                className="delete-process"
-                onClick={() => openModal()}
-              />
-              <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={closeModal}
-                style={customStyles}
-                contentLabel="excluir processo"
-              >
-                <ModalHeader close={closeModal}>Excluir Processo</ModalHeader>
-                <p>
-                  Tem certeza que deseja excluir o processo {proc.registro}?
-                </p>
-                <ModalBody>
-                  <Button
-                    onClick={async () => {
-                      await deleteProcess(proc.registro);
-                      await updateProcesses();
-                      closeModal();
-                    }}
+            return (
+              <div key={idx} className="process">
+                <div className="processName">
+                  {proc.apelido.length > 0
+                    ? `${proc.registro} - ${proc.apelido}`
+                    : `${proc.registro}`}
+                  {
+                    <Link to="showProcess" state={{ proc, flow }}>
+                      <Visibility className="see-process"></Visibility>
+                    </Link>
+                  }
+                  <EditIcon
+                    className="edit-process"
+                    onClick={() => openEditModal(proc)}
+                  />
+                  <DeleteForeverIcon
+                    className="delete-process"
+                    onClick={() => openModal()}
+                  />
+                  <Modal
+                    isOpen={modalIsOpen}
+                    onRequestClose={closeModal}
+                    style={customStyles}
+                    contentLabel="excluir processo"
                   >
-                    Confirmar
-                  </Button>
-                  <Button onClick={closeModal} background="red">
-                    Cancelar
-                  </Button>
-                </ModalBody>
-              </Modal>
-            </div>
-          );
-        })}
+                    <ModalHeader close={closeModal}>
+                      Excluir Processo
+                    </ModalHeader>
+                    <p>
+                      Tem certeza que deseja excluir o processo {proc.registro}?
+                    </p>
+                    <ModalBody>
+                      <Button
+                        onClick={async () => {
+                          await deleteProcess(proc.registro);
+                          await updateProcesses();
+                          closeModal();
+                        }}
+                      >
+                        Confirmar
+                      </Button>
+                      <Button onClick={closeModal} background="red">
+                        Cancelar
+                      </Button>
+                    </ModalBody>
+                  </Modal>
+                </div>
+                {flow && stages ? (
+                  <>
+                    <div className="processName currentStage">
+                      Epata Atual: {CurrentStage?.name}
+                    </div>
+                    <div className="processName finalStage">
+                      Última Etapa: {FinalStage?.name}
+                    </div>
+                  </>
+                ) : (
+                  ''
+                )}
+              </div>
+            );
+          })}
         <Modal
           isOpen={editModalIsOpen}
           onRequestClose={closeModal}
