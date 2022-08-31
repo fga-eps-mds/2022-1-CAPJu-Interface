@@ -197,13 +197,15 @@ function Login() {
         {isModalOpen && (
           <Modal>
             <Content>
-              <h3>Esqueceu a senha?</h3>
+              <h3>Recuperação de senha</h3>
+              <h5>
+                Você receberá um link via e-mail para criar sua nova senha
+              </h5>
               <TextInput
                 set={setEmail}
                 value={email}
-                placeholder="Coloque seu email"
+                placeholder="Digite seu email"
               ></TextInput>
-
               <Button
                 onClick={() => {
                   requestNewPassword();
