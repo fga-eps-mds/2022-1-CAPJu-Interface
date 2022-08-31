@@ -13,26 +13,33 @@ function Statistics() {
 
   useEffect(() => {
     updateStats();
-  }, []);
+  }, [stages]);
 
   async function updateStats() {
-    console.log(flow);
     const stagesFlow = flow.stages;
 
     const response = await api.get('/stages');
     const flowprocess = await api.get(`/processes/${flow ? flow._id : ''}`);
     setProcesses(flowprocess.data.processes);
-    console.log(flowprocess);
     const stagesResponse = response.data.Stages;
     const targetStages = [];
-    for (let stage of stagesResponse) {
+    for (let stage of await stagesResponse) {
       delete stage.createdAt;
       delete stage.__v;
       delete stage.updatedAt;
       delete stage.deleted;
       for (let stageFlow of stagesFlow) {
         if (stage._id === stageFlow) {
+          stage.processesQtt = 0;
           targetStages.push(stage);
+          continue;
+        }
+      }
+    }
+    for (let process of processes) {
+      for (let stage of targetStages) {
+        if (process.etapaAtual === stage._id) {
+          stage.processesQtt += 1;
           continue;
         }
       }
@@ -47,9 +54,8 @@ function Statistics() {
           {stages.map((stage, index) => {
             return (
               <StageItem key={index}>
-                {'Nome da Etapa: '}
-                {stage.name}
-                <br></br>
+                <h3>{stage.processesQtt}</h3>
+                <strong>{` processos na etapa ${stage.name}`}</strong>
               </StageItem>
             );
           })}

@@ -39,7 +39,7 @@ export const StagesArea = styled.div`
 
 export const StageItem = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   min-width: 100px;
   background-color: #1b9454;
   color: white;
