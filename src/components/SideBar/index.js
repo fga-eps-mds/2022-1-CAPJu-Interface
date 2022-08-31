@@ -4,6 +4,7 @@ import { Container, MenuItem } from './styles';
 import { Flow } from '@styled-icons/fluentui-system-regular';
 import { FlowCascade } from '@styled-icons/entypo';
 import { ClipboardTaskListLtr } from '@styled-icons/fluentui-system-regular/ClipboardTaskListLtr';
+import { Profile } from '@styled-icons/icomoon';
 import { useNavigate } from 'react-router-dom';
 function SideBar() {
   const navigate = useNavigate();
@@ -12,11 +13,16 @@ function SideBar() {
       <a href={'/'}>
         <img src={'./logo.png'} />
       </a>
+      <MenuItem href={'/Login'}>
+        <Profile /> Login
+      </MenuItem>
       <MenuItem href={'/stages'}>
-        <Flow></Flow>Etapas
+        <Flow />
+        1.Etapas
       </MenuItem>
       <MenuItem href={'/'}>
-        <FlowCascade></FlowCascade>Fluxos
+        <FlowCascade />
+        2.Fluxos
       </MenuItem>
       <MenuItem
         href=""
@@ -24,7 +30,8 @@ function SideBar() {
           navigate('/processes', { state: undefined, replace: false })
         }
       >
-        <ClipboardTaskListLtr></ClipboardTaskListLtr>Processos
+        <ClipboardTaskListLtr />
+        3.Processos
       </MenuItem>
       <Button
         background="#DE5353"
