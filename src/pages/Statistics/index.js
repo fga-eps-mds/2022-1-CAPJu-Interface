@@ -3,30 +3,41 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import { Container, StagesArea, StageItem } from './styles';
 import { useLocation } from 'react-router-dom';
+import Stages from 'pages/Stages';
 
 function Statistics() {
-  const [stages, setStages] = useState([{ name: '', time: '', _id: '' }]);
+  const [stages, setStages] = useState([]);
   const [processes, setProcesses] = useState([]);
   const location = useLocation();
-  const stagesFlow = location.state;
+  const flow = location.state;
 
   useEffect(() => {
     updateStats();
   }, []);
 
   async function updateStats() {
-    console.log(stagesFlow);
-    const response = await api.get('/stages');
-    // for (let i = 0; i < Object.keys(stagesFlow).length; i++) {
-    //   const currentStage = await response.data.Stages.find(stagesFlow[i]);
-    // }
-    const flowprocess = await api.get(
-      `/processes/${stagesFlow ? stagesFlow._id : ''}`
-    );
-    console.log(flowprocess.data.processes);
+    console.log(flow);
+    const stagesFlow = flow.stages;
 
+    const response = await api.get('/stages');
+    const flowprocess = await api.get(`/processes/${flow ? flow._id : ''}`);
     setProcesses(flowprocess.data.processes);
-    setStages(response.data.Stages);
+    console.log(flowprocess);
+    const stagesResponse = response.data.Stages;
+    const targetStages = [];
+    for (let stage of stagesResponse) {
+      delete stage.createdAt;
+      delete stage.__v;
+      delete stage.updatedAt;
+      delete stage.deleted;
+      for (let stageFlow of stagesFlow) {
+        if (stage._id === stageFlow) {
+          targetStages.push(stage);
+          continue;
+        }
+      }
+    }
+    setStages(targetStages);
   }
   return (
     <>
