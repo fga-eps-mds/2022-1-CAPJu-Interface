@@ -1,6 +1,13 @@
 // @ts-nocheck
 import React from 'react';
-import { Container, Menu, MenuElement, Modal, ForgotPassword } from './styles';
+import {
+  Container,
+  Menu,
+  MenuElement,
+  Modal,
+  ForgotPassword,
+  Criterios
+} from './styles';
 import { useState } from 'react';
 import TextInput from 'components/TextInput';
 import Button from 'components/Button';
@@ -25,27 +32,37 @@ function Login() {
 
   async function register() {
     const re = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    const pass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z$*&@#]{6,}$/;
     console.log(newEmail, re.test(newEmail));
     if (!re.test(newEmail)) {
       toast.error('E-mail Inválido');
       return;
     }
+    console.log(newPassword, pass.test(newPassword));
+    if (!pass.test(newPassword)) {
+      toast.error('Senha não cumpre os criterios');
+      return;
+    }
     if (newPassword != newPassword2) {
-      toast.error('Password invalida');
+      toast.error('Senha invalida');
       return;
     }
 
-    const response = await user.post('/newUser', {
-      name: newName,
-      email: newEmail,
-      password: newPassword
-    });
-
-    if (response.status == 200) {
+    try {
+      const response = await user.post('/newUser', {
+        name: newName,
+        email: newEmail,
+        password: newPassword
+      });
+      response.status == 200;
       toast.success('Usuário cadastrado com  sucesso');
-      navigate('/login');
-    } else {
-      toast.error('Erro no cadastro: ' + response.data?.message);
+      setNewName('');
+      setNewPassword('');
+      setNewEmail('');
+      setNewPassword2('');
+      setSelectedTab('login');
+    } catch (error) {
+      toast.error('Erro ao cadastrar \n' + error.response.data.message);
     }
   }
 
@@ -138,23 +155,36 @@ function Login() {
               value={newName}
               placeholder="Nome completo"
             ></TextInput>
+            <br></br>
             <TextInput
               set={setNewEmail}
               value={newEmail}
               placeholder="Email"
             ></TextInput>
+            <br></br>
             <TextInput
               set={setNewPassword}
               value={newPassword}
               placeholder="Crie uma senha"
               type="password"
             ></TextInput>
+            <br></br>
             <TextInput
               set={setNewPassword2}
               value={newPassword2}
               placeholder="Confirme a senha"
               type="password"
             ></TextInput>
+            <Criterios>
+              <ul>
+                <h6>
+                  <strong>Critérios para aceitação de senha:</strong>
+                  <li>Deve conter ao menos um dígito;</li>
+                  <li>Deve conter ao menos uma letra maiúscula;</li>
+                  <li>Deve conter ao menos 6 dos caracteres;</li>
+                </h6>
+              </ul>
+            </Criterios>
             <Button
               onClick={() => {
                 register();
@@ -167,16 +197,22 @@ function Login() {
         {isModalOpen && (
           <Modal>
             <Content>
-              <h2>Alteração de senha</h2>
-              <TextInput set={setEmail} value={email} />
-
+              <h3>Recuperação de senha</h3>
+              <h5>
+                Você receberá um link via e-mail para criar sua nova senha
+              </h5>
+              <TextInput
+                set={setEmail}
+                value={email}
+                placeholder="Digite seu email"
+              ></TextInput>
               <Button
                 onClick={() => {
                   requestNewPassword();
                   setModalOpen(false);
                 }}
               >
-                Solicitar E-mail
+                Solicitar recuperação
               </Button>
               <Button
                 onClick={() => {

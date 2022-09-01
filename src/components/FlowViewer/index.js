@@ -4,7 +4,7 @@ import { Container } from './styles';
 import ReactFlow, { MarkerType } from 'react-flow-renderer';
 
 function FlowViewer(props) {
-  const procStages = props.proc.etapas;
+  const procStages = props.proc?.etapas;
   function getStageDate(stageId) {
     if (stageId === props.flow.sequences[0].from) {
       return new Date(props.proc.createdAt);
@@ -41,7 +41,7 @@ function FlowViewer(props) {
       return props.flow.stages.includes(stage._id);
     })
     .map((stage, idx) => {
-      const deadline = deadlineDate(stage);
+      const deadline = props.proc ? deadlineDate(stage) : null;
       return {
         id: stage._id,
         data: {
@@ -87,7 +87,8 @@ function FlowViewer(props) {
           id: id,
           source: sequence.from,
           target: sequence.to,
-          animated: true
+          animated: true,
+          style: { stroke: 'black' }
         };
       }) || [];
     edges = edgesProcs.concat(edgesFlows);
@@ -98,7 +99,8 @@ function FlowViewer(props) {
         id: id,
         source: sequence.from,
         target: sequence.to,
-        animated: true
+        animated: true,
+        style: { stroke: 'black' }
       };
     });
   }
