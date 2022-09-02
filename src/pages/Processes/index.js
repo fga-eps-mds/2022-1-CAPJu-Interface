@@ -171,6 +171,28 @@ function Processes() {
     }
   }
 
+  function getStageDate(stageId, proc) {
+    if (stageId === flow.sequences[0].from) {
+      return new Date(proc.createdAt);
+    } else {
+      let currentStage = proc.etapas.find((el) => el.stageIdTo === stageId);
+      if (currentStage) return new Date(currentStage.createdAt);
+      else return null;
+    }
+  }
+
+  function isLate(stage, proc) {
+    const today = new Date();
+    const dayInMilisseconds = 24 * 3600 * 1000;
+    const stageDate = () => getStageDate(stage?._id, proc);
+
+    const timeInDays = Math.abs(today - stageDate()) / dayInMilisseconds;
+    if (timeInDays > parseInt(stage?.time)) {
+      return true;
+    }
+    return false;
+  }
+
   return (
     <Container>
       <div className="processes">
@@ -244,8 +266,15 @@ function Processes() {
                 </div>
                 {flow && stages ? (
                   <>
-                    <div className="processName currentStage">
-                      Epata Atual: {CurrentStage?.name}
+                    <div
+                      className={
+                        'processName ' +
+                        (isLate(CurrentStage, proc)
+                          ? 'currentStage-red'
+                          : 'currentStage-green')
+                      }
+                    >
+                      Etapa Atual: {CurrentStage?.name}
                     </div>
                     <div className="processName finalStage">
                       Última Etapa: {FinalStage?.name}

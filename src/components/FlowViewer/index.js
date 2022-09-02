@@ -53,7 +53,7 @@ function FlowViewer(props) {
         },
         position: { x: (idx % 2) * 130, y: 140 * idx },
         style:
-          props.highlight == stage._id
+          props.highlight === stage._id
             ? {
                 backgroundColor: isLate(stage) ? '#de5353' : '#1b9454',
                 color: '#f1f1f1'
