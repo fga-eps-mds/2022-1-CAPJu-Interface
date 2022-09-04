@@ -2,7 +2,7 @@ import api from '../../services/api';
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { Container, StagesArea, StageItem } from './styles';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 function Statistics() {
   const [stages, setStages] = useState([]);
@@ -53,7 +53,9 @@ function Statistics() {
           {stages.map((stage, index) => {
             return (
               <StageItem key={index}>
-                <h3>{stage.processesQtt}</h3>
+                <Link to="/processes" state={stage}>
+                  <h3>{stage.processesQtt}</h3>
+                </Link>
                 <strong>{` processos na etapa ${stage.name}`}</strong>
               </StageItem>
             );
