@@ -208,13 +208,16 @@ function Processes() {
         {filterProcesses(processes)
           .sort((a, b) => b.etapas.length - a.etapas.length)
           .map((proc, idx) => {
-            let CurrentStage, FinalStage;
+            let CurrentStage, FinalStage, CurrentStagePos, FinalStagePos;
 
             if (flow && stages) {
               CurrentStage = stages.find((el) => el._id === proc.etapaAtual);
               FinalStage = stages.find(
                 (el) => el._id === flow.sequences.at(-1).to
               );
+
+              CurrentStagePos = stages.indexOf(CurrentStage) + 1;
+              FinalStagePos = stages.indexOf(FinalStage) + 1;
             }
 
             return (
@@ -274,10 +277,10 @@ function Processes() {
                           : 'currentStage-green')
                       }
                     >
-                      Etapa Atual: {CurrentStage?.name}
+                      Etapa Atual: {CurrentStagePos}. {CurrentStage?.name}
                     </div>
                     <div className="processName finalStage">
-                      Última Etapa: {FinalStage?.name}
+                      Última Etapa: {FinalStagePos}. {FinalStage?.name}
                     </div>
                   </>
                 ) : (
