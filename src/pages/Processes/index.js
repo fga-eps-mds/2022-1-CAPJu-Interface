@@ -13,6 +13,7 @@ import ModalBody from 'components/ModalBody';
 import TextInput from 'components/TextInput';
 import toast from 'react-hot-toast';
 import Dropdown from 'react-dropdown';
+import { isLate } from 'components/IsLate/index.js';
 
 function Processes() {
   const [processes, setProcesses] = useState([]);
@@ -171,28 +172,6 @@ function Processes() {
     }
   }
 
-  function getStageDate(stageId, proc) {
-    if (stageId === flow.sequences[0].from) {
-      return new Date(proc.createdAt);
-    } else {
-      let currentStage = proc.etapas.find((el) => el.stageIdTo === stageId);
-      if (currentStage) return new Date(currentStage.createdAt);
-      else return null;
-    }
-  }
-
-  function isLate(stage, proc) {
-    const today = new Date();
-    const dayInMilisseconds = 24 * 3600 * 1000;
-    const stageDate = () => getStageDate(stage?._id, proc);
-
-    const timeInDays = Math.abs(today - stageDate()) / dayInMilisseconds;
-    if (timeInDays > parseInt(stage?.time)) {
-      return true;
-    }
-    return false;
-  }
-
   return (
     <Container>
       <div className="processes">
@@ -272,7 +251,7 @@ function Processes() {
                     <div
                       className={
                         'processName ' +
-                        (isLate(CurrentStage, proc)
+                        (isLate(CurrentStage, proc, flow)
                           ? 'currentStage-red'
                           : 'currentStage-green')
                       }
