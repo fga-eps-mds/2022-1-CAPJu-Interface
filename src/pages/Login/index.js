@@ -67,19 +67,20 @@ function Login() {
   }
 
   async function login() {
-    const response = await user.post('/login', {
-      email: email,
-      password: password
-    });
-    if (response.status == 200) {
+    try {
+      const response = await user.post('/login', {
+        email: email,
+        password: password
+      });
+
       if (response.data) {
         localStorage.setItem('user', JSON.stringify(response.data));
       }
       toast.success('Usuário logado com  sucesso');
       navigate('/Stages');
       window.location.reload(false);
-    } else {
-      toast.error('Erro no login: ' + response.data?.message);
+    } catch (error) {
+      toast.error('Erro no login: ' + error.data?.message);
     }
   }
 
