@@ -77,6 +77,7 @@ function Login() {
       }
       toast.success('Usuário logado com  sucesso');
       navigate('/Stages');
+      window.location.reload(false);
     } else {
       toast.error('Erro no login: ' + response.data?.message);
     }
