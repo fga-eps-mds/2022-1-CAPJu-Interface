@@ -27,6 +27,7 @@ function Statistics() {
         for (let stageFlow of stagesFlow) {
           if (stage._id === stageFlow) {
             stage.processesQtt = 0;
+            stage.processesList = [];
             targetStages.push(stage);
             continue;
           }
@@ -36,6 +37,7 @@ function Statistics() {
         for (let stage of targetStages) {
           if (process.etapaAtual === stage._id) {
             stage.processesQtt += 1;
+            stage.processesList.push(process);
             continue;
           }
         }
@@ -43,6 +45,7 @@ function Statistics() {
       setStages(targetStages);
     }
     updateStats();
+    console.log(stages);
   }, [stages, flow, processes]);
 
   return (
@@ -53,7 +56,7 @@ function Statistics() {
           {stages.map((stage, index) => {
             return (
               <StageItem key={index}>
-                <Link to="/processes" state={stage}>
+                <Link to="stageProcesses" state={stage.processesList}>
                   <h3>{stage.processesQtt}</h3>
                 </Link>
                 <strong>{` processos na etapa ${stage.name}`}</strong>

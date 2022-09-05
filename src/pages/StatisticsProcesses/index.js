@@ -15,7 +15,6 @@ import toast from 'react-hot-toast';
 import Dropdown from 'react-dropdown';
 
 function Processes() {
-  const [processes, setProcesses] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [editModalIsOpen, setEditModalIsOpen] = useState(false);
@@ -25,9 +24,11 @@ function Processes() {
   const [editOrCreate, setEditOrCreate] = useState('');
   const location = useLocation();
   const flow = location.state;
+  const processesList = location.state;
   const [flows, setFlows] = useState([]);
   const [flowId, setFlowId] = useState(flow ? flow._id : '');
   const [stages, setStages] = useState([]);
+  const [processes, setProcesses] = useState([]);
 
   const customStyles = {
     content: {
@@ -42,18 +43,18 @@ function Processes() {
   };
 
   useEffect(() => {
-    updateProcesses();
     getFlows();
     getStages();
+    updateProcesses();
     console.log(flows);
+    console.log('none=====');
+    console.log(processesList);
     // eslint-disable-next-line
   }, []);
 
-  async function updateProcesses() {
-    const response = await api.get(`/processes/${flow ? flow._id : ''}`);
-    console.log(flow);
-    setProcesses(response.data.processes);
-  }
+  const updateProcesses = async () => {
+    await setProcesses(location.state);
+  };
 
   //Catch the event when the input changes
   const handleChange = (event) => {
@@ -174,7 +175,7 @@ function Processes() {
   return (
     <Container>
       <div className="processes">
-        <h1>Processos {flow ? '- ' + flow.name : ''}</h1>
+        <h1>Processos na etapa {stages ? '- ' + stages.name : ''}</h1>
         <div className="processSearch">
           <InputSearch
             value={searchTerm}
@@ -186,14 +187,6 @@ function Processes() {
         {filterProcesses(processes)
           .sort((a, b) => b.etapas.length - a.etapas.length)
           .map((proc, idx) => {
-            let CurrentStage, FinalStage;
-
-            if (flow && stages) {
-              CurrentStage = stages.find((el) => el._id === proc.etapaAtual);
-              FinalStage = stages.find(
-                (el) => el._id === flow.sequences.at(-1).to
-              );
-            }
             return (
               <div key={idx} className="process">
                 <div className="processName">
@@ -201,7 +194,7 @@ function Processes() {
                     ? `${proc.registro} - ${proc.apelido}`
                     : `${proc.registro}`}
                   {
-                    <Link to="showProcess" state={{ proc, flow }}>
+                    <Link to="showProcess" state={{ proc, stages }}>
                       <Visibility className="see-process"></Visibility>
                     </Link>
                   }
@@ -229,7 +222,6 @@ function Processes() {
                       <Button
                         onClick={async () => {
                           await deleteProcess(proc.registro);
-                          await updateProcesses();
                           closeModal();
                         }}
                       >
@@ -241,18 +233,6 @@ function Processes() {
                     </ModalBody>
                   </Modal>
                 </div>
-                {flow && stages ? (
-                  <>
-                    <div className="processName currentStage">
-                      Etapa Atual: {CurrentStage?.name}
-                    </div>
-                    <div className="processName finalStage">
-                      Última Etapa: {FinalStage?.name}
-                    </div>
-                  </>
-                ) : (
-                  ''
-                )}
               </div>
             );
           })}
@@ -293,7 +273,6 @@ function Processes() {
               onClick={async () => {
                 if (editOrCreate == 'edit') await editProcess();
                 else await createProcess();
-                await updateProcesses();
                 closeModal();
               }}
             >
