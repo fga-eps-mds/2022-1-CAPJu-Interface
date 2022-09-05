@@ -78,9 +78,9 @@ function Login() {
       }
       toast.success('Usuário logado com  sucesso');
       navigate('/Stages');
-      window.location.reload(false);
+      window.location.reload();
     } catch (error) {
-      toast.error('Erro no login: ' + error.data?.message);
+      toast.error('Erro no login: ' + error.response.data.message);
     }
   }
 
@@ -119,7 +119,12 @@ function Login() {
         {selectedTab == 'login' ? (
           <>
             <h1>Login</h1>
-            <div>
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                login();
+              }}
+            >
               <TextInput
                 set={setEmail}
                 value={email}
@@ -140,17 +145,16 @@ function Login() {
               >
                 Esqueceu a senha?
               </ForgotPassword>
-              <Button
-                onClick={async () => {
-                  login();
-                }}
-              >
-                Entrar
-              </Button>
-            </div>
+              <Button type="submit">Entrar</Button>
+            </form>
           </>
         ) : (
-          <>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              register();
+            }}
+          >
             <h1>Cadastre-se </h1>
             <TextInput
               set={setNewName}
@@ -187,14 +191,8 @@ function Login() {
                 </h6>
               </ul>
             </Criterios>
-            <Button
-              onClick={() => {
-                register();
-              }}
-            >
-              Cadastrar
-            </Button>
-          </>
+            <Button type="submit">Cadastrar</Button>
+          </form>
         )}
         {isModalOpen && (
           <Modal>
