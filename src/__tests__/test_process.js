@@ -128,6 +128,7 @@ const processResponse = {
   ]
 };
 const process = processResponse.processes[0];
+process.createdAt = parseInt(process.createdAt);
 const flow = flowsResponse.Flows[0];
 const newProcess = {
   registro: '2222',
@@ -267,27 +268,26 @@ test('teste processos', async () => {
   await waitFor(() => expect(scopeStages.isDone()).toBe(true));
 });
 
-describe.skip('testando função de atraso', () => {
+describe('testando função de atraso', () => {
   beforeAll(() => {
     jest.useFakeTimers('modern');
   });
 
-  test('testando isLate', () => {
-    const mockedDate = new Date(parseInt(process.createdAt));
+  test('testando isLate sem atraso', () => {
+    const mockedDate = new Date(process.createdAt);
     jest.setSystemTime(mockedDate);
 
-    const result = isLate(process.etapaAtual, process, flow);
+    const result = isLate(stage, process, flow);
 
     expect(result).toBe(false);
   });
 
   test('testando isLate com atraso', () => {
-    const lateDate = new Date(parseInt(process.createdAt));
-    lateDate.setDate(lateDate.getDate() - parseInt(stage.time) - 50);
-    console.log(lateDate);
-
+    const lateDate = new Date(process.createdAt);
+    lateDate.setDate(lateDate.getDate() - parseInt(stage.time) - 1);
     jest.setSystemTime(lateDate);
-    const result = isLate(process.etapaAtual, process, flow);
+
+    const result = isLate(stage, process, flow);
 
     expect(result).toBe(true);
   });
