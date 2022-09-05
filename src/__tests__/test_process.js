@@ -8,6 +8,7 @@ import axios from 'axios';
 import { baseURL } from '../services/api';
 import Processes from '../pages/Processes';
 import ShowProcess from '../pages/ShowProcess';
+import { isLate, getStageDate } from 'components/IsLate/index.js';
 
 import React from 'react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
@@ -127,6 +128,7 @@ const processResponse = {
   ]
 };
 const process = processResponse.processes[0];
+const flow = flowsResponse.Flows[0];
 const newProcess = {
   registro: '2222',
   apelido: 'novoReg',
@@ -166,6 +168,8 @@ const stagesResponse = {
     }
   ]
 };
+
+const stage = stagesResponse.Stages[0];
 test('teste processos', async () => {
   const scopeGet = nock(baseURL)
     .defaultReplyHeaders({
@@ -263,4 +267,29 @@ test('teste processos', async () => {
   await waitFor(() => expect(scopeStages.isDone()).toBe(true));
 });
 
+describe.skip('testando função de atraso', () => {
+  beforeAll(() => {
+    jest.useFakeTimers('modern');
+  });
+
+  test('testando isLate', () => {
+    const mockedDate = new Date(parseInt(process.createdAt));
+    jest.setSystemTime(mockedDate);
+
+    const result = isLate(process.etapaAtual, process, flow);
+
+    expect(result).toBe(false);
+  });
+
+  test('testando isLate com atraso', () => {
+    const lateDate = new Date(parseInt(process.createdAt));
+    lateDate.setDate(lateDate.getDate() - parseInt(stage.time) - 50);
+    console.log(lateDate);
+
+    jest.setSystemTime(lateDate);
+    const result = isLate(process.etapaAtual, process, flow);
+
+    expect(result).toBe(true);
+  });
+});
 afterAll(() => nock.restore());

@@ -10,7 +10,7 @@ function FlowViewer(props) {
   function deadlineDate(stage) {
     const stageDate = getStageDate(stage._id, props.proc, props.flow);
     if (stageDate instanceof Date && !isNaN(stageDate)) {
-      stageDate.setDate(stageDate.getDate() + parseInt(stage.time), 10);
+      stageDate.setDate(stageDate.getDate() + parseInt(stage.time));
       return stageDate.toLocaleDateString();
     }
   }
