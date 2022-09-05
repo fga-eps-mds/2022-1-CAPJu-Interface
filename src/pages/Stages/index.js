@@ -8,9 +8,9 @@ import {
   Container,
   AddStageButton,
   StagesArea,
-  StageItem,
   Modal,
-  Content
+  Content,
+  Table
 } from './styles';
 import { DeleteForever } from '@styled-icons/material';
 import { CloseOutline } from '@styled-icons/evaicons-outline/CloseOutline';
@@ -88,24 +88,39 @@ function Stages() {
       <Container>
         Etapas
         <StagesArea>
-          {stages.map((stage, index) => {
-            return (
-              <StageItem key={index}>
-                {'Nome da Etapa: '}
-                {stage.name}
-                <br></br>
-                {'Duração em Dias: '}
-                {stage.time} <br></br>
-                <DeleteForever
-                  size={30}
-                  onClick={() => {
-                    setModalConfDelete(true);
-                    setCurrentStage(stage._id);
-                  }}
-                />
-              </StageItem>
-            );
-          })}
+          <Table>
+            <tr>
+              <th>Nome</th>
+              <th>Duração</th>
+              <th></th>
+            </tr>
+            {stages.map((stage, index) => {
+              return (
+                <tr key={index}>
+                  <td>{stage.name}</td>
+                  <td>{stage.time}</td>
+                  <td>
+                    <DeleteForever
+                      size={30}
+                      onClick={() => {
+                        setModalConfDelete(true);
+                        setCurrentStage(stage._id);
+                      }}
+                    />
+                  </td>
+                </tr>
+
+                // <StageItem key={index}>
+                //   {'Nome da Etapa: '}
+                //   {stage.name}
+                //   <br></br>
+                //   {'Duração em Dias: '}
+                //   {stage.time} <br></br>
+
+                // </StageItem>
+              );
+            })}
+          </Table>
         </StagesArea>
         <AddStageButton
           onClick={() => {

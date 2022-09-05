@@ -22,7 +22,8 @@ import {
   ContentDelete,
   CloseModalDelete,
   FlowsButtons,
-  CloseModalGeneral
+  CloseModalGeneral,
+  Table
 } from './styles';
 import FlowViewer from 'components/FlowViewer';
 import DescriptionIcon from '@mui/icons-material/Description';
@@ -180,42 +181,50 @@ function Flows() {
       <Container>
         <span>Fluxos</span>
         <FlowsArea>
-          {flows.map((flow, index) => {
-            return (
-              <FlowItem key={index}>
-                <span className="title-flow">{flow.name}</span>
-                <FlowsButtons>
-                  <Tooltip title="visualizar processos">
-                    <Link to="/processes" state={flow}>
-                      <DescriptionIcon className="see-processes" />
+          <Table>
+            <tr>
+              <th>Nome</th>
+              <th>Ações</th>
+            </tr>
+            {flows.map((flow, index) => {
+              return (
+                <tr key={index}>
+                  <td>{flow.name}</td>
+                  <td>
+                    {' '}
+                    <Tooltip title="visualizar processos">
+                      <Link to="/processes" state={flow}>
+                        <DescriptionIcon className="see-processes" />
+                      </Link>
+                    </Tooltip>{' '}
+                    <Tooltip title="editar fluxo">
+                      <EditIcon
+                        className="see-edit"
+                        onClick={() => {
+                          setShowFlow(index);
+                          setNewFlow(flows[index]);
+                        }}
+                      ></EditIcon>
+                    </Tooltip>
+                    <Tooltip title="deletar fluxo">
+                      <DeleteForever
+                        className="see-delete"
+                        onClick={() => {
+                          setDeleteModal(true);
+                          setShowFlow(-1);
+                        }}
+                      ></DeleteForever>
+                    </Tooltip>
+                    <Link to="/statistics" state={flow}>
+                      <Visibility className="see-processes" />
                     </Link>
-                  </Tooltip>
-                  <Tooltip title="editar fluxo">
-                    <EditIcon
-                      className="see-edit"
-                      onClick={() => {
-                        setShowFlow(index);
-                        setNewFlow(flows[index]);
-                      }}
-                    ></EditIcon>
-                  </Tooltip>
-                  <Tooltip title="deletar fluxo">
-                    <DeleteForever
-                      className="see-delete"
-                      onClick={() => {
-                        setDeleteModal(true);
-                        setShowFlow(-1);
-                      }}
-                    ></DeleteForever>
-                  </Tooltip>
-                  <Link to="/statistics" state={flow}>
-                    <Visibility className="see-processes" />
-                  </Link>
-                </FlowsButtons>
-              </FlowItem>
-            );
-          })}
+                  </td>
+                </tr>
+              );
+            })}
+          </Table>
         </FlowsArea>
+
         <AddFlowButton
           onClick={() => {
             setModalOpen(true);

@@ -53,26 +53,47 @@ export const StageItem = styled.div`
 export const Content = styled.div`
   display: flex;
   background-color: white;
-<<<<<<< HEAD
   width: 400px;
-=======
-  max-width: 400px;
-  max-height: 400px;
->>>>>>> devel
   justify-content: center;
   align-items: center;
   padding: 20px;
   flex-direction: column;
-<<<<<<< HEAD
   gap: 20px;
-=======
-  gap: 25px;
->>>>>>> devel
   font-size: 20px;
   border-radius: 10px;
 
   div.stage-info {
     flex-direction: row;
+  }
+`;
+
+export const Table = styled.table`
+  background-color: white;
+  width: 600px;
+  font-size: 20px;
+  border-radius: 5px;
+  text-align: left;
+  color: white;
+
+  th {
+    background-color: #1b9454;
+    padding: 15px;
+    border: 1px solid #ddd;
+  }
+
+  th:nth-child(3) {
+    width: 25px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  td {
+    border-radius: 5px;
+    color: #333;
+    padding: 10px;
+    border: 1px solid #ddd;
   }
 `;
 

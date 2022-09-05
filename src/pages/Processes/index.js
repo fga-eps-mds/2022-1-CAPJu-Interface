@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Container, InputSearch, AddProcess } from './styles';
+import { Container, InputSearch, AddProcess, Table } from './styles';
 import { Link, useLocation } from 'react-router-dom';
 import React from 'react';
 import api from '../../services/api';
@@ -182,38 +182,49 @@ function Processes() {
             onChange={handleChange}
           />
         </div>
-        {processes.length == 0 && 'Nenhum processo foi encontrado'}
-        {filterProcesses(processes)
-          .sort((a, b) => b.etapas.length - a.etapas.length)
-          .map((proc, idx) => {
-            let CurrentStage, FinalStage;
+        {processes.length == 0 && (
+          <>
+            Nenhum processo foi encontrado <br></br> <br></br>{' '}
+          </>
+        )}
+        <Table>
+          <tr>
+            <th>Registro</th>
+            <th>Apelido</th>
+            <th>Ações</th>
+          </tr>
+          {filterProcesses(processes)
+            .sort((a, b) => b.etapas.length - a.etapas.length)
+            .map((proc, idx) => {
+              let CurrentStage, FinalStage;
 
-            if (flow && stages) {
-              CurrentStage = stages.find((el) => el._id === proc.etapaAtual);
-              FinalStage = stages.find(
-                (el) => el._id === flow.sequences.at(-1).to
-              );
-            }
+              if (flow && stages) {
+                CurrentStage = stages.find((el) => el._id === proc.etapaAtual);
+                FinalStage = stages.find(
+                  (el) => el._id === flow.sequences.at(-1).to
+                );
+              }
 
-            return (
-              <div key={idx} className="process">
-                <div className="processName">
-                  {proc.apelido.length > 0
-                    ? `${proc.registro} - ${proc.apelido}`
-                    : `${proc.registro}`}
-                  {
-                    <Link to="showProcess" state={{ proc, flow }}>
-                      <Visibility className="see-process"></Visibility>
-                    </Link>
-                  }
-                  <EditIcon
-                    className="edit-process"
-                    onClick={() => openEditModal(proc)}
-                  />
-                  <DeleteForeverIcon
-                    className="delete-process"
-                    onClick={() => openModal()}
-                  />
+              return (
+                <>
+                  <tr key={idx}>
+                    <td>{proc.registro}</td>
+                    <td>{proc.apelido}</td>
+                    <td>
+                      <Link to="showProcess" state={{ proc, flow }}>
+                        <Visibility className="see-process"></Visibility>
+                      </Link>
+                      <EditIcon
+                        className="edit-process"
+                        onClick={() => openEditModal(proc)}
+                      />
+                      <DeleteForeverIcon
+                        className="delete-process"
+                        onClick={() => openModal()}
+                      />
+                    </td>
+                  </tr>
+
                   <Modal
                     isOpen={modalIsOpen}
                     onRequestClose={closeModal}
@@ -241,22 +252,24 @@ function Processes() {
                       </Button>
                     </ModalBody>
                   </Modal>
-                </div>
-                {flow && stages ? (
-                  <>
-                    <div className="processName currentStage">
-                      Epata Atual: {CurrentStage?.name}
-                    </div>
-                    <div className="processName finalStage">
-                      Última Etapa: {FinalStage?.name}
-                    </div>
-                  </>
-                ) : (
-                  ''
-                )}
-              </div>
-            );
-          })}
+
+                  {flow && stages ? (
+                    <>
+                      <div className="processName currentStage">
+                        Epata Atual: {CurrentStage?.name}
+                      </div>
+                      <div className="processName finalStage">
+                        Última Etapa: {FinalStage?.name}
+                      </div>
+                    </>
+                  ) : (
+                    ''
+                  )}
+                </>
+              );
+            })}
+        </Table>
+
         <Modal
           isOpen={editModalIsOpen}
           onRequestClose={closeModal}

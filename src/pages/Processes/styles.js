@@ -84,6 +84,36 @@ export const AddProcess = styled.button`
   border-radius: 20px;
 `;
 
+export const Table = styled.table`
+  background-color: white;
+  width: 600px;
+  font-size: 20px;
+  border-radius: 5px;
+  text-align: left;
+  color: white;
+
+  th {
+    background-color: #1b9454;
+    padding: 15px;
+    border: 1px solid #ddd;
+  }
+
+  th:nth-child(3) {
+    width: 70px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  td {
+    border-radius: 5px;
+    color: #333;
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+`;
+
 export const InputSearch = styled.input`
   background-color: rgba(0, 0, 0, 0.1);
   border: solid #888 2px;
