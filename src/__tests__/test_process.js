@@ -28,22 +28,6 @@ axios.defaults.adapter = require('axios/lib/adapters/http');
 //   }))
 // });
 
-jest.mock('react-dropdown', () => ({ options, value, onChange }) => {
-  return (
-    <select
-      data-testid="react-select-mock"
-      value={value}
-      onChange={(e) => onChange(e.target)}
-    >
-      {options.map(({ label, value }) => (
-        <option key={value} value={value}>
-          {label}
-        </option>
-      ))}
-    </select>
-  );
-});
-jest.mock('react-flow-renderer');
 test('testando TextInput', () => {
   let registro = '';
   const setRegistro = jest.fn((novoRegistro) => {
