@@ -31,7 +31,7 @@ import { Link } from 'react-router-dom';
 import { DeleteForever } from '@mui/icons-material';
 import Tooltip from '@mui/material/Tooltip';
 import { AddSequenceInFlow } from 'components/AddSequenceInFlow';
-import Visibility from '@mui/icons-material/Visibility';
+import InsertChartIcon from '@mui/icons-material/InsertChart';
 
 function Flows() {
   const [flows, setFlows] = useState([]);
@@ -208,9 +208,11 @@ function Flows() {
                       }}
                     ></DeleteForever>
                   </Tooltip>
-                  <Link to="/statistics" state={flow}>
-                    <Visibility className="see-processes" />
-                  </Link>
+                  <Tooltip title="estatística de fluxo">
+                    <Link to="/statistics" state={flow}>
+                      <InsertChartIcon className="see-processes" />
+                    </Link>
+                  </Tooltip>
                 </FlowsButtons>
               </FlowItem>
             );
