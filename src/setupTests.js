@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/display-name */
 jest.mock('./services/config.js', () => {
   return {
     __esModule: true,
