@@ -14,8 +14,5 @@ export function isLate(stage, proc, flow) {
   const stageDate = getStageDate(stage?._id, proc, flow);
 
   const timeInDays = Math.abs(today - stageDate) / dayInMilisseconds;
-  if (timeInDays > parseInt(stage?.time)) {
-    return true;
-  }
-  return false;
+  return timeInDays > parseInt(stage?.time);
 }
