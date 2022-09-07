@@ -2,37 +2,15 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Container } from './styles';
 import ReactFlow, { MarkerType } from 'react-flow-renderer';
+import { isLate, getStageDate } from 'components/IsLate/index.js';
 
 function FlowViewer(props) {
   const procStages = props.proc?.etapas;
-  function getStageDate(stageId) {
-    if (stageId === props.flow.sequences[0].from) {
-      return new Date(props.proc.createdAt);
-    } else {
-      let currentStage = props.proc.etapas.find(
-        (el) => el.stageIdTo === stageId
-      );
-      if (currentStage) return new Date(currentStage.createdAt);
-      else return null;
-    }
-  }
-
-  function isLate(stage) {
-    const today = new Date();
-    const dayInMilisseconds = 24 * 3600 * 1000;
-    const stageDate = getStageDate(props.highlight);
-
-    const timeInDays = Math.abs(today - stageDate) / dayInMilisseconds;
-    if (timeInDays > parseInt(stage.time)) {
-      return true;
-    }
-    return false;
-  }
 
   function deadlineDate(stage) {
-    const stageDate = getStageDate(stage._id);
+    const stageDate = getStageDate(stage._id, props.proc, props.flow);
     if (stageDate instanceof Date && !isNaN(stageDate)) {
-      stageDate.setDate(stageDate.getDate() + parseInt(stage.time), 10);
+      stageDate.setDate(stageDate.getDate() + parseInt(stage.time));
       return stageDate.toLocaleDateString();
     }
   }
@@ -53,9 +31,11 @@ function FlowViewer(props) {
         },
         position: { x: (idx % 2) * 130, y: 140 * idx },
         style:
-          props.highlight == stage._id
+          props.highlight === stage._id
             ? {
-                backgroundColor: isLate(stage) ? '#de5353' : '#1b9454',
+                backgroundColor: isLate(stage, props.proc, props.flow)
+                  ? '#de5353'
+                  : '#1b9454',
                 color: '#f1f1f1'
               }
             : {}
