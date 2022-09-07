@@ -29,6 +29,7 @@ function Processes() {
   const [flowId, setFlowId] = useState(flow ? flow._id : '');
   const [stages, setStages] = useState([]);
   const [processes, setProcesses] = useState([]);
+  const [currentStage, setCurrentStage] = useState('');
 
   const customStyles = {
     content: {
@@ -46,14 +47,29 @@ function Processes() {
     getFlows();
     getStages();
     updateProcesses();
-    console.log(flows);
+    updateTitle();
     console.log('none=====');
     console.log(processesList);
     // eslint-disable-next-line
-  }, []);
+  });
 
   const updateProcesses = async () => {
-    await setProcesses(location.state);
+    setProcesses(location.state);
+  };
+
+  const updateTitle = () => {
+    let stageName = '';
+    for (let stage of stages) {
+      console.log('Etapa atual:');
+      console.log(stage);
+      if (stage._id === processesList[0].etapaAtual) {
+        stageName = stage.name;
+        console.log(`Nome da etapa: ${stageName}`);
+        break;
+      }
+    }
+
+    setCurrentStage(stageName);
   };
 
   //Catch the event when the input changes
@@ -175,7 +191,7 @@ function Processes() {
   return (
     <Container>
       <div className="processes">
-        <h1>Processos na etapa {stages ? '- ' + stages.name : ''}</h1>
+        <h1>Processos na etapa {currentStage ? '- ' + currentStage : ''}</h1>
         <div className="processSearch">
           <InputSearch
             value={searchTerm}
