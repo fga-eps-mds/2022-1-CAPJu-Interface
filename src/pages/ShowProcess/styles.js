@@ -22,7 +22,7 @@ export const Container = styled.div`
     gap: 20px;
 
     div {
-      background-color: #1b9454;
+      background-color: #7a7b4f;
       padding: 10px 30px;
       color: #f1f1f1;
       border-radius: 10px;

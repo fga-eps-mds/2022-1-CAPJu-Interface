@@ -29,7 +29,7 @@ export const Container = styled.div`
   }
 
   div.processName {
-    background-color: #1b9454;
+    background-color: #7a7b4f;
     border-radius: 10px;
     padding: 5px;
     color: #f1f1f1;
@@ -56,7 +56,7 @@ export const Container = styled.div`
   }
 
   svg.delete-process {
-    color: #de5353;
+    color: #e01616;
     cursor: pointer;
   }
 
@@ -66,12 +66,12 @@ export const Container = styled.div`
   }
 
   div.currentStage-red {
-    background-color: #de5353;
+    background-color: #e01616;
     color: white;
   }
 
   div.finalStage {
-    background-color: #1b9454;
+    background-color: #7a7b4f;
   }
 `;
 
