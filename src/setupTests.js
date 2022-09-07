@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/display-name */
 jest.mock('./services/config.js', () => {
   return {
     __esModule: true,
@@ -6,3 +8,20 @@ jest.mock('./services/config.js', () => {
     })
   };
 });
+
+jest.mock('react-dropdown', () => ({ options, value, onChange }) => {
+  return (
+    <select
+      data-testid="react-select-mock"
+      value={value}
+      onChange={(e) => onChange(e.target)}
+    >
+      {options.map(({ label, value }) => (
+        <option key={value} value={value}>
+          {label}
+        </option>
+      ))}
+    </select>
+  );
+});
+jest.mock('react-flow-renderer');

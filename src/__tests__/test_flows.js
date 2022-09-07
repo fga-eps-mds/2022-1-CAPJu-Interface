@@ -8,6 +8,7 @@ import axios from 'axios';
 import { baseURL } from '../services/api';
 import Flows from '../pages/Flows';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { flowsResponse, stagesResponse } from '../testConstants';
 
 axios.defaults.adapter = require('axios/lib/adapters/http');
 
@@ -19,113 +20,6 @@ jest.mock('react-router-dom', () => {
     useNavigate: () => mockNavigate
   };
 });
-jest.mock('react-dropdown', () => ({ options, value, onChange }) => {
-  return (
-    <select
-      data-testid="react-select-mock"
-      value={value}
-      onChange={(e) => onChange(e.target)}
-    >
-      {options.map(({ label, value }) => (
-        <option key={value} value={value}>
-          {label}
-        </option>
-      ))}
-    </select>
-  );
-});
-jest.mock('react-flow-renderer');
-
-const flowBody = {
-  Flows: [
-    {
-      __v: 0,
-      _id: '62fd4b16006730249d33b19d',
-      createdAt: '2022-08-17T20:09:58.530Z',
-      deleted: false,
-      name: 'fluxo 1',
-      sequences: [
-        {
-          from: '62fd4ac0006730249d33b185',
-          to: '62fd4ac5006730249d33b188'
-        },
-        {
-          from: '62fd4ac5006730249d33b188',
-          to: '62fd4acb006730249d33b18b'
-        }
-      ],
-      stages: [
-        '62fd4ac0006730249d33b185',
-        '62fd4ac5006730249d33b188',
-        '62fd4acb006730249d33b18b'
-      ],
-      updatedAt: '2022-08-17T20:09:58.530Z'
-    },
-    {
-      __v: 0,
-      _id: '62fd4b16006730249d33b20e',
-      createdAt: '2022-08-17T20:09:58.530Z',
-      deleted: false,
-      name: 'fluxo 2',
-      sequences: [
-        {
-          from: '62fd4ac0006730249d33b185',
-          to: '62fd4ac5006730249d33b188'
-        },
-        {
-          from: '62fd4ac5006730249d33b188',
-          to: '62fd4acb006730249d33b18b'
-        }
-      ],
-      stages: [
-        '62fd4ac0006730249d33b185',
-        '62fd4ac5006730249d33b188',
-        '62fd4acb006730249d33b18b'
-      ],
-      updatedAt: '2022-08-17T20:09:58.530Z'
-    }
-  ]
-};
-const stageBody = {
-  Stages: [
-    {
-      _id: '62fd4ac0006730249d33b185',
-      name: 'etpa c1',
-      time: '10',
-      deleted: false,
-      createdAt: '2022-08-17T20:08:32.382+00:00',
-      updatedAt: '2022-08-17T20:08:32.382+00:00',
-      __v: 0
-    },
-    {
-      _id: '62fd4ac5006730249d33b188',
-      name: 'etpa c2',
-      time: '15',
-      deleted: false,
-      createdAt: '2022-08-17T20:08:32.382+00:00',
-      updatedAt: '2022-08-17T20:08:32.382+00:00',
-      __v: 0
-    },
-    {
-      _id: '62fd4acb006730249d33b18b',
-      name: 'etpa c3',
-      time: '15',
-      deleted: false,
-      createdAt: '2022-08-17T20:08:32.382+00:00',
-      updatedAt: '2022-08-17T20:08:32.382+00:00',
-      __v: 0
-    },
-    {
-      _id: '62fd4acb006730249d33b18c',
-      name: 'etpa c4',
-      time: '12',
-      deleted: false,
-      createdAt: '2022-08-17T20:08:32.382+00:00',
-      updatedAt: '2022-08-17T20:08:32.382+00:00',
-      __v: 0
-    }
-  ]
-};
 
 test.skip('Testando criar fluxo no componente Flows', async () => {
   const scope = nock(baseURL)
@@ -175,9 +69,9 @@ test('Testando editar fluxo no componente Flows', async () => {
     })
     .persist()
     .get('/flows')
-    .reply(200, flowBody)
+    .reply(200, flowsResponse)
     .get('/stages')
-    .reply(200, stageBody);
+    .reply(200, stagesResponse);
 
   const scopeEditar = nock(baseURL)
     .defaultReplyHeaders({

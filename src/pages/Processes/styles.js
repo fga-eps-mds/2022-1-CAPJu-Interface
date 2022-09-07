@@ -60,13 +60,18 @@ export const Container = styled.div`
     cursor: pointer;
   }
 
-  div.currentStage {
-    background-color: #fbe304;
-    color: black;
+  div.currentStage-green {
+    background-color: #1b9454;
+    color: white;
+  }
+
+  div.currentStage-red {
+    background-color: #de5353;
+    color: white;
   }
 
   div.finalStage {
-    background-color: #304974;
+    background-color: #1b9454;
   }
 `;
 

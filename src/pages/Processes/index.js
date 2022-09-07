@@ -13,6 +13,7 @@ import ModalBody from 'components/ModalBody';
 import TextInput from 'components/TextInput';
 import toast from 'react-hot-toast';
 import Dropdown from 'react-dropdown';
+import { isLate } from 'components/IsLate/index.js';
 
 function Processes() {
   const [processes, setProcesses] = useState([]);
@@ -186,13 +187,16 @@ function Processes() {
         {filterProcesses(processes)
           .sort((a, b) => b.etapas.length - a.etapas.length)
           .map((proc, idx) => {
-            let CurrentStage, FinalStage;
+            let CurrentStage, FinalStage, CurrentStagePos, FinalStagePos;
 
             if (flow && stages) {
               CurrentStage = stages.find((el) => el._id === proc.etapaAtual);
               FinalStage = stages.find(
                 (el) => el._id === flow.sequences.at(-1).to
               );
+
+              CurrentStagePos = stages.indexOf(CurrentStage) + 1;
+              FinalStagePos = stages.indexOf(FinalStage) + 1;
             }
             return (
               <div key={idx} className="process">
@@ -243,11 +247,18 @@ function Processes() {
                 </div>
                 {flow && stages ? (
                   <>
-                    <div className="processName currentStage">
-                      Etapa Atual: {CurrentStage?.name}
+                    <div
+                      className={
+                        'processName ' +
+                        (isLate(CurrentStage, proc, flow)
+                          ? 'currentStage-red'
+                          : 'currentStage-green')
+                      }
+                    >
+                      Etapa Atual: {CurrentStagePos}. {CurrentStage?.name}
                     </div>
                     <div className="processName finalStage">
-                      Última Etapa: {FinalStage?.name}
+                      Última Etapa: {FinalStagePos}. {FinalStage?.name}
                     </div>
                   </>
                 ) : (

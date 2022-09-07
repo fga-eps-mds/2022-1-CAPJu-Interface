@@ -8,9 +8,14 @@ import axios from 'axios';
 import { baseURL } from '../services/api';
 import Processes from '../pages/Processes';
 import ShowProcess from '../pages/ShowProcess';
-
+import { isLate } from 'components/IsLate/index.js';
 import React from 'react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import {
+  flowsResponse,
+  processResponse,
+  stagesResponse
+} from '../testConstants';
 
 axios.defaults.adapter = require('axios/lib/adapters/http');
 
@@ -27,22 +32,6 @@ axios.defaults.adapter = require('axios/lib/adapters/http');
 //   }))
 // });
 
-jest.mock('react-dropdown', () => ({ options, value, onChange }) => {
-  return (
-    <select
-      data-testid="react-select-mock"
-      value={value}
-      onChange={(e) => onChange(e.target)}
-    >
-      {options.map(({ label, value }) => (
-        <option key={value} value={value}>
-          {label}
-        </option>
-      ))}
-    </select>
-  );
-});
-jest.mock('react-flow-renderer');
 test('testando TextInput', () => {
   let registro = '';
   const setRegistro = jest.fn((novoRegistro) => {
@@ -60,73 +49,9 @@ test('testando TextInput', () => {
   expect(setRegistro).toHaveBeenCalledTimes(1);
 });
 
-const flowsResponse = {
-  Flows: [
-    {
-      __v: 0,
-      _id: '62fd4b16006730249d33b19d',
-      createdAt: '2022-08-17T20:09:58.530Z',
-      deleted: false,
-      name: 'fluxo 1',
-      sequences: [
-        {
-          from: '62fd4ac0006730249d33b185',
-          to: '62fd4ac5006730249d33b188'
-        },
-        {
-          from: '62fd4ac5006730249d33b188',
-          to: '62fd4acb006730249d33b18b'
-        }
-      ],
-      stages: [
-        '62fd4ac0006730249d33b185',
-        '62fd4ac5006730249d33b188',
-        '62fd4acb006730249d33b18b'
-      ],
-      updatedAt: '2022-08-17T20:09:58.530Z'
-    },
-    {
-      __v: 0,
-      _id: '62fff77dd588ebd8c101a12a',
-      createdAt: '2022-08-19T20:50:05.831Z',
-      deleted: false,
-      name: 'outro Fluxo',
-      sequences: [
-        {
-          from: '62fd4ac0006730249d33b185',
-          to: '62fd4ac5006730249d33b188'
-        },
-        {
-          from: '62fd4ac5006730249d33b188',
-          to: '62fd4acb006730249d33b18b'
-        }
-      ],
-      stages: [
-        '62fd4ac0006730249d33b185',
-        '62fd4ac5006730249d33b188',
-        '62fd4acb006730249d33b18b'
-      ],
-      updatedAt: '2022-08-19T20:50:05.831Z'
-    }
-  ]
-};
-const processResponse = {
-  processes: [
-    {
-      _id: '62fd4b7f006730249d33b1ab',
-      registro: '1111',
-      apelido: 'sdlkfja',
-      etapas: [],
-      arquivado: false,
-      etapaAtual: '62fd4ac0006730249d33b185',
-      fluxoId: '62fd4b16006730249d33b19d',
-      createdAt: '1660767103499',
-      updatedAt: '1660767103499',
-      __v: 0
-    }
-  ]
-};
 const process = processResponse.processes[0];
+process.createdAt = parseInt(process.createdAt);
+const flow = flowsResponse.Flows[0];
 const newProcess = {
   registro: '2222',
   apelido: 'novoReg',
@@ -135,37 +60,7 @@ const newProcess = {
   fluxoId: flowsResponse.Flows[1]._id
 };
 
-const stagesResponse = {
-  Stages: [
-    {
-      _id: '62fd4ac0006730249d33b185',
-      name: 'etpa c1',
-      time: '10',
-      deleted: false,
-      createdAt: '2022-08-17T20:08:32.382+00:00',
-      updatedAt: '2022-08-17T20:08:32.382+00:00',
-      __v: 0
-    },
-    {
-      _id: '62fd4ac5006730249d33b188',
-      name: 'etpa c2',
-      time: '15',
-      deleted: false,
-      createdAt: '2022-08-17T20:08:32.382+00:00',
-      updatedAt: '2022-08-17T20:08:32.382+00:00',
-      __v: 0
-    },
-    {
-      _id: '62fd4acb006730249d33b18b',
-      name: 'etpa c3',
-      time: '15',
-      deleted: false,
-      createdAt: '2022-08-17T20:08:32.382+00:00',
-      updatedAt: '2022-08-17T20:08:32.382+00:00',
-      __v: 0
-    }
-  ]
-};
+const stage = stagesResponse.Stages[0];
 test('teste processos', async () => {
   const scopeGet = nock(baseURL)
     .defaultReplyHeaders({
@@ -263,4 +158,28 @@ test('teste processos', async () => {
   await waitFor(() => expect(scopeStages.isDone()).toBe(true));
 });
 
+describe('testando função de atraso', () => {
+  beforeAll(() => {
+    jest.useFakeTimers('modern');
+  });
+
+  test('testando isLate sem atraso', () => {
+    const mockedDate = new Date(process.createdAt);
+    jest.setSystemTime(mockedDate);
+
+    const result = isLate(stage, process, flow);
+
+    expect(result).toBe(false);
+  });
+
+  test('testando isLate com atraso', () => {
+    const lateDate = new Date(process.createdAt);
+    lateDate.setDate(lateDate.getDate() - parseInt(stage.time) - 1);
+    jest.setSystemTime(lateDate);
+
+    const result = isLate(stage, process, flow);
+
+    expect(result).toBe(true);
+  });
+});
 afterAll(() => nock.restore());
