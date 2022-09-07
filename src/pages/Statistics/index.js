@@ -56,9 +56,13 @@ function Statistics() {
           {stages.map((stage, index) => {
             return (
               <StageItem key={index}>
-                <Link to="stageProcesses" state={stage.processesList}>
+                {stage.processesQtt > 0 ? (
+                  <Link to="stageProcesses" state={stage.processesList}>
+                    <h3>{stage.processesQtt}</h3>
+                  </Link>
+                ) : (
                   <h3>{stage.processesQtt}</h3>
-                </Link>
+                )}
                 <strong>{` processos na etapa ${stage.name}`}</strong>
               </StageItem>
             );
