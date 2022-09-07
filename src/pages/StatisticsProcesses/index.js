@@ -48,9 +48,6 @@ function Processes() {
     getStages();
     updateProcesses();
     updateTitle();
-    console.log('none=====');
-    console.log(processesList);
-    // eslint-disable-next-line
   });
 
   const updateProcesses = async () => {
@@ -60,11 +57,8 @@ function Processes() {
   const updateTitle = () => {
     let stageName = '';
     for (let stage of stages) {
-      console.log('Etapa atual:');
-      console.log(stage);
       if (stage._id === processesList[0].etapaAtual) {
         stageName = stage.name;
-        console.log(`Nome da etapa: ${stageName}`);
         break;
       }
     }
@@ -121,8 +115,6 @@ function Processes() {
       setFlowId(proc.fluxoId);
     } else setEditOrCreate('create');
 
-    console.log(editOrCreate);
-    console.log(proc);
     setEditModalIsOpen(true);
   }
 
