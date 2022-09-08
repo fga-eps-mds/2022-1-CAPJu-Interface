@@ -5,6 +5,7 @@ import { Flow } from '@styled-icons/fluentui-system-regular';
 import { FlowCascade } from '@styled-icons/entypo';
 import { ClipboardTaskListLtr } from '@styled-icons/fluentui-system-regular/ClipboardTaskListLtr';
 import { Profile } from '@styled-icons/icomoon';
+import { PersonFill } from '@styled-icons/bootstrap/PersonFill';
 import { useNavigate } from 'react-router-dom';
 function SideBar() {
   const navigate = useNavigate();
@@ -15,6 +16,9 @@ function SideBar() {
       </a>
       <MenuItem href={'/Login'}>
         <Profile /> Login
+      </MenuItem>
+      <MenuItem href={'/accessProfile'}>
+        <PersonFill /> Perfil de Acesso
       </MenuItem>
       <MenuItem href={'/stages'}>
         <Flow />
