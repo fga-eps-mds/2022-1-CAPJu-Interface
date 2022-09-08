@@ -10,7 +10,6 @@ import {
   Container,
   AddFlowButton,
   FlowsArea,
-  FlowItem,
   Modal,
   Content,
   SelectorWrapper,
@@ -21,7 +20,6 @@ import {
   ModalDelete,
   ContentDelete,
   CloseModalDelete,
-  FlowsButtons,
   CloseModalGeneral,
   Table
 } from './styles';
@@ -29,10 +27,10 @@ import FlowViewer from 'components/FlowViewer';
 import DescriptionIcon from '@mui/icons-material/Description';
 import EditIcon from '@mui/icons-material/Edit';
 import { Link } from 'react-router-dom';
-import { DeleteForever } from '@mui/icons-material';
+import { DeleteForever, Visibility } from '@mui/icons-material';
 import Tooltip from '@mui/material/Tooltip';
 import { AddSequenceInFlow } from 'components/AddSequenceInFlow';
-import Visibility from '@mui/icons-material/Visibility';
+import InsertChartIcon from '@mui/icons-material/InsertChart';
 
 function Flows() {
   const [flows, setFlows] = useState([]);
@@ -194,12 +192,12 @@ function Flows() {
                     {' '}
                     <Tooltip title="visualizar processos">
                       <Link to="/processes" state={flow}>
-                        <DescriptionIcon className="see-processes" />
+                        <DescriptionIcon htmlColor="black" />
                       </Link>
                     </Tooltip>{' '}
                     <Tooltip title="editar fluxo">
                       <EditIcon
-                        className="see-edit"
+                        htmlColor="black"
                         onClick={() => {
                           setShowFlow(index);
                           setNewFlow(flows[index]);
@@ -208,15 +206,20 @@ function Flows() {
                     </Tooltip>
                     <Tooltip title="deletar fluxo">
                       <DeleteForever
-                        className="see-delete"
+                        htmlColor="black"
                         onClick={() => {
                           setDeleteModal(true);
                           setShowFlow(-1);
                         }}
                       ></DeleteForever>
                     </Tooltip>
+                    <Tooltip title="estatística de fluxo">
+                      <Link to="/statistics" state={flow}>
+                        <InsertChartIcon htmlColor="black" />
+                      </Link>
+                    </Tooltip>
                     <Link to="/statistics" state={flow}>
-                      <Visibility className="see-processes" />
+                      <Visibility htmlColor="black" />
                     </Link>
                   </td>
                 </tr>

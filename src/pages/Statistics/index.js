@@ -2,7 +2,7 @@ import api from '../../services/api';
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { Container, StagesArea, StageItem } from './styles';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 function Statistics() {
   const [stages, setStages] = useState([]);
@@ -27,6 +27,7 @@ function Statistics() {
         for (let stageFlow of stagesFlow) {
           if (stage._id === stageFlow) {
             stage.processesQtt = 0;
+            stage.processesList = [];
             targetStages.push(stage);
             continue;
           }
@@ -36,6 +37,7 @@ function Statistics() {
         for (let stage of targetStages) {
           if (process.etapaAtual === stage._id) {
             stage.processesQtt += 1;
+            stage.processesList.push(process);
             continue;
           }
         }
@@ -43,6 +45,7 @@ function Statistics() {
       setStages(targetStages);
     }
     updateStats();
+    console.log(stages);
   }, [stages, flow, processes]);
 
   return (
@@ -53,7 +56,13 @@ function Statistics() {
           {stages.map((stage, index) => {
             return (
               <StageItem key={index}>
-                <h3>{stage.processesQtt}</h3>
+                {stage.processesQtt > 0 ? (
+                  <Link to="stageProcesses" state={stage.processesList}>
+                    <h3>{stage.processesQtt}</h3>
+                  </Link>
+                ) : (
+                  <h3>{stage.processesQtt}</h3>
+                )}
                 <strong>{` processos na etapa ${stage.name}`}</strong>
               </StageItem>
             );

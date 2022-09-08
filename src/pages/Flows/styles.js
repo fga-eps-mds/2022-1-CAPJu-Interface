@@ -50,22 +50,6 @@ export const FlowItem = styled.div`
   justify-content: center;
   align-items: center;
 
-  svg.see-processes {
-    color: #f1f1f1;
-    font-size: 5vh;
-    cursor: pointer;
-    margin-bottom: 5px;
-  }
-  svg.see-edit {
-    color: #f1f1f1;
-    font-size: 5vh;
-    cursor: pointer;
-  }
-  svg.see-delete {
-    color: #f1f1f1;
-    font-size: 5vh;
-    cursor: pointer;
-  }
   span.title-flow {
     font-size: 24px;
     font-weight: 900;
@@ -82,7 +66,7 @@ export const Table = styled.table`
   color: white;
 
   th {
-    background-color: #1b9454;
+    background-color: #7a7b4f;
     padding: 15px;
     border: 1px solid #ddd;
   }
@@ -92,7 +76,7 @@ export const Table = styled.table`
   }
 
   th:nth-child(2) {
-    width: 100px;
+    width: 120px;
   }
 
   td {

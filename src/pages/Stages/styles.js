@@ -76,7 +76,7 @@ export const Table = styled.table`
   color: white;
 
   th {
-    background-color: #1b9454;
+    background-color: #7a7b4f;
     padding: 15px;
     border: 1px solid #ddd;
   }

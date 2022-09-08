@@ -60,18 +60,13 @@ export const Container = styled.div`
     cursor: pointer;
   }
 
-  div.currentStage-green {
-    background-color: #1b9454;
-    color: white;
-  }
-
-  div.currentStage-red {
-    background-color: #de5353;
-    color: white;
+  div.currentStage {
+    background-color: #fbe304;
+    color: black;
   }
 
   div.finalStage {
-    background-color: #1b9454;
+    background-color: #304974;
   }
 `;
 
@@ -87,48 +82,6 @@ export const AddProcess = styled.button`
   font-size: 24px;
   border: none;
   border-radius: 20px;
-`;
-
-export const Table = styled.table`
-  background-color: white;
-  width: 100%;
-  max-width: 80vh;
-  font-size: 20px;
-  border-radius: 5px;
-  text-align: left;
-  color: white;
-
-  th {
-    background-color: #7a7b4f;
-    padding: 15px;
-    border: 1px solid #ddd;
-  }
-
-  th:last-child {
-    width: 70px;
-  }
-
-  tr.currentStage-red {
-    td {
-      background-color: #f7baba;
-    }
-  }
-  tr.currentStage-green {
-    td {
-      background-color: #a3d4b9;
-    }
-  }
-
-  tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-
-  td {
-    border-radius: 5px;
-    color: #333;
-    padding: 10px;
-    border: 1px solid #ddd;
-  }
 `;
 
 export const InputSearch = styled.input`
