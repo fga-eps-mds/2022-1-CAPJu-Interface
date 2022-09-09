@@ -1,15 +1,20 @@
 import { useEffect, useState } from 'react';
-import { Container, InputSearch, AddProcess, Table } from './styles';
+import {
+  Container,
+  InputSearch,
+  AddProcess,
+  Table,
+  Content,
+  ContentHeader,
+  Modal
+} from './styles';
 import { Link, useLocation } from 'react-router-dom';
 import React from 'react';
 import api from '../../services/api';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Visibility from '@mui/icons-material/Visibility';
-import Modal from 'react-modal';
 import Button from 'components/Button';
-import ModalHeader from 'components/ModalHeader';
-import ModalBody from 'components/ModalBody';
 import TextInput from 'components/TextInput';
 import toast from 'react-hot-toast';
 import Dropdown from 'react-dropdown';
@@ -38,7 +43,7 @@ function Processes() {
       bottom: 'auto',
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
-      padding: '10px'
+      padding: ''
     }
   };
 
@@ -258,85 +263,87 @@ function Processes() {
                     </td>
                   </tr>
 
-                  <Modal
-                    isOpen={modalIsOpen}
-                    onRequestClose={closeModal}
-                    style={customStyles}
-                    contentLabel="excluir processo"
-                  >
-                    <ModalHeader close={closeModal}>
+                  <Content>
+                    <ContentHeader close={closeModal}>
                       Excluir Processo
-                    </ModalHeader>
+                    </ContentHeader>
                     <p>
                       Tem certeza que deseja excluir o processo {proc.registro}?
                     </p>
-                    <ModalBody>
-                      <Button
-                        onClick={async () => {
-                          await deleteProcess(proc.registro);
-                          await updateProcesses();
-                          closeModal();
-                        }}
-                      >
-                        Confirmar
-                      </Button>
-                      <Button onClick={closeModal} background="red">
-                        Cancelar
-                      </Button>
-                    </ModalBody>
-                  </Modal>
+                    <Button
+                      onClick={async () => {
+                        await deleteProcess(proc.registro);
+                        await updateProcesses();
+                        closeModal();
+                      }}
+                    >
+                      Confirmar
+                    </Button>
+                    <Button onClick={closeModal} background="red">
+                      Cancelar
+                    </Button>
+                  </Content>
                 </>
               );
             })}
         </Table>
-        <Modal
-          isOpen={editModalIsOpen}
-          onRequestClose={closeModal}
-          style={customStyles}
-          contentLabel="editar processo"
-        >
-          <ModalHeader close={closeModal}>
-            {editOrCreate == 'edit' ? 'Editar Processo' : 'Criar Processo'}
-          </ModalHeader>
-          <ModalBody>
-            <Dropdown
-              options={flows.map((flow) => {
-                return { label: flow.name, value: flow._id };
-              })}
-              onChange={(e) => {
-                setFlowId(e.value);
-              }}
-              value={flowId}
-              placeholder="Selecione o fluxo"
-              className="dropdown"
-              controlClassName="dropdown-control"
-              placeholderClassName="dropdown-placeholder"
-              menuClassName="dropdown-menu"
-              arrowClassName="dropdown-arrow"
-            />
-            <p> Registro </p>
-            <TextInput
-              value={registro}
-              set={setRegistro}
-              placeholder="registro"
-            />
-            <p> Apelido</p>
-            <TextInput value={apelido} set={setApelido} placeholder="apelido" />
-            <Button
-              onClick={async () => {
-                if (editOrCreate == 'edit') await editProcess();
-                else await createProcess();
-                await updateProcesses();
-                closeModal();
-              }}
-            >
-              Confirmar
-            </Button>
-            <Button onClick={closeModal} background="red">
-              Cancelar
-            </Button>
-          </ModalBody>
-        </Modal>
+        {editModalIsOpen && (
+          <Modal>
+            <Content>
+              <ContentHeader>
+                <span>
+                  {editOrCreate == 'edit'
+                    ? 'Editar Processo'
+                    : 'Criar Processo'}{' '}
+                </span>
+              </ContentHeader>
+              <Dropdown
+                options={flows.map((flow) => {
+                  return { label: flow.name, value: flow._id };
+                })}
+                onChange={(e) => {
+                  setFlowId(e.value);
+                }}
+                value={flowId}
+                placeholder="Selecione o fluxo"
+                className="dropdown"
+                controlClassName="dropdown-control"
+                placeholderClassName="dropdown-placeholder"
+                menuClassName="dropdown-menu"
+                arrowClassName="dropdown-arrow"
+              />
+              <div>
+                <p> Registro </p>
+                <TextInput
+                  value={registro}
+                  set={setRegistro}
+                  placeholder="registro"
+                />
+                <p> Apelido</p>
+                <TextInput
+                  value={apelido}
+                  set={setApelido}
+                  placeholder="apelido"
+                />
+              </div>
+              <div>
+                <Button
+                  onClick={async () => {
+                    if (editOrCreate == 'edit') await editProcess();
+                    else await createProcess();
+                    await updateProcesses();
+                    closeModal();
+                  }}
+                >
+                  Confirmar
+                </Button>
+                <Button onClick={closeModal} background="red">
+                  Cancelar
+                </Button>
+              </div>
+            </Content>
+          </Modal>
+        )}
       </div>
       <AddProcess
         onClick={() => {

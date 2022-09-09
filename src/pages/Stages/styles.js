@@ -50,21 +50,49 @@ export const StageItem = styled.div`
   align-items: center;
 `;
 
+export const Modal = styled.div`
+  position: absolute;
+  backdrop-filter: blur(5px);
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 3;
+`;
+
+export const ContentHeader = styled.div`
+  display: flex;
+  background-color: #7a7b4f;
+  min-width: 600px;
+  max-height: 50px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  font-size: 32px;
+  height: 15vh;
+  width: 50%;
+  padding: 5px;
+  span {
+    color: #f1f1f1;
+  }
+`;
+
 export const Content = styled.div`
   display: flex;
   background-color: white;
-  width: 400px;
-  justify-content: center;
+  min-width: 600px;
+  height: 60vh;
+  justify-content: space-between;
   align-items: center;
-  padding: 20px;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   font-size: 20px;
   border-radius: 10px;
-
-  div.stage-info {
-    flex-direction: row;
-  }
+  overflow-x: scroll;
 `;
 
 export const Table = styled.table`
@@ -95,14 +123,4 @@ export const Table = styled.table`
     padding: 10px;
     border: 1px solid #ddd;
   }
-`;
-
-export const Modal = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 50px;
-  width: 100%;
-  height: 300%;
-  border: solid 1px;
-  border-radius: 20px;
 `;

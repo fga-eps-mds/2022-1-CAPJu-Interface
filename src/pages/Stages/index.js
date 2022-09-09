@@ -10,7 +10,8 @@ import {
   StagesArea,
   Modal,
   Content,
-  Table
+  Table,
+  ContentHeader
 } from './styles';
 import { DeleteForever } from '@styled-icons/material';
 import { CloseOutline } from '@styled-icons/evaicons-outline/CloseOutline';
@@ -22,10 +23,10 @@ const closeBtn = {
 };
 
 function Stages() {
-  const [stages, setStages] = useState([{ name: '', time: '' }]);
+  const [stages, setStages] = useState([{ name: '', time: '', _id: '' }]);
   const [stageName, setStageName] = useState('');
   const [stageTime, setStageTime] = useState('');
-  const [currentStage, setCurrentStage] = useState('');
+  const [currentStage, setCurrentStage] = useState({ name: '', _id: '' });
   const [isModalOpen, setModalOpen] = useState(false);
   const [isModalConfDelete, setModalConfDelete] = useState(false);
 
@@ -104,7 +105,7 @@ function Stages() {
                       size={30}
                       onClick={() => {
                         setModalConfDelete(true);
-                        setCurrentStage(stage._id);
+                        setCurrentStage(stage);
                       }}
                     />
                   </td>
@@ -134,51 +135,73 @@ function Stages() {
       {isModalOpen && (
         <Modal>
           <Content>
-            <CloseOutline
-              style={closeBtn}
-              onClick={() => {
-                setModalOpen(false);
-              }}
-            ></CloseOutline>
-            <h2>Nova Etapa</h2>
-            <TextInput
-              set={setStageName}
-              value={stageName}
-              placeholder="Nome da etapa"
-            ></TextInput>
-            <TextInput
-              set={setStageTime}
-              value={stageTime}
-              placeholder="Duração (dias)"
-            ></TextInput>
-            <Button
-              onClick={() => {
-                addStage();
-                setModalOpen(false);
-              }}
-            >
-              Salvar
-            </Button>
+            <ContentHeader>
+              <span>Criar Etapa</span>
+            </ContentHeader>
+            <div>
+              <p> Nome </p>
+
+              <TextInput
+                set={setStageName}
+                value={stageName}
+                placeholder="Nome da etapa"
+              ></TextInput>
+              <p> Duração </p>
+
+              <TextInput
+                set={setStageTime}
+                value={stageTime}
+                placeholder="Duração (dias)"
+              ></TextInput>
+            </div>
+
+            <div>
+              <Button
+                onClick={() => {
+                  addStage();
+                  setModalOpen(false);
+                }}
+              >
+                Salvar
+              </Button>
+              <Button
+                onClick={() => {
+                  setModalOpen(false);
+                }}
+                background="red"
+              >
+                Cancelar
+              </Button>
+            </div>
           </Content>
         </Modal>
       )}
       {isModalConfDelete && (
         <Modal>
           <Content>
+            <ContentHeader>
+              <span>Excluir Etapa</span>
+            </ContentHeader>
+            {currentStage.name}
             <h3>Deseja excluir esta etapa?</h3>
-            <CheckCircle
-              style={closeBtn}
-              onClick={() => {
-                deleteStage(currentStage);
-                setModalConfDelete(false);
-              }}
-            ></CheckCircle>
-            <CloseOutline
-              style={closeBtn}
-              onClick={() => {
-                setModalConfDelete(false);
-              }}
-            ></CloseOutline>
+            <div>
+              <Button
+                onClick={() => {
+                  deleteStage(currentStage._id);
+                  setModalConfDelete(false);
+                }}
+              >
+                Excluir
+              </Button>
+              <Button
+                onClick={() => {
+                  setModalConfDelete(false);
+                }}
+                background="red"
+              >
+                Cancelar
+              </Button>
+            </div>
           </Content>
         </Modal>
       )}

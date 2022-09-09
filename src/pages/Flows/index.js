@@ -352,6 +352,14 @@ function Flows() {
                 >
                   <span>Salvar</span>
                 </Button>
+                <Button
+                  onClick={() => {
+                    setShowFlow(-1);
+                  }}
+                  background="red"
+                >
+                  Cancelar
+                </Button>
               </Content>
             </Modal>
           </>
@@ -444,14 +452,24 @@ function Flows() {
                 </SequencesWrapper>
               </>
             )}
-            <Button
-              onClick={() => {
-                addFlow();
-                setModalOpen(false);
-              }}
-            >
-              <span>Salvar</span>
-            </Button>
+            <div>
+              <Button
+                onClick={() => {
+                  addFlow();
+                  setModalOpen(false);
+                }}
+              >
+                <span>Salvar</span>
+              </Button>
+              <Button
+                onClick={() => {
+                  setModalOpen(false);
+                }}
+                background="red"
+              >
+                Cancelar
+              </Button>
+            </div>
           </Content>
         </Modal>
       )}
