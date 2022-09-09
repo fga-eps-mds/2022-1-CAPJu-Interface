@@ -110,7 +110,8 @@ export const Content = styled.div`
   display: flex;
   background-color: white;
   min-width: 800px;
-  height: 90vh;
+  max-height: 90vh;
+  min-height: 60vh;
   justify-content: space-between;
   align-items: center;
   flex-direction: column;

@@ -24,6 +24,7 @@ function Processes() {
   const [processes, setProcesses] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [deleteProcessModal, setDeleteProcessModal] = useState(-1);
   const [editModalIsOpen, setEditModalIsOpen] = useState(false);
   const [registro, setRegistro] = useState('');
   const [apelido, setApelido] = useState('');
@@ -84,6 +85,7 @@ function Processes() {
     try {
       await api.delete(`/deleteProcess/${registro}`);
       toast.success('Processo Removido com Sucesso', { duration: 4000 });
+      updateProcesses();
     } catch (error) {
       toast.error(
         'Erro ao deletar processo \n ' + error.response.data.message,
@@ -142,6 +144,8 @@ function Processes() {
     try {
       const flow = flows.find((flow) => flow._id === flowId);
       if (registro && flow) {
+        console.log('flow', flow);
+
         let sequences = flow.sequences;
 
         await api.post('/newProcess', {
@@ -158,6 +162,7 @@ function Processes() {
 
       toast.success('Processo Registrado com Sucesso', { duration: 4000 });
     } catch (error) {
+      console.log(error);
       toast.error(
         'Erro ao registrar processo \n ' + error.response.data.message,
         { duration: 3000 }
@@ -258,31 +263,10 @@ function Processes() {
                       />
                       <DeleteForeverIcon
                         className="delete-process"
-                        onClick={() => openModal()}
+                        onClick={() => setDeleteProcessModal(idx)}
                       />
                     </td>
                   </tr>
-
-                  <Content>
-                    <ContentHeader close={closeModal}>
-                      Excluir Processo
-                    </ContentHeader>
-                    <p>
-                      Tem certeza que deseja excluir o processo {proc.registro}?
-                    </p>
-                    <Button
-                      onClick={async () => {
-                        await deleteProcess(proc.registro);
-                        await updateProcesses();
-                        closeModal();
-                      }}
-                    >
-                      Confirmar
-                    </Button>
-                    <Button onClick={closeModal} background="red">
-                      Cancelar
-                    </Button>
-                  </Content>
                 </>
               );
             })}
@@ -338,6 +322,38 @@ function Processes() {
                   Confirmar
                 </Button>
                 <Button onClick={closeModal} background="red">
+                  Cancelar
+                </Button>
+              </div>
+            </Content>
+          </Modal>
+        )}
+
+        {deleteProcessModal != -1 && (
+          <Modal>
+            <Content>
+              <ContentHeader>
+                {' '}
+                <span>Excluir Processo</span>
+              </ContentHeader>
+              <span>Deseja realmente excluir este Processo?</span>
+              {processes[deleteProcessModal].registro} -{' '}
+              {processes[deleteProcessModal].apelido}
+              <div>
+                <Button
+                  onClick={async () => {
+                    setDeleteProcessModal(-1);
+                    deleteProcess(processes[deleteProcessModal].registro);
+                  }}
+                >
+                  Confirmar
+                </Button>
+                <Button
+                  onClick={() => {
+                    setDeleteProcessModal(-1);
+                  }}
+                  background="red"
+                >
                   Cancelar
                 </Button>
               </div>
