@@ -5,6 +5,7 @@ import { Flow } from '@styled-icons/fluentui-system-regular';
 import { FlowCascade } from '@styled-icons/entypo';
 import { ClipboardTaskListLtr } from '@styled-icons/fluentui-system-regular/ClipboardTaskListLtr';
 import { Profile } from '@styled-icons/icomoon';
+import { UserPlus } from '@styled-icons/boxicons-regular/UserPlus';
 import { useNavigate } from 'react-router-dom';
 function SideBar() {
   const navigate = useNavigate();
@@ -32,6 +33,10 @@ function SideBar() {
       >
         <ClipboardTaskListLtr />
         3.Processos
+      </MenuItem>
+      <MenuItem href={'/solicitacoes'}>
+        <UserPlus />
+        4.Solicitações
       </MenuItem>
       <Button
         background="#DE5353"
