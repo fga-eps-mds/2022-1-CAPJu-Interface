@@ -33,6 +33,15 @@ function SideBar() {
         <ClipboardTaskListLtr />
         3.Processos
       </MenuItem>
+      <MenuItem
+        href=""
+        onClick={() =>
+          navigate('/editAccount', { state: undefined, replace: false })
+        }
+      >
+        <ClipboardTaskListLtr />
+        4.Editar Conta
+      </MenuItem>
       <Button
         background="#DE5353"
         onClick={() => {
