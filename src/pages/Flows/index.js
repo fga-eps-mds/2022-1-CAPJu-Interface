@@ -181,47 +181,51 @@ function Flows() {
         <span>Fluxos</span>
         <FlowsArea>
           <Table>
-            <tr>
-              <th>Nome</th>
-              <th>Ações</th>
-            </tr>
-            {flows.map((flow, index) => {
-              return (
-                <tr key={index}>
-                  <td>{flow.name}</td>
-                  <td>
-                    {' '}
-                    <Tooltip title="visualizar processos">
-                      <Link to="/processes" state={flow}>
-                        <DescriptionIcon htmlColor="black" />
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              {flows.map((flow, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{flow.name}</td>
+                    <td>
+                      {' '}
+                      <Tooltip title="visualizar processos">
+                        <Link to="/processes" state={flow}>
+                          <DescriptionIcon htmlColor="black" />
+                        </Link>
+                      </Tooltip>{' '}
+                      <Tooltip title="editar fluxo">
+                        <EditIcon
+                          htmlColor="black"
+                          onClick={() => {
+                            setShowFlow(index);
+                            setNewFlow(flows[index]);
+                          }}
+                        ></EditIcon>
+                      </Tooltip>
+                      <Tooltip title="deletar fluxo">
+                        <DeleteForever
+                          htmlColor="black"
+                          onClick={() => {
+                            setDeleteModal(true);
+                            setSelectedFlow(index);
+                            setShowFlow(-1);
+                          }}
+                        ></DeleteForever>
+                      </Tooltip>
+                      <Link to="/statistics" state={flow}>
+                        <InsertChartIcon htmlColor="black" />
                       </Link>
-                    </Tooltip>{' '}
-                    <Tooltip title="editar fluxo">
-                      <EditIcon
-                        htmlColor="black"
-                        onClick={() => {
-                          setShowFlow(index);
-                          setNewFlow(flows[index]);
-                        }}
-                      ></EditIcon>
-                    </Tooltip>
-                    <Tooltip title="deletar fluxo">
-                      <DeleteForever
-                        htmlColor="black"
-                        onClick={() => {
-                          setDeleteModal(true);
-                          setSelectedFlow(index);
-                          setShowFlow(-1);
-                        }}
-                      ></DeleteForever>
-                    </Tooltip>
-                    <Link to="/statistics" state={flow}>
-                      <InsertChartIcon htmlColor="black" />
-                    </Link>
-                  </td>
-                </tr>
-              );
-            })}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
           </Table>
         </FlowsArea>
 

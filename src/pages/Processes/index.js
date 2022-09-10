@@ -23,7 +23,6 @@ import { isLate } from 'components/IsLate/index.js';
 function Processes() {
   const [processes, setProcesses] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [deleteProcessModal, setDeleteProcessModal] = useState(-1);
   const [editModalIsOpen, setEditModalIsOpen] = useState(false);
   const [registro, setRegistro] = useState('');
@@ -35,18 +34,6 @@ function Processes() {
   const [flows, setFlows] = useState([]);
   const [flowId, setFlowId] = useState(flow ? flow._id : '');
   const [stages, setStages] = useState([]);
-
-  const customStyles = {
-    content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-      padding: ''
-    }
-  };
 
   useEffect(() => {
     updateProcesses();
@@ -94,12 +81,7 @@ function Processes() {
     }
   }
 
-  function openModal() {
-    setModalIsOpen(true);
-  }
-
   function closeModal() {
-    setModalIsOpen(false);
     setEditModalIsOpen(false);
   }
 
@@ -199,44 +181,48 @@ function Processes() {
           </>
         )}
         <Table>
-          <tr>
-            <th>Registro</th>
-            <th>Apelido</th>
-            {flow && stages ? (
-              <>
-                <th>Etapa Atual</th>
-                <th>Última Etapa</th>
-              </>
-            ) : (
-              <></>
-            )}
-            <th>Ações</th>
-          </tr>
-          {filterProcesses(processes)
-            .sort((a, b) => b.etapas.length - a.etapas.length)
-            .map((proc, idx) => {
-              let CurrentStage, FinalStage, CurrentStagePos, FinalStagePos;
-
-              if (flow && stages) {
-                CurrentStage = stages.find((el) => el._id === proc.etapaAtual);
-                FinalStage = stages.find(
-                  (el) => el._id === flow.sequences.at(-1).to
-                );
-
-                CurrentStagePos = stages.indexOf(CurrentStage) + 1;
-                FinalStagePos = stages.indexOf(FinalStage) + 1;
-              }
-
-              let className = 'processName ';
-
-              if (flow) {
-                className += isLate(CurrentStage, proc, flow)
-                  ? 'currentStage-red'
-                  : 'currentStage-green';
-              }
-
-              return (
+          <thead>
+            <tr>
+              <th>Registro</th>
+              <th>Apelido</th>
+              {flow && stages ? (
                 <>
+                  <th>Etapa Atual</th>
+                  <th>Última Etapa</th>
+                </>
+              ) : (
+                <></>
+              )}
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filterProcesses(processes)
+              .sort((a, b) => b.etapas.length - a.etapas.length)
+              .map((proc, idx) => {
+                let CurrentStage, FinalStage, CurrentStagePos, FinalStagePos;
+
+                if (flow && stages) {
+                  CurrentStage = stages.find(
+                    (el) => el._id === proc.etapaAtual
+                  );
+                  FinalStage = stages.find(
+                    (el) => el._id === flow.sequences.at(-1).to
+                  );
+
+                  CurrentStagePos = stages.indexOf(CurrentStage) + 1;
+                  FinalStagePos = stages.indexOf(FinalStage) + 1;
+                }
+
+                let className = 'processName ';
+
+                if (flow) {
+                  className += isLate(CurrentStage, proc, flow)
+                    ? 'currentStage-red'
+                    : 'currentStage-green';
+                }
+
+                return (
                   <tr key={idx} className={className}>
                     <td>{proc.registro}</td>
                     <td>{proc.apelido}</td>
@@ -267,9 +253,9 @@ function Processes() {
                       />
                     </td>
                   </tr>
-                </>
-              );
-            })}
+                );
+              })}
+          </tbody>
         </Table>
         {editModalIsOpen && (
           <Modal>

@@ -14,13 +14,7 @@ import {
   ContentHeader
 } from './styles';
 import { DeleteForever } from '@styled-icons/material';
-import { CloseOutline } from '@styled-icons/evaicons-outline/CloseOutline';
-import { CheckCircle } from '@styled-icons/material';
 import AxiosError from 'axios/lib/core/AxiosError';
-
-const closeBtn = {
-  maxWidth: '40px'
-};
 
 function Stages() {
   const [stages, setStages] = useState([{ name: '', time: '', _id: '' }]);
@@ -90,37 +84,41 @@ function Stages() {
         Etapas
         <StagesArea>
           <Table>
-            <tr>
-              <th>Nome</th>
-              <th>Duração</th>
-              <th></th>
-            </tr>
-            {stages.map((stage, index) => {
-              return (
-                <tr key={index}>
-                  <td>{stage.name}</td>
-                  <td>{stage.time}</td>
-                  <td>
-                    <DeleteForever
-                      size={30}
-                      onClick={() => {
-                        setModalConfDelete(true);
-                        setCurrentStage(stage);
-                      }}
-                    />
-                  </td>
-                </tr>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Duração</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {stages.map((stage, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{stage.name}</td>
+                    <td>{stage.time}</td>
+                    <td>
+                      <DeleteForever
+                        size={30}
+                        onClick={() => {
+                          setModalConfDelete(true);
+                          setCurrentStage(stage);
+                        }}
+                      />
+                    </td>
+                  </tr>
 
-                // <StageItem key={index}>
-                //   {'Nome da Etapa: '}
-                //   {stage.name}
-                //   <br></br>
-                //   {'Duração em Dias: '}
-                //   {stage.time} <br></br>
+                  // <StageItem key={index}>
+                  //   {'Nome da Etapa: '}
+                  //   {stage.name}
+                  //   <br></br>
+                  //   {'Duração em Dias: '}
+                  //   {stage.time} <br></br>
 
-                // </StageItem>
-              );
-            })}
+                  // </StageItem>
+                );
+              })}
+            </tbody>
           </Table>
         </StagesArea>
         <AddStageButton
