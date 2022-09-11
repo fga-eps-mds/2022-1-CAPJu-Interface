@@ -40,6 +40,22 @@ function SolicitacoesCadastro() {
     }
   }
 
+  async function deleteRequest(userId) {
+    try {
+      const response = await api.delete(`/deleteRequest/${userId}`, {
+        headers: authHeader
+      });
+      if (response.status == 200) {
+        toast.success('Solicitação recusada com sucesso!', { duration: 3000 });
+      } else {
+        toast.error('Erro ao recusar solicitação!', { duration: 3000 });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error('Erro ao recusar solicitação!', { duration: 3000 });
+    }
+  }
+
   return (
     <Container>
       <h1>Solicitações de Cadastro</h1>
@@ -70,7 +86,10 @@ function SolicitacoesCadastro() {
                     <Delete
                       className="delete-icon"
                       size={30}
-                      onClick={() => {}}
+                      onClick={async () => {
+                        await deleteRequest(users._id);
+                        await updateSolicitacoes();
+                      }}
                     />
                   </Tooltip>
                 </td>
