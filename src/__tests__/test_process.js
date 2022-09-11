@@ -1,6 +1,12 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/display-name */
-import { render, waitFor, screen, fireEvent } from '@testing-library/react';
+import {
+  render,
+  waitFor,
+  screen,
+  fireEvent,
+  getByText
+} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import TextInput from '../components/TextInput';
 import nock from 'nock';
@@ -18,10 +24,6 @@ import {
 } from '../testConstants';
 
 axios.defaults.adapter = require('axios/lib/adapters/http');
-
-function delay(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
 
 test('testando TextInput', () => {
   let registro = '';
@@ -41,7 +43,6 @@ test('testando TextInput', () => {
 });
 
 const process = processResponse.processes[0];
-process.createdAt = parseInt(process.createdAt);
 const flow = flowsResponse.Flows[0];
 const newProcess = {
   registro: '2222',
@@ -91,8 +92,9 @@ test('teste processos', async () => {
   );
   // mostrando conteúdo
   await waitFor(() => expect(scopeGet.isDone()).toBe(true));
-  await delay(1000);
-  screen.getByText('1111');
+  screen.getByText('Processos');
+
+  const r1111 = await screen.findByText('1111');
 
   // criando processo
   const createButton = screen.getByText('+ Adicionar Processo');
@@ -128,13 +130,13 @@ test('teste processos', async () => {
   fireEvent.click(editIcon);
   modalHeader = screen.queryByText('Editar Processo');
   expect(modalHeader).toBeInTheDocument();
+  submit = screen.getByText('Confirmar');
   fluxoInput = screen.getByTestId('react-select-mock');
   expect(fluxoInput).toHaveValue(process.fluxoId);
   registroInput = screen.getByDisplayValue(process.registro);
   apelidoInput = screen.getByDisplayValue(process.apelido);
   fireEvent.change(apelidoInput, { target: { value: 'novoApelido' } });
   fireEvent.click(submit);
-  await delay(500);
   await waitFor(() => expect(scopeEdit.isDone()).toBe(true));
 
   // entrando em detalhar processo
@@ -148,6 +150,61 @@ test('teste processos', async () => {
   const visibilityIcon = screen.getByTestId('VisibilityIcon');
   fireEvent.click(visibilityIcon);
   await waitFor(() => expect(scopeStages.isDone()).toBe(true));
+  expect(screen.queryByText('Processos')).not.toBeInTheDocument();
+
+  // avançando etapa
+  const nextStageObj = {
+    processId: process._id,
+    stageIdTo: flow.sequences[0].to,
+    stageIdFrom: process.etapaAtual,
+    observation: 'obs'
+  };
+  const nextStageURL = '/processNextStage/';
+  const scopeNextStage = nock(baseURL)
+    .defaultReplyHeaders({
+      'access-control-allow-origin': '*',
+      'access-control-allow-credentials': 'true'
+    })
+    .options(nextStageURL)
+    .reply(200)
+    .put(nextStageURL, nextStageObj)
+    .reply(200, null)
+    .get(`/getOneProcess/${process._id}`)
+    .reply(200, process);
+  const nextButton = screen.getByText('Avançar etapa');
+  fireEvent.click(nextButton);
+  const obsInput = screen.getByPlaceholderText(
+    'Observações sobre a etapa atual...'
+  );
+  submit = screen.getByText('Avançar');
+  fireEvent.change(obsInput, { target: { value: nextStageObj.observation } });
+  fireEvent.click(submit);
+  await waitFor(() => expect(scopeNextStage.isDone()).toBe(true));
+
+  // voltando para a pagina de processos
+  const backButton = screen.getByText('Voltar');
+  fireEvent.click(backButton);
+  screen.getByText(`Processos - ${flow.name}`);
+
+  // deletando o processo
+  const deleteURL = `/deleteProcess/${process.registro}`;
+  await screen.findByText(process.registro);
+  const scopeDelete = nock(baseURL)
+    .defaultReplyHeaders({
+      'access-control-allow-origin': '*',
+      'access-control-allow-credentials': 'true'
+    })
+    .options(deleteURL)
+    .reply(200)
+    .delete(deleteURL)
+    .reply(200);
+  const deleteIcon = screen.getByTestId('DeleteForeverIcon');
+  fireEvent.click(deleteIcon);
+  screen.getByText('Excluir Processo');
+  submit = screen.getByText('Confirmar');
+  fireEvent.click(submit);
+  await waitFor(() => expect(scopeDelete.isDone()).toBe(true));
+  expect(screen.queryByText('Excluir Processo')).not.toBeInTheDocument();
 });
 
 describe('testando função de atraso', () => {
