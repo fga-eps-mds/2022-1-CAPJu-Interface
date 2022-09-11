@@ -13,10 +13,8 @@ import ModalBody from 'components/ModalBody';
 import TextInput from 'components/TextInput';
 import toast from 'react-hot-toast';
 import Dropdown from 'react-dropdown';
-import { isLate } from 'components/IsLate/index.js';
 
 function Processes() {
-  const [processes, setProcesses] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [editModalIsOpen, setEditModalIsOpen] = useState(false);
@@ -26,9 +24,12 @@ function Processes() {
   const [editOrCreate, setEditOrCreate] = useState('');
   const location = useLocation();
   const flow = location.state;
+  const processesList = location.state;
   const [flows, setFlows] = useState([]);
   const [flowId, setFlowId] = useState(flow ? flow._id : '');
   const [stages, setStages] = useState([]);
+  const [processes, setProcesses] = useState([]);
+  const [currentStage, setCurrentStage] = useState('');
 
   const customStyles = {
     content: {
@@ -43,18 +44,27 @@ function Processes() {
   };
 
   useEffect(() => {
-    updateProcesses();
     getFlows();
     getStages();
-    console.log(flows);
-    // eslint-disable-next-line
-  }, []);
+    updateProcesses();
+    updateTitle();
+  });
 
-  async function updateProcesses() {
-    const response = await api.get(`/processes/${flow ? flow._id : ''}`);
-    console.log(flow);
-    setProcesses(response.data.processes);
-  }
+  const updateProcesses = async () => {
+    setProcesses(location.state);
+  };
+
+  const updateTitle = () => {
+    let stageName = '';
+    for (let stage of stages) {
+      if (stage._id === processesList[0].etapaAtual) {
+        stageName = stage.name;
+        break;
+      }
+    }
+
+    setCurrentStage(stageName);
+  };
 
   //Catch the event when the input changes
   const handleChange = (event) => {
@@ -105,8 +115,6 @@ function Processes() {
       setFlowId(proc.fluxoId);
     } else setEditOrCreate('create');
 
-    console.log(editOrCreate);
-    console.log(proc);
     setEditModalIsOpen(true);
   }
 
@@ -175,7 +183,7 @@ function Processes() {
   return (
     <Container>
       <div className="processes">
-        <h1>Processos {flow ? '- ' + flow.name : ''}</h1>
+        <h1>Processos na etapa {currentStage ? '- ' + currentStage : ''}</h1>
         <div className="processSearch">
           <InputSearch
             value={searchTerm}
@@ -187,17 +195,6 @@ function Processes() {
         {filterProcesses(processes)
           .sort((a, b) => b.etapas.length - a.etapas.length)
           .map((proc, idx) => {
-            let CurrentStage, FinalStage, CurrentStagePos, FinalStagePos;
-
-            if (flow && stages) {
-              CurrentStage = stages.find((el) => el._id === proc.etapaAtual);
-              FinalStage = stages.find(
-                (el) => el._id === flow.sequences.at(-1).to
-              );
-
-              CurrentStagePos = stages.indexOf(CurrentStage) + 1;
-              FinalStagePos = stages.indexOf(FinalStage) + 1;
-            }
             return (
               <div key={idx} className="process">
                 <div className="processName">
@@ -205,7 +202,7 @@ function Processes() {
                     ? `${proc.registro} - ${proc.apelido}`
                     : `${proc.registro}`}
                   {
-                    <Link to="showProcess" state={{ proc, flow }}>
+                    <Link to="showProcess" state={{ proc, stages }}>
                       <Visibility className="see-process"></Visibility>
                     </Link>
                   }
@@ -233,7 +230,6 @@ function Processes() {
                       <Button
                         onClick={async () => {
                           await deleteProcess(proc.registro);
-                          await updateProcesses();
                           closeModal();
                         }}
                       >
@@ -245,25 +241,6 @@ function Processes() {
                     </ModalBody>
                   </Modal>
                 </div>
-                {flow && stages ? (
-                  <>
-                    <div
-                      className={
-                        'processName ' +
-                        (isLate(CurrentStage, proc, flow)
-                          ? 'currentStage-red'
-                          : 'currentStage-green')
-                      }
-                    >
-                      Etapa Atual: {CurrentStagePos}. {CurrentStage?.name}
-                    </div>
-                    <div className="processName finalStage">
-                      Última Etapa: {FinalStagePos}. {FinalStage?.name}
-                    </div>
-                  </>
-                ) : (
-                  ''
-                )}
               </div>
             );
           })}
@@ -304,7 +281,6 @@ function Processes() {
               onClick={async () => {
                 if (editOrCreate == 'edit') await editProcess();
                 else await createProcess();
-                await updateProcesses();
                 closeModal();
               }}
             >

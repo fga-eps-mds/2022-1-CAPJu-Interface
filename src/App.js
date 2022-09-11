@@ -14,6 +14,7 @@ import AccessProfile from 'pages/AccessProfile/index.js';
 import Statistics from 'pages/Statistics/index.js';
 import { AuthContext } from 'context/AuthContext';
 import Recovery from 'pages/Recovery/index.js';
+import StatisticsProcesses from 'pages/StatisticsProcesses/index.js';
 
 function App() {
   const location = useLocation();
@@ -55,6 +56,14 @@ function App() {
               <Route path="processes" element={<Processes />} />
               <Route path="processes/showProcess" element={<ShowProcess />} />
               <Route path="statistics" element={<Statistics />} />
+              <Route
+                path="statistics/stageProcesses"
+                element={<StatisticsProcesses />}
+              />
+              <Route
+                path="statistics/stageProcesses/showProcess"
+                element={<ShowProcess />}
+              />
             </Routes>
           </Content>
         </AuthContext.Provider>

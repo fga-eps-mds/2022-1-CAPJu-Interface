@@ -53,21 +53,14 @@ export const StageItem = styled.div`
 export const Content = styled.div`
   display: flex;
   background-color: white;
-<<<<<<< HEAD
   width: 400px;
-=======
   max-width: 400px;
   max-height: 400px;
->>>>>>> devel
   justify-content: center;
   align-items: center;
   padding: 20px;
   flex-direction: column;
-<<<<<<< HEAD
-  gap: 20px;
-=======
   gap: 25px;
->>>>>>> devel
   font-size: 20px;
   border-radius: 10px;
 
