@@ -1,5 +1,6 @@
 import './styles.js';
 import SideBar from './components/SideBar';
+import Account from './components/Account/index.js';
 import Login from './pages/Login';
 import ShowProcess from 'pages/ShowProcess/index.js';
 import Processes from 'pages/Processes/index.js';
@@ -14,7 +15,7 @@ import Statistics from 'pages/Statistics/index.js';
 import { AuthContext } from 'context/AuthContext';
 import Recovery from 'pages/Recovery/index.js';
 import StatisticsProcesses from 'pages/StatisticsProcesses/index.js';
-import EditAccountPage from 'pages/EditAccount/index.js';
+import EditAccount from 'pages/EditAccount/index.js';
 
 function App() {
   const location = useLocation();
@@ -45,6 +46,7 @@ function App() {
         <AuthContext.Provider value={{ user, setUser }}>
           <SideBar />
           <Content>
+            <Account />
             <Routes>
               <Route path="/" element={<Flows />} />
               <Route path="login" element={<Login />} />
@@ -63,7 +65,7 @@ function App() {
                 path="statistics/stageProcesses/showProcess"
                 element={<ShowProcess />}
               />
-              <Route path="editAccount" element={<EditAccountPage />} />
+              <Route path="editAccount" element={<EditAccount />} />
             </Routes>
           </Content>
         </AuthContext.Provider>

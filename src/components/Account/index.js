@@ -3,7 +3,7 @@ import React from 'react';
 import { User } from './styles';
 
 function Account(props) {
-  return <User onClick={props.onClick}></User>;
+  return <User onClick={props.onClick} />;
 }
 
 Account.propTypes = {

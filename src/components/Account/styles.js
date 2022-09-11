@@ -8,4 +8,7 @@ export const User = styled(UserCircle)`
   right: 5%;
   height: 10%;
   width: 10%;
+  .hover {
+    color: red;
+  }
 `;
