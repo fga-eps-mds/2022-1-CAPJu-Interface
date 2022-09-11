@@ -6,10 +6,12 @@ import authConfig from 'services/config';
 import { Delete } from '@styled-icons/typicons/Delete';
 import { Check } from '@styled-icons/entypo/Check';
 import Tooltip from '@mui/material/Tooltip';
+import toast from 'react-hot-toast';
 
 function SolicitacoesCadastro() {
   const [users, setUsers] = useState([]);
   const authHeader = authConfig().headers;
+  console.log(authHeader);
   useEffect(() => {
     updateSolicitacoes();
     // eslint-disable-next-line
@@ -20,6 +22,22 @@ function SolicitacoesCadastro() {
       headers: authHeader
     });
     setUsers(response.data.user);
+  }
+
+  async function acceptRequest(userId) {
+    try {
+      const response = await api.post(`/acceptRequest/${userId}`, {
+        headers: authHeader
+      });
+      if (response.status == 200) {
+        toast.success('Solicitação aceita com sucesso!', { duration: 3000 });
+      } else {
+        toast.error('Erro ao aceitar solicitação!', { duration: 3000 });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error('Erro ao aceitar solicitação!', { duration: 3000 });
+    }
   }
 
   return (
@@ -43,9 +61,7 @@ function SolicitacoesCadastro() {
                       className="check-icon"
                       size={30}
                       onClick={async () => {
-                        await api.post(`/acceptRequest/${users._id}`, {
-                          headers: authHeader
-                        });
+                        await acceptRequest(users._id);
                         await updateSolicitacoes();
                       }}
                     />
