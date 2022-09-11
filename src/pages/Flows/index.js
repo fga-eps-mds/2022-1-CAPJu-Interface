@@ -17,9 +17,6 @@ import {
   SequencesWrapper,
   SequenceItem,
   ContentHeader,
-  ModalDelete,
-  ContentDelete,
-  CloseModalDelete,
   CloseModalGeneral,
   Table
 } from './styles';
@@ -27,7 +24,7 @@ import FlowViewer from 'components/FlowViewer';
 import DescriptionIcon from '@mui/icons-material/Description';
 import EditIcon from '@mui/icons-material/Edit';
 import { Link } from 'react-router-dom';
-import { DeleteForever, Visibility } from '@mui/icons-material';
+import { DeleteForever } from '@mui/icons-material';
 import Tooltip from '@mui/material/Tooltip';
 import { AddSequenceInFlow } from 'components/AddSequenceInFlow';
 import InsertChartIcon from '@mui/icons-material/InsertChart';
