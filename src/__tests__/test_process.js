@@ -19,18 +19,9 @@ import {
 
 axios.defaults.adapter = require('axios/lib/adapters/http');
 
-// gambiarra achada em https://github.com/ant-design/ant-design/issues/21096#issuecomment-578118486
-// Object.defineProperty(window, 'matchMedia', {
-//   writable: true,
-//   value: jest.fn().mockImplementation((query) => ({
-//     matches: false,
-//     media: query,
-//     onchange: null,
-//     addEventListener: jest.fn(),
-//     removeEventListener: jest.fn(),
-//     dispatchEvent: jest.fn()
-//   }))
-// });
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 test('testando TextInput', () => {
   let registro = '';
@@ -100,8 +91,8 @@ test('teste processos', async () => {
   );
   // mostrando conteúdo
   await waitFor(() => expect(scopeGet.isDone()).toBe(true));
-  const r1111 = await waitFor(() => screen.queryByText('1111 - sdlkfja'));
-  expect(r1111).toBeInTheDocument();
+  await delay(1000);
+  screen.getByText('1111');
 
   // criando processo
   const createButton = screen.getByText('+ Adicionar Processo');
@@ -143,6 +134,7 @@ test('teste processos', async () => {
   apelidoInput = screen.getByDisplayValue(process.apelido);
   fireEvent.change(apelidoInput, { target: { value: 'novoApelido' } });
   fireEvent.click(submit);
+  await delay(500);
   await waitFor(() => expect(scopeEdit.isDone()).toBe(true));
 
   // entrando em detalhar processo

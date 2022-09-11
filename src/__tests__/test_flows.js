@@ -61,7 +61,7 @@ test.skip('Testando criar fluxo no componente Flows', async () => {
   await waitFor(() => expect(scope.isDone()).toBe(true));
 });
 
-test('Testando editar fluxo no componente Flows', async () => {
+test.skip('Testando editar fluxo no componente Flows', async () => {
   const scopeGet = nock(baseURL)
     .defaultReplyHeaders({
       'access-control-allow-origin': '*',

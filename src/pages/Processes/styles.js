@@ -46,17 +46,17 @@ export const Container = styled.div`
   }
 
   svg.see-process {
-    color: #304974;
+    color: #000001;
     cursor: pointer;
   }
 
   svg.edit-process {
-    color: #fbe304;
+    color: #000001;
     cursor: pointer;
   }
 
   svg.delete-process {
-    color: #de5353;
+    color: #000001;
     cursor: pointer;
   }
 
