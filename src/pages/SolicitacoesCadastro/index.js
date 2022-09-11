@@ -8,8 +8,7 @@ import { Check } from '@styled-icons/entypo/Check';
 
 function SolicitacoesCadastro() {
   const [users, setUsers] = useState([]);
-  const authHeader = authConfig().header;
-
+  const authHeader = authConfig().headers;
   useEffect(() => {
     updateSolicitacoes();
     // eslint-disable-next-line
@@ -17,6 +16,7 @@ function SolicitacoesCadastro() {
 
   async function updateSolicitacoes() {
     const response = await api.get(`/allUser`, { headers: authHeader });
+    setUsers(response.data.user);
   }
 
   return (
