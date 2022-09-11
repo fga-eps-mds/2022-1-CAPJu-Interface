@@ -5,6 +5,7 @@ import api from '../../services/user';
 import authConfig from 'services/config';
 import { Delete } from '@styled-icons/typicons/Delete';
 import { Check } from '@styled-icons/entypo/Check';
+import Tooltip from '@mui/material/Tooltip';
 
 function SolicitacoesCadastro() {
   const [users, setUsers] = useState([]);
@@ -26,17 +27,36 @@ function SolicitacoesCadastro() {
       <h1>Solicitações de Cadastro</h1>
       <div>
         <Table>
-          <tr>
-            <th>Nome</th>
-            <th>Ação</th>
-          </tr>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Ação</th>
+            </tr>
+          </thead>
           {users.map((users, index) => {
             return (
               <tr key={index}>
                 <td>{users.name}</td>
                 <td className="actionButtons">
-                  <Check size={30} onClick={() => {}} />
-                  <Delete size={30} onClick={() => {}} />
+                  <Tooltip title="Aceitar solicitação">
+                    <Check
+                      className="check-icon"
+                      size={30}
+                      onClick={async () => {
+                        await api.post(`/acceptRequest/${users._id}`, {
+                          headers: authHeader
+                        });
+                        await updateSolicitacoes();
+                      }}
+                    />
+                  </Tooltip>
+                  <Tooltip title="Recusar solicitação">
+                    <Delete
+                      className="delete-icon"
+                      size={30}
+                      onClick={() => {}}
+                    />
+                  </Tooltip>
                 </td>
               </tr>
             );

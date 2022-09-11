@@ -9,6 +9,16 @@ export const Container = styled.div`
   flex-direction: column;
   gap: 50px;
   overflow-y: scroll;
+
+  svg.check-icon {
+    cursor: pointer;
+    color: green;
+  }
+
+  svg.delete-icon {
+    cursor: pointer;
+    color: #e01616;
+  }
 `;
 
 export const Table = styled.table`
