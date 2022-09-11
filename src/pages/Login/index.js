@@ -15,12 +15,14 @@ import { Content } from 'pages/Stages/styles';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import user from 'services/user';
+import Dropdown from 'react-dropdown';
+
 function Login() {
   const [isModalOpen, setModalOpen] = useState(false);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const [newRole, setNewRole] = useState('');
   const [newName, setNewName] = useState('');
   const [newEmail, setNewEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -52,7 +54,8 @@ function Login() {
       const response = await user.post('/newUser', {
         name: newName,
         email: newEmail,
-        password: newPassword
+        password: newPassword,
+        role: newRole
       });
       response.status == 200;
       toast.success('Usuário cadastrado com  sucesso');
@@ -61,6 +64,7 @@ function Login() {
       setNewEmail('');
       setNewPassword2('');
       setSelectedTab('login');
+      setNewRole('');
     } catch (error) {
       toast.error('Erro ao cadastrar \n' + error.response.data.message);
     }
@@ -94,6 +98,13 @@ function Login() {
       toast.error('Erro ao solicitar email');
     }
   }
+
+  const OptionsRoles = [
+    { label: 'DIRETOR', value: 1 },
+    { label: 'JUIZ', value: 2 },
+    { label: 'SERVIDOR', value: 3 },
+    { label: 'ESTAGIARIO', value: 4 }
+  ];
 
   return (
     <Container>
@@ -181,6 +192,19 @@ function Login() {
               placeholder="Confirme a senha"
               type="password"
             ></TextInput>
+            <Dropdown
+              options={OptionsRoles}
+              onChange={(e) => {
+                setNewRole(e.value);
+              }}
+              value={newRole}
+              placeholder="Selecione o perfil"
+              className="dropdown"
+              controlClassName="dropdown-control"
+              placeholderClassName="dropdown-placeholder"
+              menuClassName="dropdown-menu"
+              arrowClassName="dropdown-arrow"
+            />
             <Criterios>
               <ul>
                 <h6>
