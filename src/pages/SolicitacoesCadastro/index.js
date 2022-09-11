@@ -15,7 +15,9 @@ function SolicitacoesCadastro() {
   }, []);
 
   async function updateSolicitacoes() {
-    const response = await api.get(`/allUser`, { headers: authHeader });
+    const response = await api.get(`/allUser?accepted=false`, {
+      headers: authHeader
+    });
     setUsers(response.data.user);
   }
 
