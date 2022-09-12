@@ -58,8 +58,8 @@ export const processResponse = {
       arquivado: false,
       etapaAtual: '62fd4ac0006730249d33b185',
       fluxoId: '62fd4b16006730249d33b19d',
-      createdAt: '1660767103499',
-      updatedAt: '1660767103499',
+      createdAt: 1660767103499,
+      updatedAt: 1660767103499,
       __v: 0
     }
   ]

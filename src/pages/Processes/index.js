@@ -1,15 +1,20 @@
 import { useEffect, useState } from 'react';
-import { Container, InputSearch, AddProcess } from './styles';
+import {
+  Container,
+  InputSearch,
+  AddProcess,
+  Table,
+  Content,
+  ContentHeader,
+  Modal
+} from './styles';
 import { Link, useLocation } from 'react-router-dom';
 import React from 'react';
 import api from '../../services/api';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Visibility from '@mui/icons-material/Visibility';
-import Modal from 'react-modal';
 import Button from 'components/Button';
-import ModalHeader from 'components/ModalHeader';
-import ModalBody from 'components/ModalBody';
 import TextInput from 'components/TextInput';
 import toast from 'react-hot-toast';
 import Dropdown from 'react-dropdown';
@@ -18,7 +23,7 @@ import { isLate } from 'components/IsLate/index.js';
 function Processes() {
   const [processes, setProcesses] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [deleteProcessModal, setDeleteProcessModal] = useState(-1);
   const [editModalIsOpen, setEditModalIsOpen] = useState(false);
   const [registro, setRegistro] = useState('');
   const [apelido, setApelido] = useState('');
@@ -29,18 +34,6 @@ function Processes() {
   const [flows, setFlows] = useState([]);
   const [flowId, setFlowId] = useState(flow ? flow._id : '');
   const [stages, setStages] = useState([]);
-
-  const customStyles = {
-    content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-      padding: '10px'
-    }
-  };
 
   useEffect(() => {
     updateProcesses();
@@ -79,6 +72,7 @@ function Processes() {
     try {
       await api.delete(`/deleteProcess/${registro}`);
       toast.success('Processo Removido com Sucesso', { duration: 4000 });
+      updateProcesses();
     } catch (error) {
       toast.error(
         'Erro ao deletar processo \n ' + error.response.data.message,
@@ -87,12 +81,7 @@ function Processes() {
     }
   }
 
-  function openModal() {
-    setModalIsOpen(true);
-  }
-
   function closeModal() {
-    setModalIsOpen(false);
     setEditModalIsOpen(false);
   }
 
@@ -136,7 +125,9 @@ function Processes() {
   async function createProcess() {
     try {
       const flow = flows.find((flow) => flow._id === flowId);
-      if (registro) {
+      if (registro && flow) {
+        console.log('flow', flow);
+
         let sequences = flow.sequences;
 
         await api.post('/newProcess', {
@@ -153,6 +144,7 @@ function Processes() {
 
       toast.success('Processo Registrado com Sucesso', { duration: 4000 });
     } catch (error) {
+      console.log(error);
       toast.error(
         'Erro ao registrar processo \n ' + error.response.data.message,
         { duration: 3000 }
@@ -183,138 +175,177 @@ function Processes() {
             onChange={handleChange}
           />
         </div>
-        {processes.length == 0 && 'Nenhum processo foi encontrado'}
-        {filterProcesses(processes)
-          .sort((a, b) => b.etapas.length - a.etapas.length)
-          .map((proc, idx) => {
-            let CurrentStage, FinalStage, CurrentStagePos, FinalStagePos;
+        {processes.length == 0 && (
+          <>
+            Nenhum processo foi encontrado <br></br> <br></br>{' '}
+          </>
+        )}
+        <Table>
+          <thead>
+            <tr>
+              <th>Registro</th>
+              <th>Apelido</th>
+              {flow && stages ? (
+                <>
+                  <th>Etapa Atual</th>
+                  <th>Última Etapa</th>
+                </>
+              ) : (
+                <></>
+              )}
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filterProcesses(processes)
+              .sort((a, b) => b.etapas.length - a.etapas.length)
+              .map((proc, idx) => {
+                let CurrentStage, FinalStage, CurrentStagePos, FinalStagePos;
 
-            if (flow && stages) {
-              CurrentStage = stages.find((el) => el._id === proc.etapaAtual);
-              FinalStage = stages.find(
-                (el) => el._id === flow.sequences.at(-1).to
-              );
+                if (flow && stages) {
+                  CurrentStage = stages.find(
+                    (el) => el._id === proc.etapaAtual
+                  );
+                  FinalStage = stages.find(
+                    (el) => el._id === flow.sequences.at(-1).to
+                  );
 
-              CurrentStagePos = stages.indexOf(CurrentStage) + 1;
-              FinalStagePos = stages.indexOf(FinalStage) + 1;
-            }
-            return (
-              <div key={idx} className="process">
-                <div className="processName">
-                  {proc.apelido.length > 0
-                    ? `${proc.registro} - ${proc.apelido}`
-                    : `${proc.registro}`}
-                  {
-                    <Link to="showProcess" state={{ proc, flow }}>
-                      <Visibility className="see-process"></Visibility>
-                    </Link>
-                  }
-                  <EditIcon
-                    className="edit-process"
-                    onClick={() => openEditModal(proc)}
-                  />
-                  <DeleteForeverIcon
-                    className="delete-process"
-                    onClick={() => openModal()}
-                  />
-                  <Modal
-                    isOpen={modalIsOpen}
-                    onRequestClose={closeModal}
-                    style={customStyles}
-                    contentLabel="excluir processo"
-                  >
-                    <ModalHeader close={closeModal}>
-                      Excluir Processo
-                    </ModalHeader>
-                    <p>
-                      Tem certeza que deseja excluir o processo {proc.registro}?
-                    </p>
-                    <ModalBody>
-                      <Button
-                        onClick={async () => {
-                          await deleteProcess(proc.registro);
-                          await updateProcesses();
-                          closeModal();
-                        }}
-                      >
-                        Confirmar
-                      </Button>
-                      <Button onClick={closeModal} background="red">
-                        Cancelar
-                      </Button>
-                    </ModalBody>
-                  </Modal>
-                </div>
-                {flow && stages ? (
-                  <>
-                    <div
-                      className={
-                        'processName ' +
-                        (isLate(CurrentStage, proc, flow)
-                          ? 'currentStage-red'
-                          : 'currentStage-green')
-                      }
-                    >
-                      Etapa Atual: {CurrentStagePos}. {CurrentStage?.name}
-                    </div>
-                    <div className="processName finalStage">
-                      Última Etapa: {FinalStagePos}. {FinalStage?.name}
-                    </div>
-                  </>
-                ) : (
-                  ''
-                )}
-              </div>
-            );
-          })}
-        <Modal
-          isOpen={editModalIsOpen}
-          onRequestClose={closeModal}
-          style={customStyles}
-          contentLabel="editar processo"
-        >
-          <ModalHeader close={closeModal}>
-            {editOrCreate == 'edit' ? 'Editar Processo' : 'Criar Processo'}
-          </ModalHeader>
-          <ModalBody>
-            <Dropdown
-              options={flows.map((flow) => {
-                return { label: flow.name, value: flow._id };
+                  CurrentStagePos = stages.indexOf(CurrentStage) + 1;
+                  FinalStagePos = stages.indexOf(FinalStage) + 1;
+                }
+
+                let className = 'processName ';
+
+                if (flow) {
+                  className += isLate(CurrentStage, proc, flow)
+                    ? 'currentStage-red'
+                    : 'currentStage-green';
+                }
+
+                return (
+                  <tr key={idx} className={className}>
+                    <td>{proc.registro}</td>
+                    <td>{proc.apelido}</td>
+
+                    {flow && stages ? (
+                      <>
+                        <td>
+                          {CurrentStagePos}. {CurrentStage?.name}
+                        </td>
+                        <td className="processName finalStage">
+                          {FinalStagePos}. {FinalStage?.name}
+                        </td>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                    <td>
+                      <Link to="showProcess" state={{ proc, flow }}>
+                        <Visibility className="see-process"></Visibility>
+                      </Link>
+                      <EditIcon
+                        className="edit-process"
+                        onClick={() => openEditModal(proc)}
+                      />
+                      <DeleteForeverIcon
+                        className="delete-process"
+                        onClick={() => setDeleteProcessModal(idx)}
+                      />
+                    </td>
+                  </tr>
+                );
               })}
-              onChange={(e) => {
-                setFlowId(e.value);
-              }}
-              value={flowId}
-              placeholder="Selecione o fluxo"
-              className="dropdown"
-              controlClassName="dropdown-control"
-              placeholderClassName="dropdown-placeholder"
-              menuClassName="dropdown-menu"
-              arrowClassName="dropdown-arrow"
-            />
-            <p> Registro </p>
-            <TextInput
-              value={registro}
-              set={setRegistro}
-              placeholder="registro"
-            />
-            <p> Apelido</p>
-            <TextInput value={apelido} set={setApelido} placeholder="apelido" />
-            <Button
-              onClick={async () => {
-                if (editOrCreate == 'edit') await editProcess();
-                else await createProcess();
-                await updateProcesses();
-                closeModal();
-              }}
-            >
-              Confirmar
-            </Button>
-            <Button onClick={closeModal} background="red">
-              Cancelar
-            </Button>
-          </ModalBody>
-        </Modal>
+          </tbody>
+        </Table>
+        {editModalIsOpen && (
+          <Modal>
+            <Content>
+              <ContentHeader>
+                <span>
+                  {editOrCreate == 'edit'
+                    ? 'Editar Processo'
+                    : 'Criar Processo'}{' '}
+                </span>
+              </ContentHeader>
+              <Dropdown
+                options={flows.map((flow) => {
+                  return { label: flow.name, value: flow._id };
+                })}
+                onChange={(e) => {
+                  setFlowId(e.value);
+                }}
+                value={flowId}
+                placeholder="Selecione o fluxo"
+                className="dropdown"
+                controlClassName="dropdown-control"
+                placeholderClassName="dropdown-placeholder"
+                menuClassName="dropdown-menu"
+                arrowClassName="dropdown-arrow"
+              />
+              <div>
+                <p> Registro </p>
+                <TextInput
+                  value={registro}
+                  set={setRegistro}
+                  placeholder="registro"
+                />
+                <p> Apelido</p>
+                <TextInput
+                  value={apelido}
+                  set={setApelido}
+                  placeholder="apelido"
+                />
+              </div>
+              <div>
+                <Button
+                  onClick={async () => {
+                    if (editOrCreate == 'edit') await editProcess();
+                    else await createProcess();
+                    await updateProcesses();
+                    closeModal();
+                  }}
+                >
+                  Confirmar
+                </Button>
+                <Button onClick={closeModal} background="red">
+                  Cancelar
+                </Button>
+              </div>
+            </Content>
+          </Modal>
+        )}
+
+        {deleteProcessModal != -1 && (
+          <Modal>
+            <Content>
+              <ContentHeader>
+                {' '}
+                <span>Excluir Processo</span>
+              </ContentHeader>
+              <span>Deseja realmente excluir este Processo?</span>
+              {processes[deleteProcessModal].registro} -{' '}
+              {processes[deleteProcessModal].apelido}
+              <div>
+                <Button
+                  onClick={async () => {
+                    setDeleteProcessModal(-1);
+                    deleteProcess(processes[deleteProcessModal].registro);
+                  }}
+                >
+                  Confirmar
+                </Button>
+                <Button
+                  onClick={() => {
+                    setDeleteProcessModal(-1);
+                  }}
+                  background="red"
+                >
+                  Cancelar
+                </Button>
+              </div>
+            </Content>
+          </Modal>
+        )}
       </div>
       <AddProcess
         onClick={() => {

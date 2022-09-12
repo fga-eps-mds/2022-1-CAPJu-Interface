@@ -10,7 +10,6 @@ import {
   Container,
   AddFlowButton,
   FlowsArea,
-  FlowItem,
   Modal,
   Content,
   SelectorWrapper,
@@ -18,11 +17,8 @@ import {
   SequencesWrapper,
   SequenceItem,
   ContentHeader,
-  ModalDelete,
-  ContentDelete,
-  CloseModalDelete,
-  FlowsButtons,
-  CloseModalGeneral
+  CloseModalGeneral,
+  Table
 } from './styles';
 import FlowViewer from 'components/FlowViewer';
 import DescriptionIcon from '@mui/icons-material/Description';
@@ -48,6 +44,7 @@ function Flows() {
   const [isModalOpen, setModalOpen] = useState(false);
   const [showFlow, setShowFlow] = useState(-1);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [selectedFlow, setSelectedFlow] = useState(0);
 
   useEffect(() => {
     updateStages();
@@ -180,44 +177,55 @@ function Flows() {
       <Container>
         <span>Fluxos</span>
         <FlowsArea>
-          {flows.map((flow, index) => {
-            return (
-              <FlowItem key={index}>
-                <span className="title-flow">{flow.name}</span>
-                <FlowsButtons>
-                  <Tooltip title="visualizar processos">
-                    <Link to="/processes" state={flow}>
-                      <DescriptionIcon className="see-processes" />
-                    </Link>
-                  </Tooltip>
-                  <Tooltip title="editar fluxo">
-                    <EditIcon
-                      className="see-edit"
-                      onClick={() => {
-                        setShowFlow(index);
-                        setNewFlow(flows[index]);
-                      }}
-                    ></EditIcon>
-                  </Tooltip>
-                  <Tooltip title="deletar fluxo">
-                    <DeleteForever
-                      className="see-delete"
-                      onClick={() => {
-                        setDeleteModal(true);
-                        setShowFlow(-1);
-                      }}
-                    ></DeleteForever>
-                  </Tooltip>
-                  <Tooltip title="estatística de fluxo">
-                    <Link to="/statistics" state={flow}>
-                      <InsertChartIcon className="see-processes" />
-                    </Link>
-                  </Tooltip>
-                </FlowsButtons>
-              </FlowItem>
-            );
-          })}
+          <Table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              {flows.map((flow, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{flow.name}</td>
+                    <td>
+                      {' '}
+                      <Tooltip title="visualizar processos">
+                        <Link to="/processes" state={flow}>
+                          <DescriptionIcon htmlColor="black" />
+                        </Link>
+                      </Tooltip>{' '}
+                      <Tooltip title="editar fluxo">
+                        <EditIcon
+                          htmlColor="black"
+                          onClick={() => {
+                            setShowFlow(index);
+                            setNewFlow(flows[index]);
+                          }}
+                        ></EditIcon>
+                      </Tooltip>
+                      <Tooltip title="deletar fluxo">
+                        <DeleteForever
+                          htmlColor="black"
+                          onClick={() => {
+                            setDeleteModal(true);
+                            setSelectedFlow(index);
+                            setShowFlow(-1);
+                          }}
+                        ></DeleteForever>
+                      </Tooltip>
+                      <Link to="/statistics" state={flow}>
+                        <InsertChartIcon htmlColor="black" />
+                      </Link>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
         </FlowsArea>
+
         <AddFlowButton
           onClick={() => {
             setModalOpen(true);
@@ -228,37 +236,38 @@ function Flows() {
         {/* {Modal para confirmar exclusão do fluxo} */}
         {deleteModal && (
           <>
-            {flows.map((flow, index) => {
-              return (
-                <ModalDelete key={index}>
-                  <ContentDelete>
-                    <div className="closeModal">
-                      <CloseModalDelete
-                        onClick={() => {
-                          setDeleteModal(false);
-                        }}
-                      ></CloseModalDelete>
-                    </div>
-                    <span>Deseja realmente excluir este Fluxo?</span>
-                    <div className="buttonDelete">
-                      <Button
-                        onClick={() => {
-                          deleteFlow(flow._id);
-                          setDeleteModal(false);
-                        }}
-                        background="#de5353"
-                      >
-                        <span>Excluir</span>
-                      </Button>
-                    </div>
-                  </ContentDelete>
-                </ModalDelete>
-              );
-            })}
+            <Modal>
+              <Content>
+                <ContentHeader>
+                  {' '}
+                  <span>Excluir Fluxo</span>
+                </ContentHeader>
+                <span>Deseja realmente excluir este Fluxo?</span>
+                {flows[selectedFlow].name}
+                <div>
+                  <Button
+                    onClick={() => {
+                      deleteFlow(flows[selectedFlow]._id);
+                      setDeleteModal(false);
+                    }}
+                  >
+                    Confirmar
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setDeleteModal(false);
+                    }}
+                    background="red"
+                  >
+                    Cancelar
+                  </Button>
+                </div>
+              </Content>
+            </Modal>
           </>
         )}
         {/* Modal de editar fluxo */}
-        {showFlow != -1 && (
+        {showFlow != -1 && newFlow && (
           <>
             <Modal>
               <Content>
@@ -341,6 +350,14 @@ function Flows() {
                   }}
                 >
                   <span>Salvar</span>
+                </Button>
+                <Button
+                  onClick={() => {
+                    setShowFlow(-1);
+                  }}
+                  background="red"
+                >
+                  Cancelar
                 </Button>
               </Content>
             </Modal>
@@ -434,14 +451,24 @@ function Flows() {
                 </SequencesWrapper>
               </>
             )}
-            <Button
-              onClick={() => {
-                addFlow();
-                setModalOpen(false);
-              }}
-            >
-              <span>Salvar</span>
-            </Button>
+            <div>
+              <Button
+                onClick={() => {
+                  addFlow();
+                  setModalOpen(false);
+                }}
+              >
+                <span>Salvar</span>
+              </Button>
+              <Button
+                onClick={() => {
+                  setModalOpen(false);
+                }}
+                background="red"
+              >
+                Cancelar
+              </Button>
+            </div>
           </Content>
         </Modal>
       )}
