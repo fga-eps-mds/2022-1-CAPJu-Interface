@@ -5,22 +5,33 @@ export const Container = styled.div`
   width: 100%;
   color: black;
   display: flex;
-  align-items: center;
   font-size: 64px;
-
   flex-direction: column;
   margin: 0px 100px;
+`;
+
+export const ContainerTitle = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
+  font-size: 20px;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
 `;
 
 export const ContainerMenu = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 30px;
-  margin: 10px;
+  gap: 25px;
+  font-size: 20px;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+  margin: 100px 0px;
 `;
 
 export const UserIcon = styled(UserCircle)`
   color: #304974;
-  width: 35%;
-  height: 35%;
+  width: 5%;
 `;
