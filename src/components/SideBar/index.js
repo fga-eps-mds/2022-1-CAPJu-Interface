@@ -1,6 +1,6 @@
 import Button from 'components/Button';
 import React from 'react';
-import { Container, MenuItem } from './styles';
+import { Container, MenuItem, Menu, LogoutButton } from './styles';
 import { Flow } from '@styled-icons/fluentui-system-regular';
 import { FlowCascade } from '@styled-icons/entypo';
 import { ClipboardTaskListLtr } from '@styled-icons/fluentui-system-regular/ClipboardTaskListLtr';
@@ -14,38 +14,54 @@ function SideBar() {
       <a href={'/'}>
         <img src={'./logo.png'} />
       </a>
-      <MenuItem href={'/Login'}>
-        <Profile /> Login
-      </MenuItem>
-      <MenuItem href={'/accessProfile'}>
-        <PersonFill /> Perfil de Acesso
-      </MenuItem>
-      <MenuItem href={'/stages'}>
-        <Flow />
-        1.Etapas
-      </MenuItem>
-      <MenuItem href={'/'}>
-        <FlowCascade />
-        2.Fluxos
-      </MenuItem>
-      <MenuItem
-        href=""
-        onClick={() =>
-          navigate('/processes', { state: undefined, replace: false })
-        }
-      >
-        <ClipboardTaskListLtr />
-        3.Processos
-      </MenuItem>
-      <Button
-        background="#DE5353"
-        onClick={() => {
-          localStorage.removeItem('user');
-          navigate('Login');
-        }}
-      >
-        Sair
-      </Button>
+      <Menu>
+        <hr />
+        <MenuItem href={'/Login'}>
+          <Profile size={35} />
+          Login
+        </MenuItem>
+        <hr />
+
+        <hr />
+        <MenuItem href={'/accessProfile'}>
+          <PersonFill size={35} /> Perfil de Acesso
+        </MenuItem>
+        <hr />
+
+        <MenuItem href={'/stages'}>
+          <Flow size={35} />
+          Etapas
+        </MenuItem>
+        <hr />
+
+        <MenuItem href={'/'}>
+          <FlowCascade size={35} />
+          Fluxos
+        </MenuItem>
+        <hr />
+
+        <MenuItem
+          href=""
+          onClick={() =>
+            navigate('/processes', { state: undefined, replace: false })
+          }
+        >
+          <ClipboardTaskListLtr size={35} />
+          Processos
+        </MenuItem>
+        <hr />
+      </Menu>
+      <LogoutButton>
+        <Button
+          background="#DE5353"
+          onClick={() => {
+            localStorage.removeItem('user');
+            navigate('Login');
+          }}
+        >
+          Sair
+        </Button>
+      </LogoutButton>
     </Container>
   );
 }

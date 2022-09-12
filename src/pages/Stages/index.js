@@ -8,24 +8,19 @@ import {
   Container,
   AddStageButton,
   StagesArea,
-  StageItem,
   Modal,
-  Content
+  Content,
+  Table,
+  ContentHeader
 } from './styles';
 import { DeleteForever } from '@styled-icons/material';
-import { CloseOutline } from '@styled-icons/evaicons-outline/CloseOutline';
-import { CheckCircle } from '@styled-icons/material';
 import AxiosError from 'axios/lib/core/AxiosError';
 
-const closeBtn = {
-  maxWidth: '40px'
-};
-
 function Stages() {
-  const [stages, setStages] = useState([{ name: '', time: '' }]);
+  const [stages, setStages] = useState([{ name: '', time: '', _id: '' }]);
   const [stageName, setStageName] = useState('');
   const [stageTime, setStageTime] = useState('');
-  const [currentStage, setCurrentStage] = useState('');
+  const [currentStage, setCurrentStage] = useState({ name: '', _id: '' });
   const [isModalOpen, setModalOpen] = useState(false);
   const [isModalConfDelete, setModalConfDelete] = useState(false);
 
@@ -88,24 +83,43 @@ function Stages() {
       <Container>
         Etapas
         <StagesArea>
-          {stages.map((stage, index) => {
-            return (
-              <StageItem key={index}>
-                {'Nome da Etapa: '}
-                {stage.name}
-                <br></br>
-                {'Duração em Dias: '}
-                {stage.time} <br></br>
-                <DeleteForever
-                  size={30}
-                  onClick={() => {
-                    setModalConfDelete(true);
-                    setCurrentStage(stage._id);
-                  }}
-                />
-              </StageItem>
-            );
-          })}
+          <Table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Duração</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {stages.map((stage, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{stage.name}</td>
+                    <td>{stage.time}</td>
+                    <td>
+                      <DeleteForever
+                        size={30}
+                        onClick={() => {
+                          setModalConfDelete(true);
+                          setCurrentStage(stage);
+                        }}
+                      />
+                    </td>
+                  </tr>
+
+                  // <StageItem key={index}>
+                  //   {'Nome da Etapa: '}
+                  //   {stage.name}
+                  //   <br></br>
+                  //   {'Duração em Dias: '}
+                  //   {stage.time} <br></br>
+
+                  // </StageItem>
+                );
+              })}
+            </tbody>
+          </Table>
         </StagesArea>
         <AddStageButton
           onClick={() => {
@@ -119,51 +133,73 @@ function Stages() {
       {isModalOpen && (
         <Modal>
           <Content>
-            <CloseOutline
-              style={closeBtn}
-              onClick={() => {
-                setModalOpen(false);
-              }}
-            ></CloseOutline>
-            <h2>Nova Etapa</h2>
-            <TextInput
-              set={setStageName}
-              value={stageName}
-              placeholder="Nome da etapa"
-            ></TextInput>
-            <TextInput
-              set={setStageTime}
-              value={stageTime}
-              placeholder="Duração (dias)"
-            ></TextInput>
-            <Button
-              onClick={() => {
-                addStage();
-                setModalOpen(false);
-              }}
-            >
-              Salvar
-            </Button>
+            <ContentHeader>
+              <span>Criar Etapa</span>
+            </ContentHeader>
+            <div>
+              <p> Nome </p>
+
+              <TextInput
+                set={setStageName}
+                value={stageName}
+                placeholder="Nome da etapa"
+              ></TextInput>
+              <p> Duração </p>
+
+              <TextInput
+                set={setStageTime}
+                value={stageTime}
+                placeholder="Duração (dias)"
+              ></TextInput>
+            </div>
+
+            <div>
+              <Button
+                onClick={() => {
+                  addStage();
+                  setModalOpen(false);
+                }}
+              >
+                Salvar
+              </Button>
+              <Button
+                onClick={() => {
+                  setModalOpen(false);
+                }}
+                background="red"
+              >
+                Cancelar
+              </Button>
+            </div>
           </Content>
         </Modal>
       )}
       {isModalConfDelete && (
         <Modal>
           <Content>
+            <ContentHeader>
+              <span>Excluir Etapa</span>
+            </ContentHeader>
+            {currentStage.name}
             <h3>Deseja excluir esta etapa?</h3>
-            <CheckCircle
-              style={closeBtn}
-              onClick={() => {
-                deleteStage(currentStage);
-                setModalConfDelete(false);
-              }}
-            ></CheckCircle>
-            <CloseOutline
-              style={closeBtn}
-              onClick={() => {
-                setModalConfDelete(false);
-              }}
-            ></CloseOutline>
+            <div>
+              <Button
+                onClick={() => {
+                  deleteStage(currentStage._id);
+                  setModalConfDelete(false);
+                }}
+              >
+                Excluir
+              </Button>
+              <Button
+                onClick={() => {
+                  setModalConfDelete(false);
+                }}
+                background="red"
+              >
+                Cancelar
+              </Button>
+            </div>
           </Content>
         </Modal>
       )}

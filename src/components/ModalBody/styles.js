@@ -2,8 +2,14 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
-  flex-direction: column;
+  background-color: white;
+  min-width: 800px;
+  height: 90vh;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  padding: 20px;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 20px;
+  border-radius: 10px;
+  overflow-x: scroll;
 `;
