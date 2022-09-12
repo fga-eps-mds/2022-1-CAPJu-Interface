@@ -21,7 +21,18 @@ jest.mock('react-router-dom', () => {
   };
 });
 
-test.skip('Testando criar fluxo no componente Flows', async () => {
+const scopeGet = nock(baseURL)
+  .defaultReplyHeaders({
+    'access-control-allow-origin': '*',
+    'access-control-allow-credentials': 'true'
+  })
+  .persist()
+  .get('/flows')
+  .reply(200, flowsResponse)
+  .get('/stages')
+  .reply(200, stagesResponse);
+
+test('Testando criar fluxo no componente Flows', async () => {
   const scope = nock(baseURL)
     .defaultReplyHeaders({
       'access-control-allow-origin': '*',
@@ -62,17 +73,6 @@ test.skip('Testando criar fluxo no componente Flows', async () => {
 });
 
 test('Testando editar fluxo no componente Flows', async () => {
-  const scopeGet = nock(baseURL)
-    .defaultReplyHeaders({
-      'access-control-allow-origin': '*',
-      'access-control-allow-credentials': 'true'
-    })
-    .persist()
-    .get('/flows')
-    .reply(200, flowsResponse)
-    .get('/stages')
-    .reply(200, stagesResponse);
-
   const scopeEditar = nock(baseURL)
     .defaultReplyHeaders({
       'access-control-allow-origin': '*',
@@ -120,7 +120,7 @@ test('Testando editar fluxo no componente Flows', async () => {
   );
 
   await waitFor(() => expect(scopeGet.isDone()).toBe(true));
-  const flow = await waitFor(() => screen.queryByText('fluxo 1'));
+  const flow = await screen.findByText('fluxo 1');
   expect(flow).toBeInTheDocument();
 
   const editIcon = screen.queryAllByTestId('EditIcon');
@@ -159,7 +159,7 @@ test('Testando editar fluxo no componente Flows', async () => {
   await waitFor(() => expect(scopeEditar.isDone()).toBe(true));
 });
 
-test.skip('Testando deletar fluxo no componente Flows', async () => {
+test('Testando deletar fluxo no componente Flows', async () => {
   const scopeDelete = nock(baseURL)
     .defaultReplyHeaders({
       'access-control-allow-origin': '*',
@@ -179,14 +179,13 @@ test.skip('Testando deletar fluxo no componente Flows', async () => {
     </MemoryRouter>
   );
 
-  screen.debug();
-  const deleteIcon = screen.queryAllByTestId('DeleteForeverIcon');
+  const deleteIcon = await screen.findAllByTestId('DeleteForeverIcon');
   fireEvent.click(deleteIcon[1]);
 
   const modalName = screen.getByText('Deseja realmente excluir este Fluxo?');
-  const button = screen.getByText('Excluir');
+  const button = screen.getByText('Confirmar');
   fireEvent.click(button);
-  expect(screen.getByText('fluxo 2')).toBeNull();
+  expect(screen.queryByText('fluxo 2')).toBeNull();
   expect(modalName).toHaveTextContent('Deseja realmente excluir este Fluxo?');
   await waitFor(() => expect(scopeDelete.isDone()).toBe(true));
 });

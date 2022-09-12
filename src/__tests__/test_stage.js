@@ -47,18 +47,18 @@ test('Testando criar etapa no componente Stages', async () => {
   const button = screen.getByText('+ Adicionar Etapa');
   fireEvent.click(button);
 
-  const modalName = screen.getByText('Nova Etapa');
+  const modalName = screen.getByText('Criar Etapa');
   const inputName = screen.getByPlaceholderText('Nome da etapa');
   const inputTime = screen.getByPlaceholderText('Duração (dias)');
   const button1 = screen.getByText('Salvar');
 
   fireEvent.change(inputName, { target: { value: 'Perito' } });
   fireEvent.change(inputTime, { target: { value: '15' } });
-  expect(modalName).toHaveTextContent('Nova Etapa');
+  expect(modalName).toHaveTextContent('Criar Etapa');
   fireEvent.click(button1);
   await waitFor(() => expect(scopeGet.isDone()).toBe(true));
   await waitFor(() => expect(scopePost.isDone()).toBe(true));
-  expect(screen.queryByText('Nova Etapa')).toBe(null);
+  expect(screen.queryByText('Criar Etapa')).toBe(null);
 });
 
 afterAll(() => nock.restore());
