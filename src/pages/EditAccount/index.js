@@ -10,6 +10,10 @@ function EditAccount() {
     navigate('email'), { replace: true };
   };
 
+  const rotaSenha = async () => {
+    navigate('senha'), { replace: true };
+  };
+
   return (
     <Container>
       <ContainerTitle>
@@ -20,7 +24,7 @@ function EditAccount() {
         <Button onClick={rotaEmail}>
           <span>Email</span>
         </Button>
-        <Button>
+        <Button onClick={rotaSenha}>
           <span>Senha</span>
         </Button>
       </ContainerMenu>

@@ -17,6 +17,7 @@ import Recovery from 'pages/Recovery/index.js';
 import StatisticsProcesses from 'pages/StatisticsProcesses/index.js';
 import EditAccount from 'pages/EditAccount/index.js';
 import EditAccountEmail from 'pages/EditAccountEmail/index.js';
+import EditAccountPassword from 'pages/EditAccountPassword/index.js';
 
 function App() {
   const location = useLocation();
@@ -68,6 +69,10 @@ function App() {
               />
               <Route path="editAccount" element={<EditAccount />} />
               <Route path="editAccount/email" element={<EditAccountEmail />} />
+              <Route
+                path="editAccount/senha"
+                element={<EditAccountPassword />}
+              />
             </Routes>
           </Content>
         </AuthContext.Provider>
