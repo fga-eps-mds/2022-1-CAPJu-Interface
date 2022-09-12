@@ -16,6 +16,7 @@ import { AuthContext } from 'context/AuthContext';
 import Recovery from 'pages/Recovery/index.js';
 import StatisticsProcesses from 'pages/StatisticsProcesses/index.js';
 import EditAccount from 'pages/EditAccount/index.js';
+import EditAccountEmail from 'pages/EditAccountEmail/index.js';
 
 function App() {
   const location = useLocation();
@@ -66,6 +67,7 @@ function App() {
                 element={<ShowProcess />}
               />
               <Route path="editAccount" element={<EditAccount />} />
+              <Route path="editAccount/email" element={<EditAccountEmail />} />
             </Routes>
           </Content>
         </AuthContext.Provider>

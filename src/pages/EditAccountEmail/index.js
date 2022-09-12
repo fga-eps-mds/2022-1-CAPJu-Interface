@@ -1,15 +1,8 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Container, ContainerMenu, UserIcon } from './styles';
 import Button from '../../components/Button';
-import EditAccountEmail from 'pages/EditAccountEmail';
 
-function EditAccount() {
-  const navigate = useNavigate();
-  const rotaEmail = async () => {
-    navigate('email'), { replace: true };
-  };
-
+function EditAccountEmail() {
   return (
     <>
       <Container>
@@ -18,11 +11,8 @@ function EditAccount() {
           <span>Editar Conta</span>
         </ContainerMenu>
         <ContainerMenu>
-          <Button onClick={rotaEmail}>
-            <span>Email</span>
-          </Button>
           <Button>
-            <span>Senha</span>
+            <span>Email</span>
           </Button>
         </ContainerMenu>
       </Container>
@@ -30,4 +20,4 @@ function EditAccount() {
   );
 }
 
-export default EditAccount;
+export default EditAccountEmail;
