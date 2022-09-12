@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, ContainerMenu, UserIcon } from './styles';
-import Button from '../../components/Button';
+import TextInput from '../../components/TextInput';
 
 function EditAccountEmail() {
   return (
@@ -8,12 +8,10 @@ function EditAccountEmail() {
       <Container>
         <ContainerMenu>
           <UserIcon />
-          <span>Editar Conta</span>
+          <span>Editar&nbsp;Conta</span>
         </ContainerMenu>
         <ContainerMenu>
-          <Button>
-            <span>Email</span>
-          </Button>
+          <TextInput placeholder={'Email'} />
         </ContainerMenu>
       </Container>
     </>

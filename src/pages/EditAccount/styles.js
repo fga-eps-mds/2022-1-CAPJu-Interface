@@ -15,9 +15,12 @@ export const Container = styled.div`
 export const ContainerMenu = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 100px;
+  gap: 30px;
+  margin: 10px;
 `;
 
 export const UserIcon = styled(UserCircle)`
   color: #304974;
+  width: 35%;
+  height: 35%;
 `;

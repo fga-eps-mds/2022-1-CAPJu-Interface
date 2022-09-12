@@ -47,7 +47,7 @@ function App() {
         <AuthContext.Provider value={{ user, setUser }}>
           <SideBar />
           <Content>
-            <Account />
+            {/* <Account /> */}
             <Routes>
               <Route path="/" element={<Flows />} />
               <Route path="login" element={<Login />} />
