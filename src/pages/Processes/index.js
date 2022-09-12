@@ -19,6 +19,7 @@ import TextInput from 'components/TextInput';
 import toast from 'react-hot-toast';
 import Dropdown from 'react-dropdown';
 import { isLate } from 'components/IsLate/index.js';
+import Tooltip from '@mui/material/Tooltip';
 
 function Processes() {
   const [processes, setProcesses] = useState([]);
@@ -240,17 +241,23 @@ function Processes() {
                       <></>
                     )}
                     <td>
-                      <Link to="showProcess" state={{ proc, flow }}>
-                        <Visibility className="see-process"></Visibility>
-                      </Link>
-                      <EditIcon
-                        className="edit-process"
-                        onClick={() => openEditModal(proc)}
-                      />
-                      <DeleteForeverIcon
-                        className="delete-process"
-                        onClick={() => setDeleteProcessModal(idx)}
-                      />
+                      <Tooltip title="Visualizar processo">
+                        <Link to="showProcess" state={{ proc, flow }}>
+                          <Visibility className="see-process"></Visibility>
+                        </Link>
+                      </Tooltip>
+                      <Tooltip title="Editar processo">
+                        <EditIcon
+                          className="edit-process"
+                          onClick={() => openEditModal(proc)}
+                        />
+                      </Tooltip>
+                      <Tooltip title="Deletar processo">
+                        <DeleteForeverIcon
+                          className="delete-process"
+                          onClick={() => setDeleteProcessModal(idx)}
+                        />
+                      </Tooltip>
                     </td>
                   </tr>
                 );

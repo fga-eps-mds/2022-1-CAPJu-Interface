@@ -5,10 +5,10 @@ export const Container = styled.div`
   color: black;
   display: flex;
   align-items: center;
-  font-size: 20px;
+  font-size: 24px;
   flex-direction: column;
   gap: 50px;
-  overflow-y: scroll;
+  margin: 0px 100px;
 
   svg.check-icon {
     cursor: pointer;
@@ -19,6 +19,18 @@ export const Container = styled.div`
     cursor: pointer;
     color: #e01616;
   }
+`;
+
+export const Area = styled.div`
+  padding: 0px 100px;
+  width: 100%;
+  color: black;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  flex-direction: row;
 `;
 
 export const Table = styled.table`

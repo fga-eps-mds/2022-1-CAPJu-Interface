@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import { Container, Table } from './styles';
+import { Container, Table, Area } from './styles';
 import api from '../../services/user';
 import authConfig from 'services/config';
 import { Delete } from '@styled-icons/typicons/Delete';
@@ -11,7 +11,6 @@ import toast from 'react-hot-toast';
 function SolicitacoesCadastro() {
   const [users, setUsers] = useState([]);
   const authHeader = authConfig().headers;
-  console.log(authHeader);
   useEffect(() => {
     updateSolicitacoes();
     // eslint-disable-next-line
@@ -59,7 +58,7 @@ function SolicitacoesCadastro() {
   return (
     <Container>
       <h1>Solicitações de Cadastro</h1>
-      <div>
+      <Area>
         <Table>
           <thead>
             <tr>
@@ -97,7 +96,7 @@ function SolicitacoesCadastro() {
             );
           })}
         </Table>
-      </div>
+      </Area>
     </Container>
   );
 }
