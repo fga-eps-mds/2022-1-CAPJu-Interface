@@ -1,11 +1,22 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  background-color: #7a7b4f;
   color: #f1f1f1;
   display: flex;
+  background-color: #7a7b4f;
+  min-width: 800px;
+  max-height: 50px;
   justify-content: space-between;
-  width: 100%;
+  align-items: center;
+  flex-direction: row;
+  font-size: 32px;
+  height: 15vh;
+  width: 50%;
+  padding: 5px;
+  span {
+    color: #f1f1f1;
+    margin-left: 39%;
+  }
 `;
 
 export const Xbutton = styled.button`

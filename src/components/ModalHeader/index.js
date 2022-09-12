@@ -6,7 +6,7 @@ function ModalHeader(props) {
   return (
     <Container className="modal-header">
       <Title id="modal-title">{props.children}</Title>
-      <Xbutton onClick={props.close}>X</Xbutton>
+      <Xbutton onClick={props.close}>x</Xbutton>
     </Container>
   );
 }

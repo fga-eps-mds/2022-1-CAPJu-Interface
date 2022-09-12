@@ -1,63 +1,55 @@
 import { render, waitFor, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Login from '../pages/Login';
+import Stages from '../pages/Stages';
 import nock from 'nock';
 import axios from 'axios';
 import React from 'react';
-import { baseURL } from '../services/api';
+import { userURL } from '../services/user';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
 axios.defaults.adapter = require('axios/lib/adapters/http');
 
-const mockNavigate = jest.fn();
+// mock window.location.reload()
+delete window.location;
+window.location = { reload: jest.fn() };
 
-jest.mock('react-router-dom', () => {
-  return {
-    ...jest.requireActual('react-router-dom'),
-    useNavigate: () => mockNavigate
-  };
-});
-
-test.skip('Testando criar Login no componente Login', async () => {
+test('Testando criar Login no componente Login', async () => {
   const loginData = { email: 'test@test.com', password: '123456' };
 
-  const scopeGet = nock(baseURL)
+  const scopeLogin = nock(userURL)
     .defaultReplyHeaders({
       'access-control-allow-origin': '*',
       'access-control-allow-credentials': 'true'
     })
     .persist()
-    .get('/login')
+    .post('/login', loginData)
     .reply(200, {
-      Login: [
-        { email: 'test1@gmail.com', password: '123' },
-        { email: 'test2@hotmail.com', password: '321' },
-        { email: 'test3@outlook.com', password: '456' }
-      ]
+      _id: 'askljsf',
+      name: 'test',
+      email: loginData.email,
+      token: 'Bearer sdlksadkçlfdjalo'
     });
-  const scopePost = nock(baseURL)
-    .defaultReplyHeaders({
-      'access-control-allow-origin': '*',
-      'access-control-allow-credentials': 'true'
-    })
-    .post('/newLogin', loginData)
-    .reply(200, { ...loginData, deleted: false });
 
-  render(<Login />);
+  render(
+    <MemoryRouter initialEntries={['/login']}>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/Stages" element={<Stages />} />
+      </Routes>
+    </MemoryRouter>
+  );
 
-  const button = screen.getByText('Entrar');
-  fireEvent.click(button);
-
-  const modalName = screen.getByText('Login');
+  const title = screen.getByRole('heading', { level: 1 });
   const inputEmail = screen.getByPlaceholderText('Email');
   const inputPassword = screen.getByPlaceholderText('Senha');
   const button1 = screen.getByText('Entrar');
 
   fireEvent.change(inputEmail, { target: { value: 'test@test.com' } });
   fireEvent.change(inputPassword, { target: { value: '123456' } });
-  expect(modalName).toHaveTextContent('Login');
+  expect(title).toHaveTextContent('Login');
   fireEvent.click(button1);
-  await waitFor(() => expect(scopeGet.isDone()).toBe(true));
-  await waitFor(() => expect(scopePost.isDone()).toBe(true));
+  await waitFor(() => expect(scopeLogin.isDone()).toBe(true));
   expect(screen.queryByText('Login')).toBe(null);
 });
 
