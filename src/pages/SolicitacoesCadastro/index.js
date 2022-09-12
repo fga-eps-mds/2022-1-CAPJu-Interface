@@ -1,6 +1,14 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import { Container, Table, Area } from './styles';
+import {
+  Container,
+  Table,
+  Area,
+  Modal,
+  Content,
+  ContentHeader
+} from './styles';
+import Button from 'components/Button';
 import api from '../../services/user';
 import authConfig from 'services/config';
 import { Delete } from '@styled-icons/typicons/Delete';
@@ -10,6 +18,10 @@ import toast from 'react-hot-toast';
 
 function SolicitacoesCadastro() {
   const [users, setUsers] = useState([]);
+  const [acceptModal, setAcceptModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(0);
+
   const authHeader = authConfig().headers;
   useEffect(() => {
     updateSolicitacoes();
@@ -75,9 +87,9 @@ function SolicitacoesCadastro() {
                     <Check
                       className="check-icon"
                       size={30}
-                      onClick={async () => {
-                        await acceptRequest(users._id);
-                        await updateSolicitacoes();
+                      onClick={() => {
+                        setAcceptModal(true);
+                        setSelectedUser(index);
                       }}
                     />
                   </Tooltip>
@@ -85,9 +97,9 @@ function SolicitacoesCadastro() {
                     <Delete
                       className="delete-icon"
                       size={30}
-                      onClick={async () => {
-                        await deleteRequest(users._id);
-                        await updateSolicitacoes();
+                      onClick={() => {
+                        setDeleteModal(true);
+                        setSelectedUser(index);
                       }}
                     />
                   </Tooltip>
@@ -97,6 +109,72 @@ function SolicitacoesCadastro() {
           })}
         </Table>
       </Area>
+
+      {acceptModal && (
+        <>
+          <Modal>
+            <Content>
+              <ContentHeader>
+                <span>Aceitar Solicitação</span>
+              </ContentHeader>
+              <span>Deseja realmente aceitar esta solicitação?</span>
+              {users[selectedUser].name}
+              <div>
+                <Button
+                  onClick={async () => {
+                    await acceptRequest(users[selectedUser]._id);
+                    await updateSolicitacoes();
+                    setAcceptModal(false);
+                  }}
+                >
+                  Confirmar
+                </Button>
+                <Button
+                  onClick={() => {
+                    setAcceptModal(false);
+                  }}
+                  background="red"
+                >
+                  Cancelar
+                </Button>
+              </div>
+            </Content>
+          </Modal>
+        </>
+      )}
+
+      {deleteModal && (
+        <>
+          <Modal>
+            <Content>
+              <ContentHeader>
+                <span>Recusar Solicitação</span>
+              </ContentHeader>
+              <span>Deseja realmente recusar esta solicitação?</span>
+              {users[selectedUser].name}
+              <div>
+                <Button
+                  onClick={async () => {
+                    await deleteRequest(users[selectedUser]._id);
+                    await updateSolicitacoes();
+                    setDeleteModal(false);
+                  }}
+                >
+                  Confirmar
+                </Button>
+                <Button
+                  onClick={() => {
+                    setDeleteModal(false);
+                  }}
+                  background="red"
+                >
+                  Cancelar
+                </Button>
+              </div>
+            </Content>
+          </Modal>
+        </>
+      )}
     </Container>
   );
 }
