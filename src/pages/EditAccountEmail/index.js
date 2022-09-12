@@ -1,20 +1,21 @@
 import React from 'react';
-import { Container, ContainerMenu, UserIcon } from './styles';
+import { Container, ContainerMenu, UserIcon, ContainerTitle } from './styles';
 import TextInput from '../../components/TextInput';
+import Button from '../../components/Button';
 
 function EditAccountEmail() {
   return (
-    <>
-      <Container>
-        <ContainerMenu>
-          <UserIcon />
-          <span>Editar&nbsp;Conta</span>
-        </ContainerMenu>
-        <ContainerMenu>
-          <TextInput placeholder={'Email'} />
-        </ContainerMenu>
-      </Container>
-    </>
+    <Container>
+      <ContainerTitle>
+        <UserIcon />
+        <h1>Editar Email</h1>
+      </ContainerTitle>
+      <ContainerMenu>
+        <TextInput placeholder={'Email Atual'} />
+        <TextInput placeholder={'Novo Email'} />
+      </ContainerMenu>
+      <Button>Salvar</Button>
+    </Container>
   );
 }
 

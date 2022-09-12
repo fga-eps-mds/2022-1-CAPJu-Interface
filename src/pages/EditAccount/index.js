@@ -11,22 +11,20 @@ function EditAccount() {
   };
 
   return (
-    <>
-      <Container>
-        <ContainerTitle>
-          <UserIcon />
-          <h1>Editar Conta</h1>
-        </ContainerTitle>
-        <ContainerMenu>
-          <Button onClick={rotaEmail}>
-            <span>Email</span>
-          </Button>
-          <Button>
-            <span>Senha</span>
-          </Button>
-        </ContainerMenu>
-      </Container>
-    </>
+    <Container>
+      <ContainerTitle>
+        <UserIcon />
+        <h1>Editar Conta</h1>
+      </ContainerTitle>
+      <ContainerMenu>
+        <Button onClick={rotaEmail}>
+          <span>Email</span>
+        </Button>
+        <Button>
+          <span>Senha</span>
+        </Button>
+      </ContainerMenu>
+    </Container>
   );
 }
 
