@@ -37,7 +37,7 @@ function SolicitacoesCadastro() {
 
   async function acceptRequest(userId) {
     try {
-      const response = await api.post(`/acceptRequest/${userId}`, {
+      const response = await api.post(`/acceptRequest/${userId}`, null, {
         headers: authHeader
       });
       if (response.status == 200) {
