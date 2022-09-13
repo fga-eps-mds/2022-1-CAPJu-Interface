@@ -30,8 +30,8 @@ function AccessProfile() {
       if (searchUser == '') {
         return users;
       } else if (
-        users.name.toLowerCase().includes(searchUser) ||
-        users.role.toLowerCase().includes(searchUser)
+        users.name.toLowerCase().includes(searchUser) &&
+        users.status == 1
       ) {
         return users;
       }
@@ -56,11 +56,42 @@ function AccessProfile() {
             <th>Status</th>
           </tr>
           {filterUser(users).map((users, idx) => {
+            let role;
+            let status;
+            switch (users.role) {
+              case 1:
+                role = 'DIRETOR';
+                break;
+              case 2:
+                role = 'JUÍZ';
+                break;
+              case 3:
+                role = 'SERVIDOR';
+                break;
+              case 4:
+                role = 'ESTAGIÁRIO';
+                break;
+              default:
+                role = 'NULO';
+                break;
+            }
+            switch (users.status) {
+              case false:
+                status = 'PENDENTE';
+                break;
+              case true:
+                status = 'ACEITO';
+                break;
+              default:
+                status = 'NULO';
+                break;
+            }
+
             return (
               <tr key={idx}>
                 <td>{users.name}</td>
-                <td>{users.role}</td>
-                <td>{users.status}</td>
+                <td>{role}</td>
+                <td>{status}</td>
               </tr>
             );
           })}
