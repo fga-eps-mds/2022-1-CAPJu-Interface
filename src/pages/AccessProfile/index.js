@@ -24,15 +24,14 @@ function AccessProfile() {
     });
     setUsers(response.data.user);
   }
-
+  async function editRole() {
+    const response = await api.put('/updateRole', { headers: authHeader });
+  }
   const filterUser = (arr) => {
     return arr.filter((users) => {
       if (searchUser == '') {
         return users;
-      } else if (
-        users.name.toLowerCase().includes(searchUser) &&
-        users.status == 1
-      ) {
+      } else if (users.name.toLowerCase().includes(searchUser)) {
         return users;
       }
     });
@@ -60,30 +59,30 @@ function AccessProfile() {
             let status;
             switch (users.role) {
               case 1:
-                role = 'DIRETOR';
+                role = 'Diretor';
                 break;
               case 2:
-                role = 'JUÍZ';
+                role = 'Juiz';
                 break;
               case 3:
-                role = 'SERVIDOR';
+                role = 'Servidor';
                 break;
               case 4:
-                role = 'ESTAGIÁRIO';
+                role = 'Estagiário';
                 break;
               default:
-                role = 'NULO';
+                role = 'Nulo';
                 break;
             }
             switch (users.status) {
               case false:
-                status = 'PENDENTE';
+                status = 'Pendente';
                 break;
               case true:
-                status = 'ACEITO';
+                status = 'Aceito';
                 break;
               default:
-                status = 'NULO';
+                status = 'Nulo';
                 break;
             }
 
