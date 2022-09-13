@@ -40,26 +40,32 @@ function AccessProfile() {
 
   return (
     <Container>
-      <h3>Perfil de Acesso</h3>
-      <InputSearch
-        value={searchUser}
-        onChange={handleChange}
-        placeholder={'Buscar Usuário'}
-      />
-      <Table>
-        <tr>
-          <th>Nome</th>
-          <th>Perfil</th>
-          <th>Status</th>
-        </tr>
-        {filterUser(users).map((users, idx) => {
-          return (
-            <tr key={idx}>
-              <th>{users.name}</th>
-            </tr>
-          );
-        })}
-      </Table>
+      <div className="userstyle ">
+        <span>Perfil de Acesso</span>
+        <div className="search">
+          <InputSearch
+            value={searchUser}
+            onChange={handleChange}
+            placeholder={'Buscar Usuário'}
+          />
+        </div>
+        <Table>
+          <tr>
+            <th>Nome</th>
+            <th>Perfil</th>
+            <th>Status</th>
+          </tr>
+          {filterUser(users).map((users, idx) => {
+            return (
+              <tr key={idx}>
+                <td>{users.name}</td>
+                <td>{users.role}</td>
+                <td>{users.status}</td>
+              </tr>
+            );
+          })}
+        </Table>
+      </div>
     </Container>
   );
 }

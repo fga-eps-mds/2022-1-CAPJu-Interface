@@ -8,6 +8,17 @@ export const Container = styled.div`
   font-size: 64px;
   flex-direction: column;
   margin: 0px 100px;
+
+  div.search {
+    padding: 30px;
+    width: 100vh;
+  }
+  div.userstyle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
 `;
 export const Table = styled.table`
   background-color: white;
