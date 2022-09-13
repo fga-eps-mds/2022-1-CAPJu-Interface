@@ -4,8 +4,10 @@ import { Container, MenuItem, Menu, LogoutButton } from './styles';
 import { Flow } from '@styled-icons/fluentui-system-regular';
 import { FlowCascade } from '@styled-icons/entypo';
 import { ClipboardTaskListLtr } from '@styled-icons/fluentui-system-regular/ClipboardTaskListLtr';
-import { Profile } from '@styled-icons/icomoon';
 import { useNavigate } from 'react-router-dom';
+import { UserCircle } from '@styled-icons/boxicons-regular/';
+import { Profile } from '@styled-icons/icomoon';
+
 function SideBar() {
   const navigate = useNavigate();
   return (
@@ -41,6 +43,16 @@ function SideBar() {
         >
           <ClipboardTaskListLtr size={35} />
           Processos
+        </MenuItem>
+        <hr />
+        <MenuItem
+          href=""
+          onClick={() =>
+            navigate('/editAccount', { state: undefined, replace: false })
+          }
+        >
+          <UserCircle size={35} />
+          Editar Conta
         </MenuItem>
         <hr />
       </Menu>
