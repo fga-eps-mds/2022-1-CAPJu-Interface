@@ -1,26 +1,39 @@
 import React from 'react';
-import api from '../../services/api';
-import Dropdown from 'react-dropdown';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Container, Table, InputSearch } from './sytles.js';
+import api from '../../services/user';
+import authConfig from 'services/config';
 
 function AccessProfile() {
-  const [user, setUser] = useState([]);
+  const [users, setUsers] = useState([]);
   const [searchUser, setSearchUser] = useState('');
 
   const handleChange = (event) => {
     setSearchUser(event.target.value);
   };
+  const authHeader = authConfig().headers;
+
+  useEffect(() => {
+    updateUser();
+    // eslint-disable-next-line
+  }, []);
+
+  async function updateUser() {
+    const response = await api.get('/allUser', {
+      headers: authHeader
+    });
+    setUsers(response.data.user);
+  }
 
   const filterUser = (arr) => {
-    return arr.filter((user) => {
+    return arr.filter((users) => {
       if (searchUser == '') {
-        return user;
+        return users;
       } else if (
-        user.name.toLowerCase().includes(searchUser) ||
-        user.role.toLowerCase().includes(searchUser)
+        users.name.toLowerCase().includes(searchUser) ||
+        users.role.toLowerCase().includes(searchUser)
       ) {
-        return user;
+        return users;
       }
     });
   };
@@ -39,6 +52,13 @@ function AccessProfile() {
           <th>Perfil</th>
           <th>Status</th>
         </tr>
+        {filterUser(users).map((users, idx) => {
+          return (
+            <tr key={idx}>
+              <th>{users.name}</th>
+            </tr>
+          );
+        })}
       </Table>
     </Container>
   );
