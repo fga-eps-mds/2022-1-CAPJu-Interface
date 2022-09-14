@@ -6,10 +6,18 @@ export const Container = styled.div`
   color: black;
   display: flex;
   align-items: center;
-  font-size: 64px;
-
+  font-size: 24px;
+  gap: 50px;
   flex-direction: column;
   margin: 0px 100px;
+
+  svg.edit-icon {
+    cursor: pointer;
+  }
+
+  svg.delete-icon {
+    cursor: pointer;
+  }
 `;
 
 export const AddFlowButton = styled.button`
@@ -26,8 +34,8 @@ export const AddFlowButton = styled.button`
   border-radius: 20px;
 `;
 
-export const FlowsArea = styled.div`
-  padding: 100px;
+export const Area = styled.div`
+  padding: 0px 100px;
   width: 100%;
   color: black;
   display: flex;
@@ -98,6 +106,10 @@ export const Modal = styled.div`
   flex-direction: row;
   font-size: 20px;
   background-color: rgba(0, 0, 0, 0.5);
+
+  div.addStage {
+    cursor: pointer;
+  }
 `;
 
 export const ModalDelete = styled.div`

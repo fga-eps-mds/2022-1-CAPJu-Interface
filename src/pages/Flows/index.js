@@ -9,7 +9,7 @@ import toast from 'react-hot-toast';
 import {
   Container,
   AddFlowButton,
-  FlowsArea,
+  Area,
   Modal,
   Content,
   SelectorWrapper,
@@ -175,8 +175,8 @@ function Flows() {
   return (
     <>
       <Container>
-        <span>Fluxos</span>
-        <FlowsArea>
+        <h1>Fluxos</h1>
+        <Area>
           <Table>
             <thead>
               <tr>
@@ -191,13 +191,14 @@ function Flows() {
                     <td>{flow.name}</td>
                     <td>
                       {' '}
-                      <Tooltip title="visualizar processos">
+                      <Tooltip title="Visualizar processos">
                         <Link to="/processes" state={flow}>
                           <DescriptionIcon htmlColor="black" />
                         </Link>
                       </Tooltip>{' '}
-                      <Tooltip title="editar fluxo">
+                      <Tooltip title="Editar fluxo">
                         <EditIcon
+                          className="edit-icon"
                           htmlColor="black"
                           onClick={() => {
                             setShowFlow(index);
@@ -205,8 +206,9 @@ function Flows() {
                           }}
                         ></EditIcon>
                       </Tooltip>
-                      <Tooltip title="deletar fluxo">
+                      <Tooltip title="Deletar fluxo">
                         <DeleteForever
+                          className="delete-icon"
                           htmlColor="black"
                           onClick={() => {
                             setDeleteModal(true);
@@ -215,16 +217,18 @@ function Flows() {
                           }}
                         ></DeleteForever>
                       </Tooltip>
-                      <Link to="/statistics" state={flow}>
-                        <InsertChartIcon htmlColor="black" />
-                      </Link>
+                      <Tooltip title="Visualizar estatísticas">
+                        <Link to="/statistics" state={flow}>
+                          <InsertChartIcon htmlColor="black" />
+                        </Link>
+                      </Tooltip>
                     </td>
                   </tr>
                 );
               })}
             </tbody>
           </Table>
-        </FlowsArea>
+        </Area>
 
         <AddFlowButton
           onClick={() => {
@@ -326,6 +330,7 @@ function Flows() {
                         options={selectedOptions}
                       />
                       <div
+                        className="addStage"
                         onClick={() => {
                           addSequence();
                         }}
@@ -419,6 +424,7 @@ function Flows() {
                     options={selectedOptions}
                   />
                   <div
+                    className="addStage"
                     onClick={() => {
                       addSequence();
                     }}

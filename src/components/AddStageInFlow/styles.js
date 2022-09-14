@@ -10,4 +10,8 @@ export const SelectorWrapper = styled.div`
   gap: 10px;
   font-size: 20px;
   border-radius: 20px;
+
+  div.addStage {
+    cursor: pointer;
+  }
 `;

@@ -14,6 +14,7 @@ import Statistics from 'pages/Statistics/index.js';
 import { AuthContext } from 'context/AuthContext';
 import Recovery from 'pages/Recovery/index.js';
 import StatisticsProcesses from 'pages/StatisticsProcesses/index.js';
+import SolicitacoesCadastro from 'pages/SolicitacoesCadastro/index.js';
 
 function App() {
   const location = useLocation();
@@ -62,6 +63,7 @@ function App() {
                 path="statistics/stageProcesses/showProcess"
                 element={<ShowProcess />}
               />
+              <Route path="solicitacoes" element={<SolicitacoesCadastro />} />
             </Routes>
           </Content>
         </AuthContext.Provider>
