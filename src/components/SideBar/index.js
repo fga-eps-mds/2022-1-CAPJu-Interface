@@ -21,8 +21,6 @@ function SideBar() {
           Login
         </MenuItem>
         <hr />
-
-        <hr />
         <MenuItem href={'/accessProfile'}>
           <PersonFill size={35} /> Perfil de Acesso
         </MenuItem>
