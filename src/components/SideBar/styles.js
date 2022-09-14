@@ -52,3 +52,18 @@ export const MenuItem = styled.a`
     color: black;
   }
 `;
+
+export const Notification = styled.div`
+  position: absolute;
+  left: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 13px;
+  font-weight: bold;
+  color: white;
+  background-color: red;
+`;

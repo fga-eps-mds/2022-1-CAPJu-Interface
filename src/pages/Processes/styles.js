@@ -5,11 +5,10 @@ export const Container = styled.div`
   color: black;
   display: flex;
   align-items: center;
-  font-size: 20px;
+  font-size: 24px;
   flex-direction: column;
   gap: 20px;
   justify-content: space-between;
-  overflow-y: scroll;
 
   div.processes {
     display: flex;

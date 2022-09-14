@@ -5,10 +5,15 @@ export const Container = styled.div`
   color: black;
   display: flex;
   align-items: center;
-  font-size: 64px;
-
+  font-size: 24px;
+  gap: 50px;
   flex-direction: column;
   margin: 0px 100px;
+
+  svg.delete-icon {
+    cursor: pointer;
+    color: black;
+  }
 `;
 
 export const AddStageButton = styled.button`
@@ -25,8 +30,8 @@ export const AddStageButton = styled.button`
   border-radius: 20px;
 `;
 
-export const StagesArea = styled.div`
-  padding: 100px;
+export const Area = styled.div`
+  padding: 0px 100px;
   width: 100%;
   color: black;
   display: flex;
