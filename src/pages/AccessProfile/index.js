@@ -3,10 +3,12 @@ import { useEffect, useState } from 'react';
 import { Container, Table, InputSearch } from './sytles.js';
 import api from '../../services/user';
 import authConfig from 'services/config';
+import toast from 'react-hot-toast';
 
 function AccessProfile() {
   const [users, setUsers] = useState([]);
   const [searchUser, setSearchUser] = useState('');
+  const [newRole, setNewRole] = useState({ role: [] });
 
   const handleChange = (event) => {
     setSearchUser(event.target.value);
@@ -24,14 +26,37 @@ function AccessProfile() {
     });
     setUsers(response.data.user);
   }
-  async function editRole() {
-    const response = await api.put('/updateRole', { headers: authHeader });
+  async function editRole(id) {
+    try {
+      let editedRole = { ...newRole };
+
+      const response = await api.put('/updateRole', {
+        headers: authHeader,
+        _id: id,
+        ...editedRole
+      });
+
+      setNewRole(editedRole);
+
+      if (response.status == 200) {
+        toast.success('Role alterada com sucesso');
+      } else {
+        toast.error('Erro ao alterar Role');
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error('Erro ao tentar alterar Role');
+    }
   }
+
   const filterUser = (arr) => {
     return arr.filter((users) => {
       if (searchUser == '') {
-        return users;
-      } else if (users.name.toLowerCase().includes(searchUser)) {
+        return users /*&& users.status == true*/;
+      } else if (
+        users.name.toLowerCase().includes(searchUser) /*&&
+        users.status == true */
+      ) {
         return users;
       }
     });
