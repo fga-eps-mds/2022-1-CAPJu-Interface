@@ -11,29 +11,16 @@ function EditAccountPassword() {
   const [newPassword, setNewPassword] = useState('');
   const [newPassword2, setNewPassword2] = useState('');
 
-  async function editPassword(_id) {
-    const userPassword = JSON.parse(localStorage.getItem('user'));
-    const pass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z$*&@#]{6,}$/;
-    console.log(newPassword, pass.test(newPassword));
-    if (oldPassword != userPassword) {
-      toast.error('Senha invalida');
-      return;
-    }
-    if (!pass.test(newPassword)) {
-      toast.error('Senha não cumpre os criterios');
-      return;
-    }
-    if (newPassword != newPassword2) {
-      toast.error('Senha invalida');
-      return;
-    }
+  async function editPassword() {
     try {
-      const response = await user.put(`/updateUser/${_id}`, {
-        password: newPassword
+      const userPass = JSON.parse(localStorage.getItem('user'));
+      const response = await user.post(`/updateUserPassword`, {
+        oldPassword,
+        newPassword
       });
+      console.log('aqui', userPass);
       response.status == 200;
       toast.success('Senha atualizado com  sucesso');
-      setNewPassword('');
     } catch (error) {
       toast.error('Erro ao editar \n' + error.response.data.message);
     }
@@ -44,27 +31,34 @@ function EditAccountPassword() {
         <UserIcon />
         <h1>Editar Senha</h1>
       </ContainerTitle>
-      <ContainerMenu>
-        <TextInput
-          set={setOldPassword}
-          value={oldPassword}
-          placeholder={'Senha Atual'}
-          type="password"
-        />
-        <TextInput
-          set={setNewPassword}
-          value={newPassword}
-          placeholder={'Nova Senha'}
-          type="password"
-        />
-        <TextInput
-          set={setNewPassword2}
-          value={newPassword2}
-          placeholder={'Confirmar Senha'}
-          type="password"
-        />
-      </ContainerMenu>
-      <Button onClick={editPassword}>Salvar</Button>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          editPassword();
+        }}
+      >
+        <ContainerMenu>
+          <TextInput
+            set={setOldPassword}
+            value={oldPassword}
+            placeholder={'Senha Atual'}
+            type="password"
+          />
+          <TextInput
+            set={setNewPassword}
+            value={newPassword}
+            placeholder={'Nova Senha'}
+            type="password"
+          />
+          <TextInput
+            set={setNewPassword2}
+            value={newPassword2}
+            placeholder={'Confirmar Senha'}
+            type="password"
+          />
+        </ContainerMenu>
+        <Button type="submit">Salvar</Button>
+      </form>
     </Container>
   );
 }
