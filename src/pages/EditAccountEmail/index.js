@@ -10,12 +10,11 @@ function EditAccountEmail() {
   const [newEmail, setNewEmail] = useState('');
   const [oldEmail, setOldEmail] = useState('');
 
-  async function editEmail(_id) {
+  async function editEmail() {
     const re = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
-    console.log(newEmail, re.test(newEmail));
-    const userEmail = JSON.parse(localStorage.getItem('user'));
-    console.log(userEmail);
-    if (oldEmail != userEmail.email) {
+    const user = JSON.parse(localStorage.getItem('user'));
+    console.log('aqui', user);
+    if (oldEmail != user.email) {
       toast.error('E-mail Inválido');
       return;
     }
@@ -24,7 +23,8 @@ function EditAccountEmail() {
       return;
     }
     try {
-      const response = await user.put(`/updateUser/${_id}`, {
+      const userEmail = JSON.parse(localStorage.getItem('user'));
+      const response = await user.put(`/updateUser/${userEmail._id}`, {
         email: newEmail
       });
       response.status == 200;
@@ -40,19 +40,26 @@ function EditAccountEmail() {
         <UserIcon />
         <h1>Editar Email</h1>
       </ContainerTitle>
-      <ContainerMenu>
-        <TextInput
-          set={setOldEmail}
-          value={oldEmail}
-          placeholder="Email Atual"
-        />
-        <TextInput
-          set={setNewEmail}
-          value={newEmail}
-          placeholder="Email Novo"
-        />
-      </ContainerMenu>
-      <Button onClick={editEmail}>Salvar</Button>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          editEmail();
+        }}
+      >
+        <ContainerMenu>
+          <TextInput
+            set={setOldEmail}
+            value={oldEmail}
+            placeholder="Email Atual"
+          />
+          <TextInput
+            set={setNewEmail}
+            value={newEmail}
+            placeholder="Email Novo"
+          />
+        </ContainerMenu>
+        <Button type="submit">Salvar</Button>
+      </form>
     </Container>
   );
 }

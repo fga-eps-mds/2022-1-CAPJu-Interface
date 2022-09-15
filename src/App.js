@@ -1,6 +1,5 @@
 import './styles.js';
 import SideBar from './components/SideBar';
-import Account from './components/Account/index.js';
 import Login from './pages/Login';
 import ShowProcess from 'pages/ShowProcess/index.js';
 import Processes from 'pages/Processes/index.js';
@@ -48,7 +47,6 @@ function App() {
         <AuthContext.Provider value={{ user, setUser }}>
           <SideBar />
           <Content>
-            {/* <Account /> */}
             <Routes>
               <Route path="/" element={<Flows />} />
               <Route path="login" element={<Login />} />
