@@ -44,6 +44,12 @@ export const Table = styled.table`
     padding: 10px;
     border: 1px solid #ddd;
   }
+  svg.edit-icon {
+    cursor: pointer;
+  }
+  svg.delete-icon {
+    cursor: pointer;
+  }
 `;
 export const InputSearch = styled.input`
   background-color: rgba(0, 0, 0, 0.1);

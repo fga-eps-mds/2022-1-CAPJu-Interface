@@ -115,7 +115,7 @@ function AccessProfile() {
             <th>Nome</th>
             <th>Perfil</th>
             <th>Status</th>
-            <th>Ações</th>
+            <th></th>
           </tr>
           {filterUser(users).map((users, idx) => {
             let role;

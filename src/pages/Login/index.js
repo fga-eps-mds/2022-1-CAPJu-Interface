@@ -6,7 +6,8 @@ import {
   MenuElement,
   Modal,
   ForgotPassword,
-  Criterios
+  Criterios,
+  EditDrop
 } from './styles';
 import { useState } from 'react';
 import TextInput from 'components/TextInput';
@@ -192,19 +193,21 @@ function Login() {
               placeholder="Confirme a senha"
               type="password"
             ></TextInput>
-            <Dropdown
-              options={OptionsRoles}
-              onChange={(e) => {
-                setNewRole(e.value);
-              }}
-              value={newRole}
-              placeholder="Selecione o perfil"
-              className="dropdown"
-              controlClassName="dropdown-control"
-              placeholderClassName="dropdown-placeholder"
-              menuClassName="dropdown-menu"
-              arrowClassName="dropdown-arrow"
-            />
+            <EditDrop>
+              <Dropdown
+                options={OptionsRoles}
+                onChange={(e) => {
+                  setNewRole(e.value);
+                }}
+                value={newRole}
+                placeholder="Selecione o perfil"
+                className="dropdown"
+                controlClassName="dropdown-control"
+                placeholderClassName="dropdown-placeholder"
+                menuClassName="dropdown-menu"
+                arrowClassName="dropdown-arrow"
+              />
+            </EditDrop>
             <Criterios>
               <ul>
                 <h6>
