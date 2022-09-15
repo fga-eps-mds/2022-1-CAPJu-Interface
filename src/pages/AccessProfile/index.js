@@ -1,14 +1,29 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import { Container, Table, InputSearch } from './sytles.js';
+import {
+  Container,
+  Table,
+  InputSearch,
+  Modal,
+  Content,
+  ContentHeader
+} from './sytles.js';
 import api from '../../services/user';
 import authConfig from 'services/config';
 import toast from 'react-hot-toast';
+import EditIcon from '@mui/icons-material/Edit';
+import { DeleteForever } from '@mui/icons-material';
+import Tooltip from '@mui/material/Tooltip';
+import Button from 'components/Button';
+import Dropdown from 'react-dropdown';
 
 function AccessProfile() {
   const [users, setUsers] = useState([]);
   const [searchUser, setSearchUser] = useState('');
-  const [newRole, setNewRole] = useState({ role: [] });
+  const [newRole, setNewRole] = useState(null);
+  const [roleModal, setRoleModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(0);
 
   const handleChange = (event) => {
     setSearchUser(event.target.value);
@@ -26,17 +41,17 @@ function AccessProfile() {
     });
     setUsers(response.data.user);
   }
-  async function editRole(id) {
+
+  async function editRole() {
     try {
-      let editedRole = { ...newRole };
-
-      const response = await api.put('/updateRole', {
-        headers: authHeader,
-        _id: id,
-        ...editedRole
-      });
-
-      setNewRole(editedRole);
+      const response = await api.put(
+        '/updateRole',
+        {
+          _id: users[selectedUser]._id,
+          role: newRole
+        },
+        { headers: authHeader }
+      );
 
       if (response.status == 200) {
         toast.success('Role alterada com sucesso');
@@ -52,15 +67,19 @@ function AccessProfile() {
   const filterUser = (arr) => {
     return arr.filter((users) => {
       if (searchUser == '') {
-        return users /*&& users.status == true*/;
-      } else if (
-        users.name.toLowerCase().includes(searchUser) /*&&
-        users.status == true */
-      ) {
+        return users;
+      } else if (users.name.toLowerCase().includes(searchUser)) {
         return users;
       }
     });
   };
+
+  const OptionsRoles = [
+    { label: 'DIRETOR', value: 1 },
+    { label: 'JUIZ', value: 2 },
+    { label: 'SERVIDOR', value: 3 },
+    { label: 'ESTAGIARIO', value: 4 }
+  ];
 
   return (
     <Container>
@@ -78,10 +97,11 @@ function AccessProfile() {
             <th>Nome</th>
             <th>Perfil</th>
             <th>Status</th>
+            <th>Ações</th>
           </tr>
           {filterUser(users).map((users, idx) => {
             let role;
-            let status;
+            let accepted;
             switch (users.role) {
               case 1:
                 role = 'Diretor';
@@ -99,15 +119,15 @@ function AccessProfile() {
                 role = 'Nulo';
                 break;
             }
-            switch (users.status) {
+            switch (users.accepted) {
               case false:
-                status = 'Pendente';
+                accepted = 'Pendente';
                 break;
               case true:
-                status = 'Aceito';
+                accepted = 'Aceito';
                 break;
               default:
-                status = 'Nulo';
+                accepted = 'Nulo';
                 break;
             }
 
@@ -115,11 +135,81 @@ function AccessProfile() {
               <tr key={idx}>
                 <td>{users.name}</td>
                 <td>{role}</td>
-                <td>{status}</td>
+                <td>{accepted}</td>
+                <td>
+                  <Tooltip title="Editar Perfil">
+                    <EditIcon
+                      className="edit-icon"
+                      htmlColor="black"
+                      onClick={() => {
+                        setRoleModal(true);
+                        setSelectedUser(idx);
+                      }}
+                    ></EditIcon>
+                  </Tooltip>
+                  <Tooltip title="Deletar fluxo">
+                    <DeleteForever
+                      className="delete-icon"
+                      htmlColor="black"
+                      onClick={() => {
+                        setDeleteModal(true);
+                        setSelectedUser(idx);
+                      }}
+                    ></DeleteForever>
+                  </Tooltip>
+                </td>
               </tr>
             );
           })}
         </Table>
+        {roleModal && (
+          <>
+            <Modal>
+              <Content>
+                <ContentHeader>
+                  <span>Editar Perfil de Acesso</span>
+                </ContentHeader>
+                <span>Escolha um Perfil</span>
+                <Dropdown
+                  options={OptionsRoles}
+                  onChange={(e) => {
+                    setNewRole(e.value);
+                  }}
+                  value={
+                    OptionsRoles.find(
+                      (el) => el.value === users[selectedUser].role
+                    ).label
+                  }
+                  placeholder="Selecione o perfil"
+                  className="dropdown"
+                  controlClassName="dropdown-control"
+                  placeholderClassName="dropdown-placeholder"
+                  menuClassName="dropdown-menu"
+                  arrowClassName="dropdown-arrow"
+                />
+                <div>
+                  <Button
+                    onClick={async () => {
+                      await editRole();
+                      await updateUser();
+                      setRoleModal(false);
+                    }}
+                  >
+                    Salvar
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setRoleModal(false);
+                    }}
+                    background="red"
+                  >
+                    Cancelar
+                  </Button>
+                </div>
+              </Content>
+            </Modal>
+          </>
+        )}
       </div>
     </Container>
   );
