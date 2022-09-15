@@ -63,6 +63,24 @@ function AccessProfile() {
       toast.error('Erro ao tentar alterar Role');
     }
   }
+  async function deleteUser(userId) {
+    try {
+      const response = await api.delete(`/deleteRequest/${userId}`, {
+        headers: authHeader
+      });
+      if (response.status == 200) {
+        toast.success('Usuário deletado com sucesso!', { duration: 3000 });
+      }
+      if (response.status == 401) {
+        toast.error('Usuário não tem permissão para excluir!', {
+          duration: 3000
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error('Erro ao deletar usuário!', { duration: 3000 });
+    }
+  }
 
   const filterUser = (arr) => {
     return arr.filter((users) => {
@@ -200,6 +218,38 @@ function AccessProfile() {
                   <Button
                     onClick={() => {
                       setRoleModal(false);
+                    }}
+                    background="red"
+                  >
+                    Cancelar
+                  </Button>
+                </div>
+              </Content>
+            </Modal>
+          </>
+        )}
+        {deleteModal && (
+          <>
+            <Modal>
+              <Content>
+                <ContentHeader>
+                  <span>Excluir Usuário</span>
+                </ContentHeader>
+                <span>Deseja realmente excluir Usuário?</span>
+                {users[selectedUser].name}
+                <div>
+                  <Button
+                    onClick={async () => {
+                      await deleteUser(users[selectedUser]._id);
+                      await updateUser();
+                      setDeleteModal(false);
+                    }}
+                  >
+                    Confirmar
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setDeleteModal(false);
                     }}
                     background="red"
                   >
