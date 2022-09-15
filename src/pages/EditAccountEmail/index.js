@@ -11,17 +11,6 @@ function EditAccountEmail() {
   const [oldEmail, setOldEmail] = useState('');
 
   async function editEmail() {
-    const re = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
-    const user = JSON.parse(localStorage.getItem('user'));
-    console.log('aqui', user);
-    if (oldEmail != user.email) {
-      toast.error('E-mail Inválido');
-      return;
-    }
-    if (!re.test(newEmail)) {
-      toast.error('E-mail Inválido');
-      return;
-    }
     try {
       const userEmail = JSON.parse(localStorage.getItem('user'));
       const response = await user.put(`/updateUser/${userEmail._id}`, {
@@ -29,11 +18,11 @@ function EditAccountEmail() {
       });
       response.status == 200;
       toast.success('Usuário atualizado com  sucesso');
-      setNewEmail('');
     } catch (error) {
       toast.error('Erro ao editar \n' + error.response.data.message);
     }
   }
+
   return (
     <Container>
       <ContainerTitle>
