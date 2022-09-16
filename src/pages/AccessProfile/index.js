@@ -60,7 +60,14 @@ function AccessProfile() {
       }
     } catch (error) {
       console.log(error);
-      toast.error('Erro ao tentar alterar Role');
+      if (error.response.status == 401) {
+        toast(error.response.data.message, {
+          icon: '⚠️',
+          duration: 3000
+        });
+      } else {
+        toast.error('Erro ao tentar alterar Role');
+      }
     }
   }
   async function deleteUser(userId) {
@@ -71,14 +78,18 @@ function AccessProfile() {
       if (response.status == 200) {
         toast.success('Usuário deletado com sucesso!', { duration: 3000 });
       }
-      if (response.status == 401) {
-        toast.error('Usuário não tem permissão para excluir!', {
+    } catch (error) {
+      console.log(error);
+      if (error.response.status == 401) {
+        toast(error.response.data.message, {
+          icon: '⚠️',
+          duration: 3000
+        });
+      } else {
+        toast.error('Erro ao deletar usuário!' + error.response.data.message, {
           duration: 3000
         });
       }
-    } catch (error) {
-      console.log(error);
-      toast.error('Erro ao deletar usuário!', { duration: 3000 });
     }
   }
 

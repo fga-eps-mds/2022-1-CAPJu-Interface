@@ -82,7 +82,14 @@ function Flows() {
         'Erro ao adicionar fluxo'
       );
     } catch (e) {
-      toast.error('Erro ao adicionar fluxo');
+      if (e.response.status == 401) {
+        toast(e.response.data.message, {
+          icon: '⚠️',
+          duration: 3000
+        });
+      } else {
+        toast.error('Erro ao adicionar fluxo');
+      }
     }
   }
 
@@ -98,7 +105,14 @@ function Flows() {
       );
     } catch (e) {
       console.log(e);
-      toast.error('Erro ao remover fluxo');
+      if (e.response.status == 401) {
+        toast(e.response.data.message, {
+          icon: '⚠️',
+          duration: 3000
+        });
+      } else {
+        toast.error('Erro ao remover fluxo');
+      }
     }
   }
 
@@ -135,7 +149,14 @@ function Flows() {
       );
     } catch (e) {
       console.log(e);
-      toast.error('Erro ao Editar fluxo');
+      if (e.response.status == 401) {
+        toast(e.response.data.message, {
+          icon: '⚠️',
+          duration: 3000
+        });
+      } else {
+        toast.error('Erro ao Editar fluxo');
+      }
     }
   }
 
