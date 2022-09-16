@@ -12,13 +12,14 @@ function EditAccountPassword() {
   const [newPassword2, setNewPassword2] = useState('');
 
   async function editPassword() {
+    const userPass = JSON.parse(localStorage.getItem('user'));
     try {
-      const userPass = JSON.parse(localStorage.getItem('user'));
-      const response = await user.post(`/updateUserPassword`, {
+      console.log(userPass);
+      const response = await user.post(`/updateUserPassword/${userPass._id}`, {
         oldPassword,
         newPassword
       });
-      console.log('aqui', userPass);
+      console.log('aqui', response);
       response.status == 200;
       toast.success('Senha atualizado com  sucesso');
     } catch (error) {
