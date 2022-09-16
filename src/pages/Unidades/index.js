@@ -62,12 +62,13 @@ function Unidades() {
   }
 
   async function removeAdmin(adminId) {
-    const response = await api.post('/removeAdmin', {
-      unity: currentUnity._id,
-      admin: adminId
+    const response = await userApi.post('/removeUnityAdmin', {
+      unityId: currentUnity._id,
+      adminId: adminId
     });
-    console.log(response.data.Unitys);
-    setUnitys(response.data.Unitys);
+    if (response.status == 200) {
+      toast.success('Administrador removido com sucesso');
+    }
   }
 
   async function updateUnitys() {
@@ -142,7 +143,7 @@ function Unidades() {
                   <tr key={index}>
                     <td>{unity.name}</td>
                     <td>
-                      <Tooltip title="Adicionar Admin">
+                      <Tooltip title="Visualizar Admins">
                         <Eye
                           className="delete-icon"
                           size={30}
@@ -242,7 +243,7 @@ function Unidades() {
                               className="delete-icon"
                               size={30}
                               onClick={() => {
-                                setAddAdminsModalOpen(true);
+                                setSeeAdminsModalOpen(false);
                                 removeAdmin(admin._id);
                               }}
                             />
