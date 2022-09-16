@@ -17,6 +17,8 @@ import { Profile } from '@styled-icons/icomoon';
 import { PersonFill } from '@styled-icons/bootstrap/PersonFill';
 import { UserPlus } from '@styled-icons/boxicons-regular/UserPlus';
 import { useNavigate } from 'react-router-dom';
+import { GroupWork } from '@styled-icons/material-outlined';
+
 function SideBar() {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
@@ -60,6 +62,12 @@ function SideBar() {
         <MenuItem href={'/'}>
           <FlowCascade size={35} />
           Fluxos
+        </MenuItem>
+        <hr />
+
+        <MenuItem href={'/unidades'}>
+          <GroupWork size={35} />
+          Unidades
         </MenuItem>
         <hr />
 
