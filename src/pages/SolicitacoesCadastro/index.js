@@ -10,7 +10,7 @@ import {
 } from './styles';
 import Button from 'components/Button';
 import api from '../../services/user';
-import authConfig from 'services/config';
+import authConfig from 'services/config.js';
 import { Delete } from '@styled-icons/typicons/Delete';
 import { Check } from '@styled-icons/entypo/Check';
 import Tooltip from '@mui/material/Tooltip';

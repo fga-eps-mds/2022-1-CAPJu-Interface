@@ -49,7 +49,9 @@ test('Testando criar Login no componente Login', async () => {
   fireEvent.change(inputPassword, { target: { value: '123456' } });
   expect(title).toHaveTextContent('Login');
   fireEvent.click(button1);
-  await waitFor(() => expect(scopeLogin.isDone()).toBe(true));
+  await waitFor(() => expect(scopeLogin.isDone()).toBe(true), {
+    timeout: 1000
+  });
   expect(screen.queryByText('Login')).toBe(null);
 });
 

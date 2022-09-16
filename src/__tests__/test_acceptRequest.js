@@ -36,3 +36,14 @@ const scope = nock(userURL)
   .persist()
   .get('/allUser?accepted=false')
   .reply(200, user);
+
+test.skip('Testando aceitar solicitação', async () => {
+  render(
+    <MemoryRouter initialEntries={['/']}>
+      <Routes>
+        <Route path="/" element={<SolicitacoesCadastro />} />
+      </Routes>
+    </MemoryRouter>
+  );
+  await waitFor(() => expect(scope.isDone()).toBe(true));
+});

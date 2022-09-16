@@ -57,7 +57,9 @@ test('Testando o cadastro', async () => {
 
   expect(title).toHaveTextContent('Cadastre-se');
   fireEvent.click(button1);
-  await waitFor(() => expect(scopeCadastro.isDone()).toBe(true));
+  await waitFor(() => expect(scopeCadastro.isDone()).toBe(true), {
+    timeout: 1000
+  });
   expect(screen.queryByText('Cadastre-se')).toBe(null);
 });
 
