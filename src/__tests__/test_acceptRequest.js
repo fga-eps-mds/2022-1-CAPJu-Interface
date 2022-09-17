@@ -1,17 +1,12 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/display-name */
 import React from 'react';
-import { render, screen, fireEvent, waitFor, getByTestId } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import nock from 'nock';
-import axios from 'axios';
 import { userURL } from '../services/user.js';
 import SolicitacoesCadastro from '../pages/SolicitacoesCadastro';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { flowsResponse, stagesResponse } from '../testConstants';
-import Login from '../pages/Login';
-import Stages from '../pages/Stages';
-import authConfig from '../services/config.js';
 
 const user = {
   user: [
