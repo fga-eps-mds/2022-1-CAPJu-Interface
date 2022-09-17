@@ -1,5 +1,11 @@
 import React from 'react';
-import { Container, ContainerMenu, UserIcon, ContainerTitle } from './styles';
+import {
+  Container,
+  ContainerMenu,
+  UserIcon,
+  ContainerTitle,
+  Criterios
+} from './styles';
 import TextInput from '../../components/TextInput';
 import Button from '../../components/Button';
 import toast from 'react-hot-toast';
@@ -13,15 +19,30 @@ function EditAccountPassword() {
 
   async function editPassword() {
     const userPass = JSON.parse(localStorage.getItem('user'));
+    const pass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z$*&@#]{6,}$/;
     try {
-      console.log(userPass);
-      const response = await user.post(`/updateUserPassword/${userPass._id}`, {
-        oldPassword,
-        newPassword
-      });
-      console.log('aqui', response);
-      response.status == 200;
-      toast.success('Senha atualizado com  sucesso');
+      if (!pass.test(newPassword)) {
+        toast.error('Senha não cumpre os criterios');
+        return;
+      } else {
+        if (newPassword == newPassword2) {
+          const response = await user.post(
+            `/updateUserPassword/${userPass._id}`,
+            {
+              oldPassword,
+              newPassword
+            }
+          );
+          response.status == 200;
+          toast.success('Senha atualizado com  sucesso');
+          setNewPassword('');
+          setOldPassword('');
+          setNewPassword2('');
+        } else {
+          toast.error('Confirmação incorreta!');
+          return;
+        }
+      }
     } catch (error) {
       toast.error('Erro ao editar \n' + error.response.data.message);
     }
@@ -57,6 +78,16 @@ function EditAccountPassword() {
             placeholder={'Confirmar Senha'}
             type="password"
           />
+          <Criterios>
+            <ul>
+              <h6>
+                <strong>Critérios para aceitação de senha:</strong>
+                <li>Deve conter ao menos um dígito;</li>
+                <li>Deve conter ao menos uma letra maiúscula;</li>
+                <li>Deve conter ao menos 6 dos caracteres;</li>
+              </h6>
+            </ul>
+          </Criterios>
         </ContainerMenu>
         <Button type="submit">Salvar</Button>
       </form>
