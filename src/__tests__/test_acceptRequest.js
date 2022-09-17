@@ -55,6 +55,10 @@ test('Testando aceitar solicitação', async () => {
 
   //Aceitando Solicitação
   const scopeAccept = nock(userURL)
+    .defaultReplyHeaders({
+      'access-control-allow-origin': '*',
+      'access-control-allow-credentials': 'true'
+    })
     .post(`/acceptRequest/${user.user[0]._id}`)
     .reply(200, null);
   const acceptButton = screen.getByLabelText('Aceitar solicitação');
@@ -62,5 +66,21 @@ test('Testando aceitar solicitação', async () => {
   const acceptConfirmButton = screen.getByText('Confirmar');
   fireEvent.click(acceptConfirmButton);
   await waitFor(() => expect(scopeAccept.isDone()).toBe(true));
+
+  // //Deletando solicitação
+  const scopeDelete = nock(userURL)
+    .defaultReplyHeaders({
+      'access-control-allow-origin': '*',
+      'access-control-allow-credentials': 'true'
+    })
+    .options(`/deleteRequest/${user.user[0]._id}`)
+    .reply(200, null)
+    .delete(`/deleteRequest/${user.user[0]._id}`)
+    .reply(200, null);
+  const deleteButton = screen.getByLabelText('Recusar solicitação');
+  fireEvent.click(deleteButton);
+  const deleteConfirmButton = screen.getByText('Confirmar');
+  fireEvent.click(deleteConfirmButton);
+  await waitFor(() => expect(scopeDelete.isDone()).toBe(true));
 });
 afterAll(() => nock.restore());
