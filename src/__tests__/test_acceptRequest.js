@@ -82,5 +82,12 @@ test('Testando aceitar solicitação', async () => {
   const deleteConfirmButton = screen.getByText('Confirmar');
   fireEvent.click(deleteConfirmButton);
   await waitFor(() => expect(scopeDelete.isDone()).toBe(true));
+
+  //Cancelando Confirmação de Aceitação
+  fireEvent.click(acceptButton);
+  const cancelAcceptButton = screen.getByText('Cancelar');
+  fireEvent.click(cancelAcceptButton);
+
+  //Cancelando Confiramação de Deleção
 });
 afterAll(() => nock.restore());
