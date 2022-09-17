@@ -89,5 +89,9 @@ test('Testando aceitar solicitação', async () => {
   fireEvent.click(cancelAcceptButton);
 
   //Cancelando Confiramação de Deleção
+  fireEvent.click(deleteButton);
+  const cancelDeleteButton = screen.getByText('Cancelar');
+  fireEvent.click(cancelDeleteButton);
+  screen.getByText('Solicitações de Cadastro');
 });
 afterAll(() => nock.restore());
