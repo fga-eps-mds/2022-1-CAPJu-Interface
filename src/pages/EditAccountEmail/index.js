@@ -13,12 +13,17 @@ function EditAccountEmail() {
   async function editEmail() {
     const userEmail = JSON.parse(localStorage.getItem('user'));
     try {
-      const response = await user.put(`/updateUser/${userEmail._id}`, {
-        email: newEmail
-      });
-      console.log(user.name);
-      response.status == 200;
-      toast.success('Usuário atualizado com  sucesso');
+      if (oldEmail == userEmail.email && newEmail !== userEmail.email) {
+        const response = await user.put(`/updateUser/${userEmail._id}`, {
+          email: newEmail
+        });
+        response.status == 200;
+        toast.success('Email atualizado com  sucesso');
+        setNewEmail('');
+        setOldEmail('');
+      } else {
+        toast.error('Erro ao atualizar email');
+      }
     } catch (error) {
       toast.error('Erro ao editar \n' + error.response.data.message);
     }
