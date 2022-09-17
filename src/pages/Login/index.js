@@ -30,7 +30,7 @@ function Login() {
   const [newPassword, setNewPassword] = useState('');
   const [newPassword2, setNewPassword2] = useState('');
   const [unitys, setUnitys] = useState([]);
-  const [newUnity, setNewUnity] = useState([]);
+  const [newUnity, setNewUnity] = useState('');
 
   const [selectedTab, setSelectedTab] = useState('login');
 
@@ -121,174 +121,166 @@ function Login() {
     { label: 'SERVIDOR', value: 3 },
     { label: 'ESTAGIARIO', value: 4 }
   ];
-  const OptionsRoles2 = [
-    { label: 'DIRETOR', value: 1 },
-    { label: 'JUIZ', value: 2 },
-    { label: 'SERVIDOR', value: 3 },
-    { label: 'ESTAGIARIO', value: 4 }
-  ];
+  const roles = ['', 'DIRETOR', 'JUIZ', 'SERVIDOR', 'ESTAGIARIO'];
 
   return (
     <Container>
-      <Content>
-        <Menu>
-          <MenuElement
-            onClick={() => {
-              setSelectedTab('login');
-            }}
-            selected={selectedTab == 'login'}
-          >
-            Login
-          </MenuElement>
-          <MenuElement
-            onClick={() => {
-              setSelectedTab('register');
-            }}
-            selected={selectedTab == 'register'}
-          >
-            Cadastro
-          </MenuElement>
-        </Menu>
-        {selectedTab == 'login' ? (
-          <>
-            <h1>Login</h1>
-            <form
-              onSubmit={async (e) => {
-                e.preventDefault();
-                login();
-              }}
-            >
-              <TextInput
-                set={setEmail}
-                value={email}
-                placeholder="Email"
-              ></TextInput>
-              <br></br>
-              <br></br>
-              <TextInput
-                set={setPassword}
-                value={password}
-                placeholder="Senha"
-                type="password"
-              ></TextInput>
-              <ForgotPassword
-                onClick={() => {
-                  setModalOpen(true);
-                }}
-              >
-                Esqueceu a senha?
-              </ForgotPassword>
-              <Button type="submit">Entrar</Button>
-            </form>
-          </>
-        ) : (
+      <Menu>
+        <MenuElement
+          onClick={() => {
+            setSelectedTab('login');
+          }}
+          selected={selectedTab == 'login'}
+        >
+          Login
+        </MenuElement>
+        <MenuElement
+          onClick={() => {
+            setSelectedTab('register');
+          }}
+          selected={selectedTab == 'register'}
+        >
+          Cadastro
+        </MenuElement>
+      </Menu>
+      {selectedTab == 'login' ? (
+        <>
+          <h1>Login</h1>
           <form
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              register();
+              login();
             }}
           >
-            <h1>Cadastre-se </h1>
             <TextInput
-              set={setNewName}
-              value={newName}
-              placeholder="Nome completo"
-            ></TextInput>
-            <br></br>
-            <TextInput
-              set={setNewEmail}
-              value={newEmail}
+              set={setEmail}
+              value={email}
               placeholder="Email"
             ></TextInput>
             <br></br>
-            <TextInput
-              set={setNewPassword}
-              value={newPassword}
-              placeholder="Crie uma senha"
-              type="password"
-            ></TextInput>
             <br></br>
             <TextInput
-              set={setNewPassword2}
-              value={newPassword2}
-              placeholder="Confirme a senha"
+              set={setPassword}
+              value={password}
+              placeholder="Senha"
               type="password"
             ></TextInput>
-            <EditDrop>
-              <Dropdown
-                options={OptionsRoles}
-                onChange={(e) => {
-                  setNewRole(e.value);
-                }}
-                value={newRole}
-                placeholder="Selecione o perfil"
-                className="dropdown"
-                controlClassName="dropdown-control"
-                placeholderClassName="dropdown-placeholder"
-                menuClassName="dropdown-menu"
-                arrowClassName="dropdown-arrow"
-              />
-            </EditDrop>
-            <EditDrop>
-              <Dropdown
-                options={allOptions}
-                onChange={(e) => {
-                  setNewUnity(e.value);
-                }}
-                value={newUnity}
-                placeholder="Selecione a unidade"
-                className="dropdown"
-                controlClassName="dropdown-control"
-                placeholderClassName="dropdown-placeholder"
-                menuClassName="dropdown-menu"
-                arrowClassName="dropdown-arrow"
-              />
-            </EditDrop>
-            <Criterios>
-              <ul>
-                <h6>
-                  <strong>Critérios para aceitação de senha:</strong>
-                  <li>Deve conter ao menos um dígito;</li>
-                  <li>Deve conter ao menos uma letra maiúscula;</li>
-                  <li>Deve conter ao menos 6 dos caracteres;</li>
-                </h6>
-              </ul>
-            </Criterios>
-            <Button type="submit">Cadastrar</Button>
+            <ForgotPassword
+              onClick={() => {
+                setModalOpen(true);
+              }}
+            >
+              Esqueceu a senha?
+            </ForgotPassword>
+            <Button type="submit">Entrar</Button>
           </form>
-        )}
-        {isModalOpen && (
-          <Modal>
-            <Content>
-              <h3>Recuperação de senha</h3>
-              <h5>
-                Você receberá um link via e-mail para criar sua nova senha
-              </h5>
-              <TextInput
-                set={setEmail}
-                value={email}
-                placeholder="Digite seu email"
-              ></TextInput>
-              <Button
-                onClick={() => {
-                  requestNewPassword();
-                  setModalOpen(false);
-                }}
-              >
-                Solicitar recuperação
-              </Button>
-              <Button
-                onClick={() => {
-                  setModalOpen(false);
-                }}
-                background="#de5353"
-              >
-                Cancelar
-              </Button>
-            </Content>
-          </Modal>
-        )}
-      </Content>
+        </>
+      ) : (
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            register();
+          }}
+        >
+          <h1>Cadastre-se </h1>
+          <TextInput
+            set={setNewName}
+            value={newName}
+            placeholder="Nome completo"
+          ></TextInput>
+          <br></br>
+          <TextInput
+            set={setNewEmail}
+            value={newEmail}
+            placeholder="Email"
+          ></TextInput>
+          <br></br>
+          <TextInput
+            set={setNewPassword}
+            value={newPassword}
+            placeholder="Crie uma senha"
+            type="password"
+          ></TextInput>
+          <br></br>
+          <TextInput
+            set={setNewPassword2}
+            value={newPassword2}
+            placeholder="Confirme a senha"
+            type="password"
+          ></TextInput>
+          <EditDrop>
+            <Dropdown
+              options={OptionsRoles}
+              onChange={(e) => {
+                console.log('value', e.value);
+                setNewRole(e.value);
+              }}
+              value={roles[newRole]}
+              placeholder="Selecione o perfil"
+              className="dropdown"
+              controlClassName="dropdown-control"
+              placeholderClassName="dropdown-placeholder"
+              menuClassName="dropdown-menu"
+              arrowClassName="dropdown-arrow"
+            />
+          </EditDrop>
+          <EditDrop>
+            <Dropdown
+              options={allOptions}
+              onChange={(e) => {
+                setNewUnity(e.value);
+              }}
+              value={newUnity}
+              placeholder="Selecione a unidade"
+              className="dropdown"
+              controlClassName="dropdown-control"
+              placeholderClassName="dropdown-placeholder"
+              menuClassName="dropdown-menu"
+              arrowClassName="dropdown-arrow"
+            />
+          </EditDrop>
+          <Criterios>
+            <ul>
+              <h6>
+                <strong>Critérios para aceitação de senha:</strong>
+                <li>Deve conter ao menos um dígito;</li>
+                <li>Deve conter ao menos uma letra maiúscula;</li>
+                <li>Deve conter ao menos 6 dos caracteres;</li>
+              </h6>
+            </ul>
+          </Criterios>
+          <Button type="submit">Cadastrar</Button>
+        </form>
+      )}
+      {isModalOpen && (
+        <Modal>
+          <Content>
+            <h3>Recuperação de senha</h3>
+            <h5>Você receberá um link via e-mail para criar sua nova senha</h5>
+            <TextInput
+              set={setEmail}
+              value={email}
+              placeholder="Digite seu email"
+            ></TextInput>
+            <Button
+              onClick={() => {
+                requestNewPassword();
+                setModalOpen(false);
+              }}
+            >
+              Solicitar recuperação
+            </Button>
+            <Button
+              onClick={() => {
+                setModalOpen(false);
+              }}
+              background="#de5353"
+            >
+              Cancelar
+            </Button>
+          </Content>
+        </Modal>
+      )}
     </Container>
   );
 }

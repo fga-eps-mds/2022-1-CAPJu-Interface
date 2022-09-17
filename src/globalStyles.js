@@ -15,6 +15,7 @@ const GlobalStyle = createGlobalStyle`
     max-width: 300px;
     border-radius: 20px;
     transition: all .2s ease;
+    padding: 5px;
 
     .is-open {
       .dropdown-control {
