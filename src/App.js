@@ -17,6 +17,7 @@ import StatisticsProcesses from 'pages/StatisticsProcesses/index.js';
 import EditAccount from 'pages/EditAccount/index.js';
 import EditAccountEmail from 'pages/EditAccountEmail/index.js';
 import EditAccountPassword from 'pages/EditAccountPassword/index.js';
+import SolicitacoesCadastro from 'pages/SolicitacoesCadastro/index.js';
 
 function App() {
   const location = useLocation();
@@ -71,6 +72,7 @@ function App() {
                 path="editAccount/senha"
                 element={<EditAccountPassword />}
               />
+              <Route path="solicitacoes" element={<SolicitacoesCadastro />} />
             </Routes>
           </Content>
         </AuthContext.Provider>

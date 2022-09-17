@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 import {
   Container,
   AddStageButton,
-  StagesArea,
+  Area,
   Modal,
   Content,
   Table,
@@ -15,6 +15,7 @@ import {
 } from './styles';
 import { DeleteForever } from '@styled-icons/material';
 import AxiosError from 'axios/lib/core/AxiosError';
+import Tooltip from '@mui/material/Tooltip';
 
 function Stages() {
   const [stages, setStages] = useState([{ name: '', time: '', _id: '' }]);
@@ -81,8 +82,8 @@ function Stages() {
   return (
     <>
       <Container>
-        Etapas
-        <StagesArea>
+        <h1>Etapas</h1>
+        <Area>
           <Table>
             <thead>
               <tr>
@@ -98,29 +99,23 @@ function Stages() {
                     <td>{stage.name}</td>
                     <td>{stage.time}</td>
                     <td>
-                      <DeleteForever
-                        size={30}
-                        onClick={() => {
-                          setModalConfDelete(true);
-                          setCurrentStage(stage);
-                        }}
-                      />
+                      <Tooltip title="Deletar etapa">
+                        <DeleteForever
+                          className="delete-icon"
+                          size={30}
+                          onClick={() => {
+                            setModalConfDelete(true);
+                            setCurrentStage(stage);
+                          }}
+                        />
+                      </Tooltip>
                     </td>
                   </tr>
-
-                  // <StageItem key={index}>
-                  //   {'Nome da Etapa: '}
-                  //   {stage.name}
-                  //   <br></br>
-                  //   {'Duração em Dias: '}
-                  //   {stage.time} <br></br>
-
-                  // </StageItem>
                 );
               })}
             </tbody>
           </Table>
-        </StagesArea>
+        </Area>
         <AddStageButton
           onClick={() => {
             setModalOpen(true);
@@ -128,7 +123,6 @@ function Stages() {
         >
           + Adicionar Etapa
         </AddStageButton>
-        <></>
       </Container>
       {isModalOpen && (
         <Modal>
