@@ -3,6 +3,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import nock from 'nock';
 import axios from 'axios';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { userURL } from '../services/user';
 import EditAccountEmail from '../pages/EditAccountEmail';
 
@@ -17,9 +18,32 @@ jest.mock('react-router-dom', () => {
   };
 });
 
-test('Testando edição de email', async () => {
-  const editEmailData = {
-    email: 'test@test.com'
+const setLocalStorage = (user, data) => {
+  window.localStorage.setItem(user, JSON.stringify(data));
+};
+
+beforeAll(() => {
+  setLocalStorage('user', {
+    _id: '0001',
+    name: 'nomeUser',
+    email: 'teste@email.com',
+    token: '2asdasd454'
+  });
+});
+
+test('Testando edição de Email do componente editAccountEmail', async () => {
+  const userEmaiResponse = {
+    user: [
+      {
+        _id: '0001',
+        name: 'nomeUser',
+        email: 'teste@email.com',
+        password: 'Test123',
+        createdAt: '2022-09-15T01:07:51.907Z',
+        updatedAt: '2022-09-16T03:42:15.785Z',
+        __v: 0
+      }
+    ]
   };
 
   const scopeEditEmail = nock(userURL)
@@ -27,24 +51,42 @@ test('Testando edição de email', async () => {
       'access-control-allow-origin': '*',
       'access-control-allow-credentials': 'true'
     })
-    .put('/updateUser/:id', editEmailData)
+    .persist()
+    .options(`/updateUser/${userEmaiResponse.user[0]._id}`)
+    .reply(200, 'ok')
+    .put(`/updateUser/${userEmaiResponse.user[0]._id}`)
     .reply(200, {
-      _id: 'askljsf',
-      email: editEmailData.email
+      _id: '0001',
+      name: 'nomeUser',
+      email: 'editTest@email.com',
+      password: 'Test123',
+      createdAt: '2022-09-15T01:07:51.907Z',
+      updatedAt: '2022-09-16T03:42:15.785Z',
+      __v: 0
     });
 
-  render(<EditAccountEmail />);
-  //
+  render(
+    <MemoryRouter initialEntries={['/']}>
+      <Routes>
+        <Route path="/" element={<EditAccountEmail />} />
+      </Routes>
+    </MemoryRouter>
+  );
+
+  screen.getByText('Editar Email');
+
   const emailAtualTextInput = screen.getByPlaceholderText('Email Atual');
   const emailNovoTextInput = screen.getByPlaceholderText('Email Novo');
   const salvarButton = screen.getByText('Salvar');
 
   fireEvent.change(emailAtualTextInput, {
-    target: { value: 'test@test.com' }
+    target: { value: 'teste@email.com' }
   });
-  fireEvent.change(emailNovoTextInput, { target: { value: 'test1@test.com' } });
-  screen.debug();
+  fireEvent.change(emailNovoTextInput, {
+    target: { value: 'editTest@email.com' }
+  });
   fireEvent.click(salvarButton);
+
   await waitFor(() => expect(scopeEditEmail.isDone()).toBe(true));
 });
 
