@@ -29,20 +29,19 @@ function SolicitacoesCadastro() {
   }, []);
 
   async function updateSolicitacoes() {
-    const response = await api.get(`/allUser?accepted=false`, {
+    const allUser = await api.get(`/allUser`, {
       headers: authHeader
     });
-
-    if (response.data.user.unity) {
-      const responseUnity = await api.get(
-        `/allUser?accepted=false&unity=${response.data.user.unity}`,
-        {
-          headers: authHeader
-        }
-      );
-      console.log(responseUnity);
+    const idUser = JSON.parse(localStorage.getItem('user'));
+    for (let user of allUser.data.user) {
+      if (user._id == idUser._id)
+        localStorage.setItem('unitys', JSON.stringify(user.unity));
     }
-
+    const unidade = localStorage.getItem('unitys');
+    console.log('unidade = ', unidade);
+    const response = await api.get(`/allUser?accepted=false&unity=${unidade}`, {
+      headers: authHeader
+    });
     setUsers(response.data.user);
   }
 
