@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/display-name */
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, getByTestId } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import nock from 'nock';
 import axios from 'axios';
@@ -9,6 +9,9 @@ import { userURL } from '../services/user.js';
 import SolicitacoesCadastro from '../pages/SolicitacoesCadastro';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { flowsResponse, stagesResponse } from '../testConstants';
+import Login from '../pages/Login';
+import Stages from '../pages/Stages';
+import authConfig from '../services/config.js';
 
 const user = {
   user: [
@@ -28,7 +31,7 @@ const user = {
   ]
 };
 
-const scope = nock(userURL)
+const scopeRequest = nock(userURL)
   .defaultReplyHeaders({
     'access-control-allow-origin': '*',
     'access-control-allow-credentials': 'true'
@@ -36,8 +39,7 @@ const scope = nock(userURL)
   .persist()
   .get('/allUser?accepted=false')
   .reply(200, user);
-
-test.skip('Testando aceitar solicitação', async () => {
+test('Testando aceitar solicitação', async () => {
   render(
     <MemoryRouter initialEntries={['/']}>
       <Routes>
@@ -45,5 +47,20 @@ test.skip('Testando aceitar solicitação', async () => {
       </Routes>
     </MemoryRouter>
   );
-  await waitFor(() => expect(scope.isDone()).toBe(true));
+  await waitFor(() => expect(scopeRequest.isDone()).toBe(true), {
+    timeout: 1000
+  });
+
+  screen.getByText('Solicitações de Cadastro');
+
+  //Aceitando Solicitação
+  const scopeAccept = nock(userURL)
+    .post(`/acceptRequest/${user.user[0]._id}`)
+    .reply(200, null);
+  const acceptButton = screen.getByLabelText('Aceitar solicitação');
+  fireEvent.click(acceptButton);
+  const acceptConfirmButton = screen.getByText('Confirmar');
+  fireEvent.click(acceptConfirmButton);
+  await waitFor(() => expect(scopeAccept.isDone()).toBe(true));
 });
+afterAll(() => nock.restore());

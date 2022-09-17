@@ -22,7 +22,7 @@ function SolicitacoesCadastro() {
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(0);
 
-  const authHeader = authConfig().headers;
+  const authHeader = authConfig()?.headers;
   useEffect(() => {
     updateSolicitacoes();
     // eslint-disable-next-line
