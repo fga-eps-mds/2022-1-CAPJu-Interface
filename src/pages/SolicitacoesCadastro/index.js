@@ -32,6 +32,17 @@ function SolicitacoesCadastro() {
     const response = await api.get(`/allUser?accepted=false`, {
       headers: authHeader
     });
+
+    if (response.data.user.unity) {
+      const responseUnity = await api.get(
+        `/allUser?accepted=false&unity=${response.data.user.unity}`,
+        {
+          headers: authHeader
+        }
+      );
+      console.log(responseUnity);
+    }
+
     setUsers(response.data.user);
   }
 

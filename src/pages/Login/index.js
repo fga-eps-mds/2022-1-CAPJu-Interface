@@ -108,7 +108,6 @@ function Login() {
   }
   async function updateUnitys() {
     const response = await api.get('/unitys');
-    console.log(response.data.Unitys);
     setUnitys(response.data.Unitys);
   }
   const allOptions = unitys.map((unitys) => {

@@ -176,7 +176,7 @@ function AccessProfile() {
                       }}
                     ></EditIcon>
                   </Tooltip>
-                  <Tooltip title="Deletar fluxo">
+                  <Tooltip title="Deletar Perfil">
                     <DeleteForever
                       className="delete-icon"
                       htmlColor="black"
