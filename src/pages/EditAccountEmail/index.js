@@ -1,5 +1,11 @@
 import React from 'react';
-import { Container, ContainerMenu, UserIcon, ContainerTitle } from './styles';
+import {
+  Container,
+  ContainerMenu,
+  UserIcon,
+  ContainerTitle,
+  Criterios
+} from './styles';
 import TextInput from '../../components/TextInput';
 import Button from '../../components/Button';
 import { useState } from 'react';
@@ -12,8 +18,14 @@ function EditAccountEmail() {
 
   async function editEmail() {
     const userEmail = JSON.parse(localStorage.getItem('user'));
+    const re = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+
     try {
       if (oldEmail == userEmail.email && newEmail !== userEmail.email) {
+        if (!re.test(newEmail)) {
+          toast.error('E-mail Inválido');
+          return;
+        }
         const response = await user.put(`/updateUser/${userEmail._id}`, {
           email: newEmail
         });
@@ -52,6 +64,14 @@ function EditAccountEmail() {
             value={newEmail}
             placeholder="Email Novo"
           />
+          <Criterios>
+            <ul>
+              <h6>
+                <strong>Critérios para aceitação de email:</strong>
+                <li>Deve conter os caracteres @ e . </li>
+              </h6>
+            </ul>
+          </Criterios>
         </ContainerMenu>
         <Button type="submit">Salvar</Button>
       </form>

@@ -37,3 +37,12 @@ export const UserIcon = styled(UserCircle)`
   color: #304974;
   width: 5%;
 `;
+export const Criterios = styled.div`
+  position: relative;
+  font-size: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  justify-content: center;
+`;
