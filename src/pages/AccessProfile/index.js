@@ -28,7 +28,7 @@ function AccessProfile() {
   const handleChange = (event) => {
     setSearchUser(event.target.value);
   };
-  const authHeader = authConfig().headers;
+  const authHeader = authConfig()?.headers;
 
   useEffect(() => {
     updateUser();
@@ -94,10 +94,16 @@ function AccessProfile() {
   }
 
   const filterUser = (arr) => {
+    const user = JSON.parse(localStorage.getItem('user'));
     return arr.filter((users) => {
-      if (searchUser == '') {
+      if (searchUser === '' && users.email !== user.email) {
         return users;
-      } else if (users.name.toLowerCase().includes(searchUser)) {
+      } else if (
+        (users.name.toLowerCase().includes(searchUser) ||
+          users.name.toUpperCase().includes(searchUser) ||
+          users.name.includes(searchUser)) &&
+        users.email !== user.email
+      ) {
         return users;
       }
     });
@@ -136,7 +142,7 @@ function AccessProfile() {
                 role = 'Diretor';
                 break;
               case 2:
-                role = 'Juiz';
+                role = 'Juíz';
                 break;
               case 3:
                 role = 'Servidor';
