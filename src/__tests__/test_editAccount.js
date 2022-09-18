@@ -6,6 +6,7 @@ import axios from 'axios';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { userURL } from '../services/user';
 import EditAccountEmail from '../pages/EditAccountEmail';
+import EditAccountPassword from '../pages/EditAccountPassword';
 
 axios.defaults.adapter = require('axios/lib/adapters/http');
 
@@ -32,7 +33,7 @@ beforeAll(() => {
 });
 
 test('Testando edição de Email do componente editAccountEmail', async () => {
-  const userEmaiResponse = {
+  const userEmailResponse = {
     user: [
       {
         _id: '0001',
@@ -52,9 +53,9 @@ test('Testando edição de Email do componente editAccountEmail', async () => {
       'access-control-allow-credentials': 'true'
     })
     .persist()
-    .options(`/updateUser/${userEmaiResponse.user[0]._id}`)
+    .options(`/updateUser/${userEmailResponse.user[0]._id}`)
     .reply(200, 'ok')
-    .put(`/updateUser/${userEmaiResponse.user[0]._id}`)
+    .put(`/updateUser/${userEmailResponse.user[0]._id}`)
     .reply(200, {
       _id: '0001',
       name: 'nomeUser',
@@ -89,5 +90,67 @@ test('Testando edição de Email do componente editAccountEmail', async () => {
 
   await waitFor(() => expect(scopeEditEmail.isDone()).toBe(true));
 });
+
+test('Testando edição de senha do componente editAccountPassword', async () => {
+    const userPasswordResponse = {
+      user: [
+        {
+          _id: '0001',
+          name: 'nomeUser',
+          email: 'teste@email.com',
+          password: 'Test123',
+          createdAt: '2022-09-15T01:07:51.907Z',
+          updatedAt: '2022-09-16T03:42:15.785Z',
+          __v: 0
+        }
+      ]
+    };
+  
+    const scopeEditPassword = nock(userURL)
+      .defaultReplyHeaders({
+        'access-control-allow-origin': '*',
+        'access-control-allow-credentials': 'true'
+      })
+      .post(`/updateUserPassword/${userPasswordResponse.user[0]._id}`)
+      .reply(200, {
+        _id: '0001',
+        name: 'nomeUser',
+        email: 'teste@email.com',
+        password: '123Teste',
+        createdAt: '2022-09-15T01:07:51.907Z',
+        updatedAt: '2022-09-16T03:42:15.785Z',
+        __v: 0
+      });
+  
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <Routes>
+          <Route path="/" element={<EditAccountPassword />} />
+        </Routes>
+      </MemoryRouter>
+    );
+  
+    screen.getByText('Editar Senha');
+  
+    const senhaAtualTextInput = screen.getByPlaceholderText('Senha Atual');
+    const senhaNovoTextInput = screen.getByPlaceholderText('Nova Senha');
+    const senha2TextInput = screen.getByPlaceholderText('Confirmar Senha');
+    const salvarButton = screen.getByText('Salvar');
+  
+    fireEvent.change(senhaAtualTextInput, {
+      target: { value: 'Test123' }
+    });
+    fireEvent.change(senhaNovoTextInput, {
+      target: { value: '123Teste' }
+    });
+    fireEvent.change(senha2TextInput, {
+      target: { value: '123Teste' }
+    });
+    fireEvent.click(salvarButton);
+  
+    await waitFor(() => expect(scopeEditPassword.isDone()).toBe(true), {
+      timeout: 1000
+    });
+  });
 
 afterAll(() => nock.restore());
