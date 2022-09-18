@@ -97,7 +97,10 @@ function AccessProfile() {
     return arr.filter((users) => {
       if (searchUser == '') {
         return users;
-      } else if (users.name.toLowerCase().includes(searchUser)) {
+      } else if (
+        users.name.toLowerCase().includes(searchUser) ||
+        users.name.toUpperCase().includes(searchUser)
+      ) {
         return users;
       }
     });
