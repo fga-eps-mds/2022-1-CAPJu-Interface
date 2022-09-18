@@ -24,7 +24,7 @@ const setLocalStorage = (user, data) => {
 
 beforeAll(() => {
   setLocalStorage('user', {
-    _id: '0001',
+    _id: '0002',
     name: 'nomeUser',
     email: 'teste@email.com',
     token: '2asdasd454'
@@ -35,7 +35,7 @@ test('Testando edição de senha do componente editAccountPassword', async () =>
   const userPasswordResponse = {
     user: [
       {
-        _id: '0001',
+        _id: '0002',
         name: 'nomeUser',
         email: 'teste@email.com',
         password: 'Test123',
@@ -51,9 +51,9 @@ test('Testando edição de senha do componente editAccountPassword', async () =>
       'access-control-allow-origin': '*',
       'access-control-allow-credentials': 'true'
     })
-    .post(`/updateUser/${userPasswordResponse.user[0]._id}`)
+    .post(`/updateUserPassword/${userPasswordResponse.user[0]._id}`)
     .reply(200, {
-      _id: '0001',
+      _id: '0002',
       name: 'nomeUser',
       email: 'teste@email.com',
       password: '123Teste',
@@ -69,7 +69,7 @@ test('Testando edição de senha do componente editAccountPassword', async () =>
       </Routes>
     </MemoryRouter>
   );
-  screen.debug();
+
   screen.getByText('Editar Senha');
 
   const senhaAtualTextInput = screen.getByPlaceholderText('Senha Atual');
@@ -88,7 +88,9 @@ test('Testando edição de senha do componente editAccountPassword', async () =>
   });
   fireEvent.click(salvarButton);
 
-  await waitFor(() => expect(scopeEditPassword.isDone()).toBe(true));
+  await waitFor(() => expect(scopeEditPassword.isDone()).toBe(true), {
+    timeout: 1000
+  });
 });
 
 afterAll(() => nock.restore());
