@@ -10,6 +10,10 @@ export const Container = styled.div`
   margin: 0px 100px;
 `;
 
+export const NameTitle = styled.div`
+  font-size: 32px;
+`;
+
 export const ContainerTitle = styled.div`
   display: flex;
   flex-direction: row;

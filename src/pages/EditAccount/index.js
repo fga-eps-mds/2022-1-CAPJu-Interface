@@ -1,6 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Container, ContainerMenu, UserIcon, ContainerTitle } from './styles';
+import {
+  Container,
+  ContainerMenu,
+  UserIcon,
+  ContainerTitle,
+  NameTitle
+} from './styles';
 import Button from '../../components/Button';
 
 function EditAccount() {
@@ -12,7 +18,7 @@ function EditAccount() {
         <UserIcon />
         <h1>Editar Conta</h1>
       </ContainerTitle>
-      <h6>{user.name}</h6>
+      <NameTitle>{user.name}</NameTitle>
       <ContainerMenu>
         <Link to="email">
           <Button>
