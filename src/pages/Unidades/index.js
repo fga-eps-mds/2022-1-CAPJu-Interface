@@ -40,7 +40,7 @@ function Unidades() {
 
   async function searchUsers(name) {
     const response = await userApi.get('searchUsers/' + name);
-    setFoundUsers(response.data.users);
+    setFoundUsers(response.data.user);
   }
 
   async function setAdmin(userId) {
