@@ -29,7 +29,7 @@ function SolicitacoesCadastro() {
   }, []);
 
   async function updateSolicitacoes() {
-    const allUser = await api.get(`/allUser`, {
+    const allUser = await api.get(`/allUser?accepted=true`, {
       headers: authHeader
     });
     const idUser = JSON.parse(localStorage.getItem('user'));
@@ -38,11 +38,19 @@ function SolicitacoesCadastro() {
         localStorage.setItem('unitys', JSON.stringify(user.unity));
     }
     const unidade = localStorage.getItem('unitys');
-    console.log('unidade = ', unidade);
-    const response = await api.get(`/allUser?accepted=false&unity=${unidade}`, {
+    const trataUnidade = unidade.replace(/"/g, '');
+    const response = await api.get(`/allUser?accepted=false`, {
       headers: authHeader
     });
-    setUsers(response.data.user);
+    const targetUsers = [];
+    const pendingUsers = response.data.user;
+    for (let users of pendingUsers) {
+      if (users.unity == trataUnidade) {
+        targetUsers.push(users);
+        continue;
+      }
+    }
+    setUsers(targetUsers);
   }
 
   async function acceptRequest(userId) {
