@@ -53,3 +53,8 @@ export const Criterios = styled.div`
   flex-direction: column;
   text-align: left;
 `;
+export const EditDrop = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+`;

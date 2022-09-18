@@ -21,7 +21,8 @@ test('Testando o cadastro', async () => {
   const registerData = {
     name: 'João',
     email: 'test@test.com',
-    password: 'SenhaForte1'
+    password: 'SenhaForte1',
+    role: '1'
   };
 
   const scopeCadastro = nock(userURL)
@@ -48,16 +49,20 @@ test('Testando o cadastro', async () => {
   const inputEmail = screen.getByPlaceholderText('Email');
   const inputPassword = screen.getByPlaceholderText('Crie uma senha');
   const inputCheckPassword = screen.getByPlaceholderText('Confirme a senha');
+  const chooseRole = screen.getByTestId('react-select-mock');
   const button1 = screen.getByText('Cadastrar');
 
   fireEvent.change(inputName, { target: { value: 'João' } });
   fireEvent.change(inputEmail, { target: { value: 'test@test.com' } });
   fireEvent.change(inputPassword, { target: { value: 'SenhaForte1' } });
   fireEvent.change(inputCheckPassword, { target: { value: 'SenhaForte1' } });
+  fireEvent.change(chooseRole, { target: { value: 1 } });
 
   expect(title).toHaveTextContent('Cadastre-se');
   fireEvent.click(button1);
-  await waitFor(() => expect(scopeCadastro.isDone()).toBe(true));
+  await waitFor(() => expect(scopeCadastro.isDone()).toBe(true), {
+    timeout: 1000
+  });
   expect(screen.queryByText('Cadastre-se')).toBe(null);
 });
 

@@ -10,7 +10,7 @@ import {
 } from './styles';
 import Button from 'components/Button';
 import api from '../../services/user';
-import authConfig from 'services/config';
+import authConfig from 'services/config.js';
 import { Delete } from '@styled-icons/typicons/Delete';
 import { Check } from '@styled-icons/entypo/Check';
 import Tooltip from '@mui/material/Tooltip';
@@ -22,7 +22,7 @@ function SolicitacoesCadastro() {
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(0);
 
-  const authHeader = authConfig().headers;
+  const authHeader = authConfig()?.headers;
   useEffect(() => {
     updateSolicitacoes();
     // eslint-disable-next-line
@@ -47,7 +47,14 @@ function SolicitacoesCadastro() {
       }
     } catch (error) {
       console.log(error);
-      toast.error('Erro ao aceitar solicitação!', { duration: 3000 });
+      if (error.response.status == 401) {
+        toast(error.response.data.message, {
+          icon: '⚠️',
+          duration: 3000
+        });
+      } else {
+        toast.error('Erro ao aceitar solicitação!', { duration: 3000 });
+      }
     }
   }
 
@@ -63,7 +70,14 @@ function SolicitacoesCadastro() {
       }
     } catch (error) {
       console.log(error);
-      toast.error('Erro ao recusar solicitação!', { duration: 3000 });
+      if (error.response.status == 401) {
+        toast(error.response.data.message, {
+          icon: '⚠️',
+          duration: 3000
+        });
+      } else {
+        toast.error('Erro ao recusar solicitação!', { duration: 3000 });
+      }
     }
   }
 

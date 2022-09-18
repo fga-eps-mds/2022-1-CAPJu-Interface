@@ -75,10 +75,17 @@ function Processes() {
       toast.success('Processo Removido com Sucesso', { duration: 4000 });
       updateProcesses();
     } catch (error) {
-      toast.error(
-        'Erro ao deletar processo \n ' + error.response.data.message,
-        { duration: 3000 }
-      );
+      if (error.response.status == 401) {
+        toast(error.response.data.message, {
+          icon: '⚠️',
+          duration: 3000
+        });
+      } else {
+        toast.error(
+          'Erro ao deletar processo \n ' + error.response.data.message,
+          { duration: 3000 }
+        );
+      }
     }
   }
 
@@ -116,10 +123,17 @@ function Processes() {
       else toast.error('Registro vazio', { duration: 3000 });
       toast.success('Processo Alterado com Sucesso', { duration: 4000 });
     } catch (error) {
-      toast.error(
-        'Erro ao alterar processo \n ' + error.response.data.message,
-        { duration: 3000 }
-      );
+      if (error.response.status == 401) {
+        toast(error.response.data.message, {
+          icon: '⚠️',
+          duration: 3000
+        });
+      } else {
+        toast.error(
+          'Erro ao alterar processo \n ' + error.response.data.message,
+          { duration: 3000 }
+        );
+      }
     }
   }
 
@@ -146,10 +160,17 @@ function Processes() {
       toast.success('Processo Registrado com Sucesso', { duration: 4000 });
     } catch (error) {
       console.log(error);
-      toast.error(
-        'Erro ao registrar processo \n ' + error.response.data.message,
-        { duration: 3000 }
-      );
+      if (error.response.status == 401) {
+        toast(error.response.data.message, {
+          icon: '⚠️',
+          duration: 3000
+        });
+      } else {
+        toast.error(
+          'Erro ao registrar processo \n ' + error.response.data.message,
+          { duration: 3000 }
+        );
+      }
     }
   }
 

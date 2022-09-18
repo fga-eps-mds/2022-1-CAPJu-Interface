@@ -108,9 +108,16 @@ function ShowProcess() {
 
       toast.success('Etapa avançada!', { duration: 4000 });
     } catch (error) {
-      toast.error('Erro ao avançar etapa \n ' + error.response.data.message, {
-        duration: 3000
-      });
+      if (error.response.status == 401) {
+        toast(error.response.data.message, {
+          icon: '⚠️',
+          duration: 3000
+        });
+      } else {
+        toast.error('Erro ao avançar etapa \n ' + error.response.data.message, {
+          duration: 3000
+        });
+      }
     }
   }
 
