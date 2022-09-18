@@ -33,26 +33,6 @@ beforeAll(() => {
   });
 });
 
-test('Testando o botao de editar email', async () => {
-  render(
-    <MemoryRouter initialEntries={['/']}>
-      <Routes>
-        <Route path="/" element={<EditAccount />} />
-      </Routes>
-    </MemoryRouter>
-  );
-
-  screen.getByText('Editar Conta');
-
-  const buttonEmail = screen.getByText('Email');
-  const buttonSenha = screen.getByText('Senha');
-
-  fireEvent.click(buttonEmail);
-  fireEvent.click(buttonSenha);
-
-  expect(mockNavigate).toHaveBeenCalled();
-});
-
 test('Testando edição de Email do componente editAccountEmail', async () => {
   const userEmailResponse = {
     user: [
