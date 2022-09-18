@@ -12,9 +12,11 @@ import Stages from 'pages/Stages/index.js';
 import Flows from 'pages/Flows/index.js';
 import AccessProfile from 'pages/AccessProfile/index.js';
 import Statistics from 'pages/Statistics/index.js';
-import { AuthContext } from 'context/AuthContext';
 import Recovery from 'pages/Recovery/index.js';
 import StatisticsProcesses from 'pages/StatisticsProcesses/index.js';
+import EditAccount from 'pages/EditAccount/index.js';
+import EditAccountEmail from 'pages/EditAccountEmail/index.js';
+import EditAccountPassword from 'pages/EditAccountPassword/index.js';
 import SolicitacoesCadastro from 'pages/SolicitacoesCadastro/index.js';
 import Unidades from 'pages/Unidades/index.js';
 
@@ -57,33 +59,34 @@ function App() {
       <GlobalStyle />
       <Toaster position="top-right"></Toaster>
       <Container>
-        <AuthContext.Provider value={{ user, setUser }}>
-          <SideBar />
-          <Content>
-            <Routes>
-              <Route path="/" element={<Flows />} />
-              <Route path="login" element={<Login />} />
-              <Route path="recovery">
-                <Route path=":hash" element={<Recovery />} />
-              </Route>
-              <Route path="accessProfile" element={<AccessProfile />} />
-              <Route path="stages" element={<Stages />} />
-              <Route path="unidades" element={<Unidades />} />
-              <Route path="processes" element={<Processes />} />
-              <Route path="processes/showProcess" element={<ShowProcess />} />
-              <Route path="statistics" element={<Statistics />} />
-              <Route
-                path="statistics/stageProcesses"
-                element={<StatisticsProcesses />}
-              />
-              <Route
-                path="statistics/stageProcesses/showProcess"
-                element={<ShowProcess />}
-              />
-              <Route path="solicitacoes" element={<SolicitacoesCadastro />} />
-            </Routes>
-          </Content>
-        </AuthContext.Provider>
+        <SideBar />
+        <Content>
+          <Routes>
+            <Route path="/" element={<Flows />} />
+            <Route path="login" element={<Login />} />
+            <Route path="recovery">
+              <Route path=":hash" element={<Recovery />} />
+            </Route>
+            <Route path="accessProfile" element={<AccessProfile />} />
+            <Route path="stages" element={<Stages />} />
+            <Route path="unidades" element={<Unidades />} />
+            <Route path="processes" element={<Processes />} />
+            <Route path="processes/showProcess" element={<ShowProcess />} />
+            <Route path="statistics" element={<Statistics />} />
+            <Route
+              path="statistics/stageProcesses"
+              element={<StatisticsProcesses />}
+            />
+            <Route
+              path="statistics/stageProcesses/showProcess"
+              element={<ShowProcess />}
+            />
+            <Route path="editAccount" element={<EditAccount />} />
+            <Route path="editAccount/email" element={<EditAccountEmail />} />
+            <Route path="editAccount/senha" element={<EditAccountPassword />} />
+            <Route path="solicitacoes" element={<SolicitacoesCadastro />} />
+          </Routes>
+        </Content>
       </Container>
     </>
   );
