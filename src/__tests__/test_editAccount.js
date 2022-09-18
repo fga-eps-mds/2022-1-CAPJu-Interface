@@ -33,7 +33,7 @@ beforeAll(() => {
   });
 });
 
-test('Testando a pagina de  editar conta', async () => {
+test('Testando o botao de editar email', async () => {
   render(
     <MemoryRouter initialEntries={['/']}>
       <Routes>
@@ -49,6 +49,8 @@ test('Testando a pagina de  editar conta', async () => {
 
   fireEvent.click(buttonEmail);
   fireEvent.click(buttonSenha);
+
+  expect(mockNavigate).toHaveBeenCalled();
 });
 
 test('Testando edição de Email do componente editAccountEmail', async () => {
