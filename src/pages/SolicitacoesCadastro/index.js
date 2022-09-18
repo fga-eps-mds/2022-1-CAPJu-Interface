@@ -47,7 +47,14 @@ function SolicitacoesCadastro() {
       }
     } catch (error) {
       console.log(error);
-      toast.error('Erro ao aceitar solicitação!', { duration: 3000 });
+      if (error.response.status == 401) {
+        toast(error.response.data.message, {
+          icon: '⚠️',
+          duration: 3000
+        });
+      } else {
+        toast.error('Erro ao aceitar solicitação!', { duration: 3000 });
+      }
     }
   }
 
@@ -63,7 +70,14 @@ function SolicitacoesCadastro() {
       }
     } catch (error) {
       console.log(error);
-      toast.error('Erro ao recusar solicitação!', { duration: 3000 });
+      if (error.response.status == 401) {
+        toast(error.response.data.message, {
+          icon: '⚠️',
+          duration: 3000
+        });
+      } else {
+        toast.error('Erro ao recusar solicitação!', { duration: 3000 });
+      }
     }
   }
 

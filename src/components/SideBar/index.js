@@ -14,6 +14,7 @@ import { Flow } from '@styled-icons/fluentui-system-regular';
 import { FlowCascade } from '@styled-icons/entypo';
 import { ClipboardTaskListLtr } from '@styled-icons/fluentui-system-regular/ClipboardTaskListLtr';
 import { Profile } from '@styled-icons/icomoon';
+import { PersonFill } from '@styled-icons/bootstrap/PersonFill';
 import { UserPlus } from '@styled-icons/boxicons-regular/UserPlus';
 import { useNavigate } from 'react-router-dom';
 function SideBar() {
@@ -43,6 +44,10 @@ function SideBar() {
         <MenuItem href={'/Login'}>
           <Profile size={35} />
           Login
+        </MenuItem>
+        <hr />
+        <MenuItem href={'/accessProfile'}>
+          <PersonFill size={35} /> Perfil de Acesso
         </MenuItem>
         <hr />
 

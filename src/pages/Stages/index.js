@@ -54,11 +54,16 @@ function Stages() {
         toast.error('Erro ao adicionar a etapa');
       }
     } catch (e) {
-      if (e instanceof AxiosError) toast.error('Etapa já existe');
-      else {
+      if (e.response.status == 401) {
+        toast(e.response.data.message, {
+          icon: '⚠️',
+          duration: 3000
+        });
+      } else {
         console.log(e);
         toast.error('Erro ao adicionar a etapa');
       }
+      if (e instanceof AxiosError) toast.error('Etapa já existe');
     }
   }
 
@@ -70,12 +75,17 @@ function Stages() {
       if (response.status == 200) {
         toast.success('Etapa Deletada com sucesso');
         updateStages();
-      } else {
-        toast.error('Erro ao deletar a etapa');
       }
     } catch (e) {
       console.log(e);
-      toast.error('Erro ao remover a etapa');
+      if (e.response.status == 401) {
+        toast(e.response.data.message, {
+          icon: '⚠️',
+          duration: 3000
+        });
+      } else {
+        toast.error('Erro ao deletar a etapa');
+      }
     }
   }
 
