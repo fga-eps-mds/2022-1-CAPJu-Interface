@@ -105,3 +105,52 @@ export const stagesResponse = {
     }
   ]
 };
+
+export const usersResponse = {
+  user: [
+    {
+      _id: '62fd4b7f776730249d33b1ab',
+      name: 'João Cardoso',
+      email: 'joão12@gmail.com',
+      password: 'Password1234',
+      accepted: true,
+      role: 4,
+      createdAt: '2022-08-17T20:08:32.382+00:00',
+      updatedAt: '2022-08-17T20:08:32.382+00:00',
+      __v: 0
+    },
+    {
+      _id: '89Fd4b7f016730249d63bboo',
+      name: 'Maria Joana',
+      email: 'mjoana12@gmail.com',
+      password: 'Password1234',
+      accepted: false,
+      role: 3,
+      createdAt: '2022-08-17T20:08:32.382+00:00',
+      updatedAt: '2022-08-17T20:08:32.382+00:00',
+      __v: 0
+    },
+    {
+      _id: '84Fd4b7f016740049d63bolo',
+      name: 'Marcio de carvalho',
+      email: 'marcioc12@gmail.com',
+      password: 'Password1234',
+      accepted: false,
+      role: 2,
+      createdAt: '2022-08-17T20:08:32.382+00:00',
+      updatedAt: '2022-08-17T20:08:32.382+00:00',
+      __v: 0
+    },
+    {
+      _id: '50fd4a7f000778949d63bart',
+      name: 'Rebecca Calda',
+      email: 'dirrebecca12@gmail.com',
+      password: 'Password1234',
+      accepted: true,
+      role: 1,
+      createdAt: '2022-08-17T20:08:32.382+00:00',
+      updatedAt: '2022-08-17T20:08:32.382+00:00',
+      __v: 0
+    }
+  ]
+};

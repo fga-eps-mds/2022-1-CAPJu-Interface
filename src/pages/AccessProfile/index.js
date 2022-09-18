@@ -28,7 +28,7 @@ function AccessProfile() {
   const handleChange = (event) => {
     setSearchUser(event.target.value);
   };
-  const authHeader = authConfig().headers;
+  const authHeader = authConfig()?.headers;
 
   useEffect(() => {
     updateUser();
@@ -142,7 +142,7 @@ function AccessProfile() {
                 role = 'Diretor';
                 break;
               case 2:
-                role = 'Juiz';
+                role = 'Juíz';
                 break;
               case 3:
                 role = 'Servidor';
