@@ -18,7 +18,7 @@ function EditAccountEmail() {
 
   async function editEmail() {
     const userEmail = JSON.parse(localStorage.getItem('user'));
-    const re = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    const re = /^[\w.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
     try {
       if (oldEmail == userEmail.email && newEmail !== userEmail.email) {
@@ -34,10 +34,10 @@ function EditAccountEmail() {
         setNewEmail('');
         setOldEmail('');
       } else {
-        toast.error('Erro ao atualizar email');
+        toast.error('Email atual inválido!');
       }
     } catch (error) {
-      toast.error('Erro ao editar \n' + error.response.data.message);
+      toast.error(error.response.data.message);
     }
   }
 
