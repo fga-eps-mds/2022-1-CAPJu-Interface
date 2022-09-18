@@ -26,14 +26,10 @@ function EditAccountPassword() {
         return;
       } else {
         if (newPassword == newPassword2) {
-          const response = await user.post(
-            `/updateUserPassword/${userPass._id}`,
-            {
-              oldPassword,
-              newPassword
-            }
-          );
-          response.status == 200;
+          await user.post(`/updateUserPassword/${userPass._id}`, {
+            oldPassword,
+            newPassword
+          });
           toast.success('Senha atualizado com  sucesso');
           setNewPassword('');
           setOldPassword('');

@@ -26,10 +26,9 @@ function EditAccountEmail() {
           toast.error('E-mail Inválido');
           return;
         }
-        const response = await user.put(`/updateUser/${userEmail._id}`, {
+        await user.put(`/updateUser/${userEmail._id}`, {
           email: newEmail
         });
-        response.status == 200;
         toast.success('Email atualizado com  sucesso');
         setNewEmail('');
         setOldEmail('');
