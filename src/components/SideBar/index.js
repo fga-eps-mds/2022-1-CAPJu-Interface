@@ -17,6 +17,8 @@ import { Profile } from '@styled-icons/icomoon';
 import { PersonFill } from '@styled-icons/bootstrap/PersonFill';
 import { UserPlus } from '@styled-icons/boxicons-regular/UserPlus';
 import { useNavigate } from 'react-router-dom';
+import { UserCircle } from '@styled-icons/boxicons-regular/';
+
 function SideBar() {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
@@ -71,6 +73,17 @@ function SideBar() {
         >
           <ClipboardTaskListLtr size={35} />
           Processos
+        </MenuItem>
+        <hr />
+
+        <MenuItem
+          href=""
+          onClick={() =>
+            navigate('/editAccount', { state: undefined, replace: false })
+          }
+        >
+          <UserCircle size={35} />
+          Editar Conta
         </MenuItem>
         <hr />
 
