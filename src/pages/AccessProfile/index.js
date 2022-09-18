@@ -99,7 +99,8 @@ function AccessProfile() {
         return users;
       } else if (
         users.name.toLowerCase().includes(searchUser) ||
-        users.name.toUpperCase().includes(searchUser)
+        users.name.toUpperCase().includes(searchUser) ||
+        users.name.includes(searchUser)
       ) {
         return users;
       }
