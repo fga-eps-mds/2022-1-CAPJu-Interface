@@ -15,9 +15,9 @@ export function StagesInFlow(props) {
 
   return (
     <StagesWrapper>
-      {flow.stages.map((flowStage) => {
+      {flow.stages.map((flowStage, index) => {
         return (
-          <>
+          <div key={index}>
             <StageName>
               {
                 stages.find((stage) => {
@@ -32,7 +32,7 @@ export function StagesInFlow(props) {
                 X
               </XButton>
             </StageName>
-          </>
+          </div>
         );
       })}
     </StagesWrapper>

@@ -9,21 +9,25 @@ import toast from 'react-hot-toast';
 import {
   Container,
   AddFlowButton,
-  FlowsArea,
-  FlowItem,
+  Area,
   Modal,
   Content,
   SelectorWrapper,
   StageName,
   SequencesWrapper,
   SequenceItem,
-  ContentHeader
+  ContentHeader,
+  CloseModalGeneral,
+  Table
 } from './styles';
-import { DeleteForever } from '@styled-icons/material';
-import Dropdown from 'react-dropdown';
 import FlowViewer from 'components/FlowViewer';
 import DescriptionIcon from '@mui/icons-material/Description';
+import EditIcon from '@mui/icons-material/Edit';
 import { Link } from 'react-router-dom';
+import { DeleteForever } from '@mui/icons-material';
+import Tooltip from '@mui/material/Tooltip';
+import { AddSequenceInFlow } from 'components/AddSequenceInFlow';
+import InsertChartIcon from '@mui/icons-material/InsertChart';
 
 function Flows() {
   const [flows, setFlows] = useState([]);
@@ -31,6 +35,7 @@ function Flows() {
   const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
   const [stages, setStages] = useState([]);
+
   const [newFlow, setNewFlow] = useState({
     name: '',
     stages: [],
@@ -38,6 +43,8 @@ function Flows() {
   });
   const [isModalOpen, setModalOpen] = useState(false);
   const [showFlow, setShowFlow] = useState(-1);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [selectedFlow, setSelectedFlow] = useState(0);
 
   useEffect(() => {
     updateStages();
@@ -75,7 +82,14 @@ function Flows() {
         'Erro ao adicionar fluxo'
       );
     } catch (e) {
-      toast.error('Erro ao adicionar fluxo');
+      if (e.response.status == 401) {
+        toast(e.response.data.message, {
+          icon: '⚠️',
+          duration: 3000
+        });
+      } else {
+        toast.error('Erro ao adicionar fluxo');
+      }
     }
   }
 
@@ -91,7 +105,14 @@ function Flows() {
       );
     } catch (e) {
       console.log(e);
-      toast.error('Erro ao remover fluxo');
+      if (e.response.status == 401) {
+        toast(e.response.data.message, {
+          icon: '⚠️',
+          duration: 3000
+        });
+      } else {
+        toast.error('Erro ao remover fluxo');
+      }
     }
   }
 
@@ -128,7 +149,14 @@ function Flows() {
       );
     } catch (e) {
       console.log(e);
-      toast.error('Erro ao Editar fluxo');
+      if (e.response.status == 401) {
+        toast(e.response.data.message, {
+          icon: '⚠️',
+          duration: 3000
+        });
+      } else {
+        toast.error('Erro ao Editar fluxo');
+      }
     }
   }
 
@@ -149,7 +177,11 @@ function Flows() {
     tmp.sequences.push({ from, to });
     setNewFlow(tmp);
   }
-
+  function removeSequence() {
+    let tmp = { ...newFlow };
+    tmp.sequences.pop();
+    setNewFlow(tmp);
+  }
   const allOptions = stages.map((stage) => {
     return { label: <>{stage.name}</>, value: stage._id };
   });
@@ -161,47 +193,131 @@ function Flows() {
     .map((stage) => {
       return { label: <>{stage.name}</>, value: stage._id };
     });
-
   return (
     <>
       <Container>
-        Fluxos
-        <FlowsArea>
-          {flows.map((flow, index) => {
-            return (
-              <FlowItem
-                key={index}
-                onClick={() => {
-                  setShowFlow(index);
-                  setNewFlow(flows[index]);
-                }}
-              >
-                {flow.name}{' '}
-                <Link to="/processes" state={flow}>
-                  <DescriptionIcon className="see-processes" />
-                </Link>
-                <DeleteForever
-                  size={30}
-                  onClick={() => {
-                    deleteFlow(flow._id);
-                  }}
-                />
-              </FlowItem>
-            );
-          })}
-        </FlowsArea>
-        {/* Modal de editar fluxo */}
-        {showFlow != -1 && (
+        <h1>Fluxos</h1>
+        <Area>
+          <Table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              {flows.map((flow, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{flow.name}</td>
+                    <td>
+                      {' '}
+                      <Tooltip title="Visualizar processos">
+                        <Link to="/processes" state={flow}>
+                          <DescriptionIcon htmlColor="black" />
+                        </Link>
+                      </Tooltip>{' '}
+                      <Tooltip title="Editar fluxo">
+                        <EditIcon
+                          className="edit-icon"
+                          htmlColor="black"
+                          onClick={() => {
+                            setShowFlow(index);
+                            setNewFlow(flows[index]);
+                          }}
+                        ></EditIcon>
+                      </Tooltip>
+                      <Tooltip title="Deletar fluxo">
+                        <DeleteForever
+                          className="delete-icon"
+                          htmlColor="black"
+                          onClick={() => {
+                            setDeleteModal(true);
+                            setSelectedFlow(index);
+                            setShowFlow(-1);
+                          }}
+                        ></DeleteForever>
+                      </Tooltip>
+                      <Tooltip title="Visualizar estatísticas">
+                        <Link to="/statistics" state={flow}>
+                          <InsertChartIcon htmlColor="black" />
+                        </Link>
+                      </Tooltip>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+        </Area>
+
+        <AddFlowButton
+          onClick={() => {
+            setModalOpen(true);
+          }}
+        >
+          <span>+ Adicionar Fluxo</span>
+        </AddFlowButton>
+        {/* {Modal para confirmar exclusão do fluxo} */}
+        {deleteModal && (
           <>
             <Modal>
               <Content>
                 <ContentHeader>
-                  <h2>Editar fluxo</h2>
+                  {' '}
+                  <span>Excluir Fluxo</span>
                 </ContentHeader>
-                Nome
-                <TextInput set={updateFlowName} value={newFlow.name} />
+                <span>Deseja realmente excluir este Fluxo?</span>
+                {flows[selectedFlow].name}
+                <div>
+                  <Button
+                    onClick={() => {
+                      deleteFlow(flows[selectedFlow]._id);
+                      setDeleteModal(false);
+                    }}
+                  >
+                    Confirmar
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setDeleteModal(false);
+                    }}
+                    background="red"
+                  >
+                    Cancelar
+                  </Button>
+                </div>
+              </Content>
+            </Modal>
+          </>
+        )}
+        {/* Modal de editar fluxo */}
+        {showFlow != -1 && newFlow && (
+          <>
+            <Modal>
+              <Content>
+                <ContentHeader>
+                  <span>Editar fluxo</span>
+                  <CloseModalGeneral
+                    onClick={() => {
+                      setShowFlow(-1);
+                      setNewFlow({
+                        name: '',
+                        stages: [],
+                        sequences: []
+                      });
+                    }}
+                  ></CloseModalGeneral>
+                </ContentHeader>
+                <span>Nome</span>
+                <TextInput
+                  set={updateFlowName}
+                  value={newFlow.name}
+                  maxLength={40}
+                  data-testid="flowName"
+                />
                 <label>
-                  Etapas
+                  <span>Etapas</span>
                   <AddStageInFlow
                     selectedStage={selectedStage}
                     setSelectedStage={setSelectedStage}
@@ -219,24 +335,53 @@ function Flows() {
                   }}
                 />
                 <FlowViewer flow={newFlow} stages={stages || []}></FlowViewer>
+                {newFlow.stages.length > 0 && (
+                  <>
+                    <>Sequências</>
+                    <SelectorWrapper>
+                      <AddSequenceInFlow
+                        value={from}
+                        setValue={setFrom}
+                        options={selectedOptions}
+                      />
+                      {'=>'}
+                      <AddSequenceInFlow
+                        value={to}
+                        setValue={setTo}
+                        options={selectedOptions}
+                      />
+                      <div
+                        className="addStage"
+                        onClick={() => {
+                          addSequence();
+                        }}
+                      >
+                        <span>Adicionar</span>
+                      </div>
+                    </SelectorWrapper>
+                    <Button
+                      background="#de5353"
+                      onClick={() => {
+                        removeSequence();
+                      }}
+                    >
+                      <span>Retroceder</span>
+                    </Button>
+                  </>
+                )}
                 <Button
                   onClick={() => {
                     editFlow(showFlow);
                     setShowFlow(-1);
                   }}
                 >
-                  Salvar
+                  <span>Salvar</span>
                 </Button>
                 <Button
                   onClick={() => {
                     setShowFlow(-1);
-                    setNewFlow({
-                      name: '',
-                      stages: [],
-                      sequences: []
-                    });
                   }}
-                  background="#de5353"
+                  background="red"
                 >
                   Cancelar
                 </Button>
@@ -244,25 +389,31 @@ function Flows() {
             </Modal>
           </>
         )}
-        <AddFlowButton
-          onClick={() => {
-            setModalOpen(true);
-          }}
-        >
-          + Adicionar Fluxo
-        </AddFlowButton>
-        <></>
       </Container>
       {isModalOpen && (
         <Modal>
           <Content>
-            <h2>Novo Fluxo</h2>
+            <ContentHeader>
+              <span>Novo Fluxo</span>
+              <CloseModalGeneral
+                onClick={() => {
+                  setNewFlow({
+                    name: '',
+                    stages: [],
+                    sequences: []
+                  });
+                  setModalOpen(false);
+                }}
+                data-testid="close"
+              ></CloseModalGeneral>
+            </ContentHeader>
             <TextInput
               placeholder={'Nome do fluxo'}
               set={updateFlowName}
               value={newFlow.name}
+              maxLength={40}
             ></TextInput>
-            Etapas
+            <span>Etapas</span>
             <AddStageInFlow
               selectedStage={selectedStage}
               setSelectedStage={setSelectedStage}
@@ -282,39 +433,24 @@ function Flows() {
               <>
                 <>Sequências</>
                 <SelectorWrapper>
-                  <Dropdown
-                    options={selectedOptions}
-                    onChange={(e) => {
-                      setFrom(e.value);
-                    }}
+                  <AddSequenceInFlow
                     value={from}
-                    placeholder="Selecione a etapa"
-                    className="dropdown"
-                    controlClassName="dropdown-control"
-                    placeholderClassName="dropdown-placeholder"
-                    menuClassName="dropdown-menu"
-                    arrowClassName="dropdown-arrow"
-                  />
-                  {'->'}
-                  <Dropdown
+                    setValue={setFrom}
                     options={selectedOptions}
-                    onChange={(e) => {
-                      setTo(e.value);
-                    }}
+                  />
+                  {'=>'}
+                  <AddSequenceInFlow
                     value={to}
-                    placeholder="Selecione a etapa"
-                    className="dropdown"
-                    controlClassName="dropdown-control"
-                    placeholderClassName="dropdown-placeholder"
-                    menuClassName="dropdown-menu"
-                    arrowClassName="dropdown-arrow"
+                    setValue={setTo}
+                    options={selectedOptions}
                   />
                   <div
+                    className="addStage"
                     onClick={() => {
                       addSequence();
                     }}
                   >
-                    Adicionar
+                    <span>Adicionar</span>
                   </div>
                 </SelectorWrapper>
                 <SequencesWrapper>
@@ -328,7 +464,7 @@ function Flows() {
                             }).name
                           }
                         </StageName>
-                        {'->'}
+                        {'=>'}
                         <StageName>
                           {
                             stages.find((stage) => {
@@ -342,27 +478,24 @@ function Flows() {
                 </SequencesWrapper>
               </>
             )}
-            <Button
-              onClick={() => {
-                addFlow();
-                setModalOpen(false);
-              }}
-            >
-              Salvar
-            </Button>
-            <Button
-              onClick={() => {
-                setNewFlow({
-                  name: '',
-                  stages: [],
-                  sequences: []
-                });
-                setModalOpen(false);
-              }}
-              background="#de5353"
-            >
-              Cancelar
-            </Button>
+            <div>
+              <Button
+                onClick={() => {
+                  addFlow();
+                  setModalOpen(false);
+                }}
+              >
+                <span>Salvar</span>
+              </Button>
+              <Button
+                onClick={() => {
+                  setModalOpen(false);
+                }}
+                background="red"
+              >
+                Cancelar
+              </Button>
+            </div>
           </Content>
         </Modal>
       )}

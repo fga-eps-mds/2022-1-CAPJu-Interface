@@ -20,7 +20,9 @@ export function AddStageInFlow(props) {
         menuClassName="dropdown-menu"
         arrowClassName="dropdown-arrow"
       />
-      <div onClick={() => onClick(flow)}>Adicionar</div>
+      <div className="addStage" onClick={() => onClick(flow)}>
+        Adicionar
+      </div>
     </SelectorWrapper>
   );
 }
@@ -28,7 +30,7 @@ export function AddStageInFlow(props) {
 AddStageInFlow.propTypes = {
   selectedStage: PropTypes.any,
   onClick: PropTypes.func,
-  options: PropTypes.object,
+  options: PropTypes.array,
   setSelectedStage: PropTypes.func,
   flow: PropTypes.object
 };

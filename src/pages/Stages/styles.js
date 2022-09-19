@@ -5,10 +5,15 @@ export const Container = styled.div`
   color: black;
   display: flex;
   align-items: center;
-  font-size: 64px;
-
+  font-size: 24px;
+  gap: 50px;
   flex-direction: column;
   margin: 0px 100px;
+
+  svg.delete-icon {
+    cursor: pointer;
+    color: black;
+  }
 `;
 
 export const AddStageButton = styled.button`
@@ -25,8 +30,8 @@ export const AddStageButton = styled.button`
   border-radius: 20px;
 `;
 
-export const StagesArea = styled.div`
-  padding: 100px;
+export const Area = styled.div`
+  padding: 0px 100px;
   width: 100%;
   color: black;
   display: flex;
@@ -58,21 +63,69 @@ export const Modal = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   font-size: 20px;
   background-color: rgba(0, 0, 0, 0.5);
+  z-index: 3;
+`;
+
+export const ContentHeader = styled.div`
+  display: flex;
+  background-color: #7a7b4f;
+  min-width: 600px;
+  max-height: 50px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  font-size: 32px;
+  height: 15vh;
+  width: 50%;
+  padding: 5px;
+  span {
+    color: #f1f1f1;
+  }
 `;
 
 export const Content = styled.div`
   display: flex;
   background-color: white;
-  width: 400px;
-  height: 400px;
-  justify-content: center;
+  min-width: 600px;
+  height: 60vh;
+  justify-content: space-between;
   align-items: center;
-  padding: 20px;
   flex-direction: column;
-  gap: 50px;
+  gap: 10px;
   font-size: 20px;
   border-radius: 10px;
+  overflow-x: scroll;
+`;
+
+export const Table = styled.table`
+  background-color: white;
+  width: 600px;
+  font-size: 20px;
+  border-radius: 5px;
+  text-align: left;
+  color: white;
+
+  th {
+    background-color: #7a7b4f;
+    padding: 15px;
+    border: 1px solid #ddd;
+  }
+
+  th:nth-child(3) {
+    width: 25px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  td {
+    border-radius: 5px;
+    color: #333;
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
 `;
