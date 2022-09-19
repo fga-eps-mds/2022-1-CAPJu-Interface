@@ -6,6 +6,7 @@ import nock from 'nock';
 import axios from 'axios';
 import React from 'react';
 import { userURL } from '../services/user';
+import { baseURL } from '../services/api';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
 axios.defaults.adapter = require('axios/lib/adapters/http');
@@ -30,6 +31,23 @@ test('Testando criar Login no componente Login', async () => {
       email: loginData.email,
       token: 'Bearer sdlksadkçlfdjalo'
     });
+
+  const scopeUnities = nock(baseURL)
+    .defaultReplyHeaders({
+      'access-control-allow-origin': '*',
+      'access-control-allow-credentials': 'true'
+    })
+    .persist()
+    .get('/unitys')
+    .reply(200, {
+      Unitys: [
+        {
+          name: 'Peritos',
+          _id: '12341234ldlfasdf'
+        }
+      ]
+    });
+
 
   render(
     <MemoryRouter initialEntries={['/login']}>
