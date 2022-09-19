@@ -47,7 +47,6 @@ function SolicitacoesCadastro() {
     for (let users of pendingUsers) {
       if (users.unity == trataUnidade) {
         targetUsers.push(users);
-        continue;
       }
     }
     setUsers(targetUsers);
