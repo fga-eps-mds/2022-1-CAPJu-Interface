@@ -13,7 +13,6 @@ import {
 import { Flow } from '@styled-icons/fluentui-system-regular';
 import { FlowCascade } from '@styled-icons/entypo';
 import { ClipboardTaskListLtr } from '@styled-icons/fluentui-system-regular/ClipboardTaskListLtr';
-import { Profile } from '@styled-icons/icomoon';
 import { PersonFill } from '@styled-icons/bootstrap/PersonFill';
 import { UserPlus } from '@styled-icons/boxicons-regular/UserPlus';
 import { useNavigate } from 'react-router-dom';
@@ -37,6 +36,9 @@ function SideBar() {
     setUsers(response.data.user);
   }
 
+  const userLogout = JSON.parse(localStorage.getItem('user'));
+  console.log('sono', userLogout);
+
   return (
     <Container>
       <a href={'/'}>
@@ -44,13 +46,10 @@ function SideBar() {
       </a>
       <Menu>
         <hr />
-        <MenuItem href={'/Login'}>
-          <Profile size={35} />
-          Login
-        </MenuItem>
-        <hr />
-        <MenuItem href={'/accessProfile'}>
-          <PersonFill size={35} /> Perfil de Acesso
+
+        <MenuItem href={'/unidades'}>
+          <GroupWork size={35} />
+          Unidades
         </MenuItem>
         <hr />
 
@@ -66,12 +65,6 @@ function SideBar() {
         </MenuItem>
         <hr />
 
-        <MenuItem href={'/unidades'}>
-          <GroupWork size={35} />
-          Unidades
-        </MenuItem>
-        <hr />
-
         <MenuItem
           href=""
           onClick={() =>
@@ -82,36 +75,50 @@ function SideBar() {
           Processos
         </MenuItem>
         <hr />
+        <Menu>
+          <MenuItem href={'/solicitacoes'}>
+            <UserPlus size={35} />
+            Solicitações
+            {users.length >= 1 ? (
+              <Notification>{users.length}</Notification>
+            ) : (
+              ''
+            )}
+          </MenuItem>
+          <hr />
 
-        <MenuItem
-          href=""
-          onClick={() =>
-            navigate('/editAccount', { state: undefined, replace: false })
-          }
-        >
-          <UserCircle size={35} />
-          Editar Conta
-        </MenuItem>
-        <hr />
+          <MenuItem href={'/accessProfile'}>
+            <PersonFill size={35} /> Perfil de Acesso
+          </MenuItem>
+          <hr />
 
-        <MenuItem href={'/solicitacoes'}>
-          <UserPlus size={35} />
-          Solicitações
-          {users.length >= 1 ? <Notification>{users.length}</Notification> : ''}
-        </MenuItem>
-        <hr />
+          <MenuItem
+            href=""
+            onClick={() =>
+              navigate('/editAccount', { state: undefined, replace: false })
+            }
+          >
+            <UserCircle size={35} />
+            Editar Conta
+          </MenuItem>
+          <hr />
+        </Menu>
       </Menu>
-      <LogoutButton>
-        <Button
-          background="#DE5353"
-          onClick={() => {
-            localStorage.removeItem('user');
-            navigate('Login');
-          }}
-        >
-          Sair
-        </Button>
-      </LogoutButton>
+      {userLogout ? (
+        <LogoutButton>
+          <Button
+            background="#DE5353"
+            onClick={() => {
+              localStorage.removeItem('user');
+              navigate('Login');
+            }}
+          >
+            Sair
+          </Button>
+        </LogoutButton>
+      ) : (
+        ''
+      )}
     </Container>
   );
 }
