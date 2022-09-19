@@ -62,9 +62,6 @@
     "prettier": "2.7.1",
     "react-test-renderer": "^18.2.0"
   },
-  "jest": {
-    "testResultsProcessor": "jest-sonar-reporter"
-  },
   "jestSonar": {
     "reportPath": "reports",
     "reportFile": "test-reporter.xml",
