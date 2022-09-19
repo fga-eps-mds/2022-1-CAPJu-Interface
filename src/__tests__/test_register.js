@@ -5,6 +5,7 @@ import nock from 'nock';
 import axios from 'axios';
 import React from 'react';
 import { userURL } from '../services/user';
+import { baseURL } from '../services/api';
 
 axios.defaults.adapter = require('axios/lib/adapters/http');
 
@@ -22,7 +23,8 @@ test('Testando o cadastro', async () => {
     name: 'João',
     email: 'test@test.com',
     password: 'SenhaForte1',
-    role: '1'
+    role: '1',
+    unity: '12341234ldlfasdf'
   };
 
   const scopeCadastro = nock(userURL)
@@ -36,10 +38,30 @@ test('Testando o cadastro', async () => {
       _id: 'askljsf',
       name: registerData.name,
       email: registerData.email,
-      token: 'Bearer sdlksadkçlfdjalo'
+      password: registerData.password,
+      token: 'Bearer sdlksadkçlfdjalo',
+      unity: '12341234ldlfasdf',
+      role: registerData.role
     });
 
+  const scopeUnities = nock(baseURL)
+  .defaultReplyHeaders({
+    'access-control-allow-origin': '*',
+    'access-control-allow-credentials': 'true'
+  })
+  .persist()
+  .get('/unitys')
+  .reply(200, {
+    Unitys: [{
+    name: 'Peritos',
+    _id: '12341234ldlfasdf'
+  }]})
+
   render(<Login />);
+
+  await waitFor(() => expect(scopeUnities.isDone()).toBe(true), {
+    timeout: 1000
+  });
 
   const button = screen.getByText('Cadastro');
   fireEvent.click(button);
@@ -49,14 +71,16 @@ test('Testando o cadastro', async () => {
   const inputEmail = screen.getByPlaceholderText('Email');
   const inputPassword = screen.getByPlaceholderText('Crie uma senha');
   const inputCheckPassword = screen.getByPlaceholderText('Confirme a senha');
-  const chooseRole = screen.getByTestId('react-select-mock');
+  const select = screen.getAllByTestId('react-select-mock');
   const button1 = screen.getByText('Cadastrar');
 
-  fireEvent.change(inputName, { target: { value: 'João' } });
-  fireEvent.change(inputEmail, { target: { value: 'test@test.com' } });
-  fireEvent.change(inputPassword, { target: { value: 'SenhaForte1' } });
-  fireEvent.change(inputCheckPassword, { target: { value: 'SenhaForte1' } });
-  fireEvent.change(chooseRole, { target: { value: 1 } });
+  fireEvent.change(inputName, { target: { value: registerData.name } });
+  fireEvent.change(inputEmail, { target: { value: registerData.email } });
+  fireEvent.change(inputPassword, { target: { value: registerData.password } });
+  fireEvent.change(inputCheckPassword, { target: { value: registerData.password } });
+  fireEvent.change(select[0], { target: { value: registerData.role } });
+  fireEvent.change(select[1], { target: { value: registerData.unity } });
+
 
   expect(title).toHaveTextContent('Cadastre-se');
   fireEvent.click(button1);
