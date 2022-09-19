@@ -18,6 +18,7 @@ import { PersonFill } from '@styled-icons/bootstrap/PersonFill';
 import { UserPlus } from '@styled-icons/boxicons-regular/UserPlus';
 import { useNavigate } from 'react-router-dom';
 import { UserCircle } from '@styled-icons/boxicons-regular/';
+import { GroupWork } from '@styled-icons/material/';
 
 function SideBar() {
   const [users, setUsers] = useState([]);

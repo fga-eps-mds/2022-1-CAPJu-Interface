@@ -103,28 +103,6 @@ function Unidades() {
     }
   }
 
-  async function deleteUnity(id) {
-    try {
-      const response = await api.post('/deleteUnity', {
-        unityId: id
-      });
-      if (response.status == 200) {
-        toast.success('Unidade Deletada com sucesso');
-        updateUnitys();
-      }
-    } catch (e) {
-      console.log(e);
-      if (e.response.status == 401) {
-        toast(e.response.data.message, {
-          icon: '⚠️',
-          duration: 3000
-        });
-      } else {
-        toast.error('Erro ao deletar a unidade');
-      }
-    }
-  }
-
   return (
     <>
       <Container>

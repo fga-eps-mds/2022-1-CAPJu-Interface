@@ -4,8 +4,7 @@ import {
   render,
   waitFor,
   screen,
-  fireEvent,
-  getByText
+  fireEvent
 } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import TextInput from '../components/TextInput';
@@ -94,7 +93,7 @@ test('teste processos', async () => {
   await waitFor(() => expect(scopeGet.isDone()).toBe(true));
   screen.getByText('Processos');
 
-  const r1111 = await screen.findByText('1111');
+  await screen.findByText('1111');
 
   // criando processo
   const createButton = screen.getByText('+ Adicionar Processo');
