@@ -17,14 +17,14 @@ const user = {
       password: 'ijj2pei9ue39ej3d9dj30',
       accepted: false,
       createdAt: '2022-08-24T14:17:42.934Z',
-      unity: "6325329e78f4b09d6082232f",
+      unity: '6325329e78f4b09d6082232f',
       role: 1,
       unityAdmin: '6325329e78f4b09d6082232f',
       updatedAt: '2022-09-14T15:27:59.428Z',
       __v: 0,
       recoveryDate: '2022-09-01T16:42:00.913Z',
       recoveryHash:
-      '0f85ff4b6ad7c46055f49c010fb90389b31977a1833e0f43cfeb09b45684ec7f'
+        '0f85ff4b6ad7c46055f49c010fb90389b31977a1833e0f43cfeb09b45684ec7f'
     }
   ]
 };
@@ -38,22 +38,22 @@ beforeAll(() => {
 });
 
 const scopeRequest = nock(userURL)
-.defaultReplyHeaders({
-  'access-control-allow-origin': '*',
-  'access-control-allow-credentials': 'true'
-})
-.persist()
-.get('/allUser?accepted=false')
-.reply(200, user);
+  .defaultReplyHeaders({
+    'access-control-allow-origin': '*',
+    'access-control-allow-credentials': 'true'
+  })
+  .persist()
+  .get('/allUser?accepted=false')
+  .reply(200, user);
 
 const scopeAllUsers = nock(userURL)
-.defaultReplyHeaders({
-  'access-control-allow-origin': '*',
-  'access-control-allow-credentials': 'true'
-})
-.persist()
-.get('/allUser?accepted=true')
-.reply(200, user);
+  .defaultReplyHeaders({
+    'access-control-allow-origin': '*',
+    'access-control-allow-credentials': 'true'
+  })
+  .persist()
+  .get('/allUser?accepted=true')
+  .reply(200, user);
 
 test('Testando aceitar solicitação', async () => {
   render(
@@ -63,12 +63,15 @@ test('Testando aceitar solicitação', async () => {
       </Routes>
     </MemoryRouter>
   );
-  await waitFor(() => {
-    expect(scopeRequest.isDone()).toBe(true);
-    expect(scopeAllUsers.isDone()).toBe(true);
-  }, {
-    timeout: 8000
-  });
+  await waitFor(
+    () => {
+      expect(scopeRequest.isDone()).toBe(true);
+      expect(scopeAllUsers.isDone()).toBe(true);
+    },
+    {
+      timeout: 8000
+    }
+  );
 
   screen.getByText('Solicitações de Cadastro');
 

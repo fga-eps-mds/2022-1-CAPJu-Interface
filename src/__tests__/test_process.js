@@ -1,11 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/display-name */
-import {
-  render,
-  waitFor,
-  screen,
-  fireEvent
-} from '@testing-library/react';
+import { render, waitFor, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import TextInput from '../components/TextInput';
 import nock from 'nock';
