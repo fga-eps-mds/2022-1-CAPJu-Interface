@@ -38,10 +38,11 @@ function SolicitacoesCadastro() {
         localStorage.setItem('unitys', JSON.stringify(user.unity));
     }
     const unidade = localStorage.getItem('unitys');
-    const trataUnidade = unidade.replace(/"/g, '');
+    const trataUnidade = unidade?.replace(/"/g, '');
     const response = await api.get(`/allUser?accepted=false`, {
       headers: authHeader
     });
+
     const targetUsers = [];
     const pendingUsers = response.data.user;
     for (let users of pendingUsers) {
@@ -49,7 +50,7 @@ function SolicitacoesCadastro() {
         targetUsers.push(users);
       }
     }
-    setUsers(targetUsers);
+    setUsers(pendingUsers);
   }
 
   async function acceptRequest(userId) {
