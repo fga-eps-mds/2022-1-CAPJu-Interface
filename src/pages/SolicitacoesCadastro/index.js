@@ -29,10 +29,27 @@ function SolicitacoesCadastro() {
   }, []);
 
   async function updateSolicitacoes() {
+    const allUser = await api.get(`/allUser?accepted=true`, {
+      headers: authHeader
+    });
+    const idUser = JSON.parse(localStorage.getItem('user'));
+    for (let user of allUser.data.user) {
+      if (user._id == idUser._id)
+        localStorage.setItem('unitys', JSON.stringify(user.unity));
+    }
+    const unidade = localStorage.getItem('unitys');
+    const trataUnidade = unidade.replace(/"/g, '');
     const response = await api.get(`/allUser?accepted=false`, {
       headers: authHeader
     });
-    setUsers(response.data.user);
+    const targetUsers = [];
+    const pendingUsers = response.data.user;
+    for (let users of pendingUsers) {
+      if (users.unity == trataUnidade) {
+        targetUsers.push(users);
+      }
+    }
+    setUsers(targetUsers);
   }
 
   async function acceptRequest(userId) {

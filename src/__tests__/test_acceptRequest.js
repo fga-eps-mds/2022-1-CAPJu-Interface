@@ -17,6 +17,9 @@ const user = {
       password: 'ijj2pei9ue39ej3d9dj30',
       accepted: false,
       createdAt: '2022-08-24T14:17:42.934Z',
+      unity: '6325329e78f4b09d6082232f',
+      role: 1,
+      unityAdmin: '6325329e78f4b09d6082232f',
       updatedAt: '2022-09-14T15:27:59.428Z',
       __v: 0,
       recoveryDate: '2022-09-01T16:42:00.913Z',
@@ -26,6 +29,14 @@ const user = {
   ]
 };
 
+const setLocalStorage = (user, data) => {
+  window.localStorage.setItem(user, JSON.stringify(data));
+};
+
+beforeAll(() => {
+  setLocalStorage('user', user.user[0]);
+});
+
 const scopeRequest = nock(userURL)
   .defaultReplyHeaders({
     'access-control-allow-origin': '*',
@@ -34,6 +45,16 @@ const scopeRequest = nock(userURL)
   .persist()
   .get('/allUser?accepted=false')
   .reply(200, user);
+
+const scopeAllUsers = nock(userURL)
+  .defaultReplyHeaders({
+    'access-control-allow-origin': '*',
+    'access-control-allow-credentials': 'true'
+  })
+  .persist()
+  .get('/allUser?accepted=true')
+  .reply(200, user);
+
 test('Testando aceitar solicitação', async () => {
   render(
     <MemoryRouter initialEntries={['/']}>
@@ -42,9 +63,15 @@ test('Testando aceitar solicitação', async () => {
       </Routes>
     </MemoryRouter>
   );
-  await waitFor(() => expect(scopeRequest.isDone()).toBe(true), {
-    timeout: 1000
-  });
+  await waitFor(
+    () => {
+      expect(scopeRequest.isDone()).toBe(true);
+      expect(scopeAllUsers.isDone()).toBe(true);
+    },
+    {
+      timeout: 8000
+    }
+  );
 
   screen.getByText('Solicitações de Cadastro');
 
@@ -56,6 +83,7 @@ test('Testando aceitar solicitação', async () => {
     })
     .post(`/acceptRequest/${user.user[0]._id}`)
     .reply(200, null);
+
   const acceptButton = screen.getByLabelText('Aceitar solicitação');
   fireEvent.click(acceptButton);
   const acceptConfirmButton = screen.getByText('Confirmar');
@@ -72,6 +100,7 @@ test('Testando aceitar solicitação', async () => {
     .reply(200, null)
     .delete(`/deleteRequest/${user.user[0]._id}`)
     .reply(200, null);
+
   const deleteButton = screen.getByLabelText('Recusar solicitação');
   fireEvent.click(deleteButton);
   const deleteConfirmButton = screen.getByText('Confirmar');

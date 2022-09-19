@@ -9,7 +9,7 @@ import {
   Criterios,
   EditDrop
 } from './styles';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import TextInput from 'components/TextInput';
 import Button from 'components/Button';
 import { Content } from 'pages/Stages/styles';
@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import user from 'services/user';
 import Dropdown from 'react-dropdown';
+import api from '../../services/api';
 
 function Login() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -28,11 +29,15 @@ function Login() {
   const [newEmail, setNewEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [newPassword2, setNewPassword2] = useState('');
+  const [unitys, setUnitys] = useState([]);
+  const [newUnity, setNewUnity] = useState('');
 
   const [selectedTab, setSelectedTab] = useState('login');
 
   const navigate = useNavigate();
-
+  useEffect(() => {
+    updateUnitys();
+  }, []);
   async function register() {
     const re = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
     const pass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z$*&@#]{6,}$/;
@@ -56,7 +61,8 @@ function Login() {
         name: newName,
         email: newEmail,
         password: newPassword,
-        role: newRole
+        role: newRole,
+        unity: newUnity
       });
       response.status == 200;
       toast.success('Usuário cadastrado com  sucesso');
@@ -66,6 +72,7 @@ function Login() {
       setNewPassword2('');
       setSelectedTab('login');
       setNewRole('');
+      setNewUnity('');
     } catch (error) {
       toast.error('Erro ao cadastrar \n' + error.response.data.message);
     }
@@ -99,6 +106,13 @@ function Login() {
       toast.error('Erro ao solicitar email');
     }
   }
+  async function updateUnitys() {
+    const response = await api.get('/unitys');
+    setUnitys(response.data.Unitys);
+  }
+  const allOptions = unitys.map((unitys) => {
+    return { label: <>{unitys.name}</>, value: unitys._id };
+  });
 
   const OptionsRoles = [
     { label: 'DIRETOR', value: 1 },
@@ -106,6 +120,7 @@ function Login() {
     { label: 'SERVIDOR', value: 3 },
     { label: 'ESTAGIARIO', value: 4 }
   ];
+  const roles = ['', 'DIRETOR', 'JUIZ', 'SERVIDOR', 'ESTAGIARIO'];
 
   return (
     <Container>
@@ -196,11 +211,26 @@ function Login() {
             <Dropdown
               options={OptionsRoles}
               onChange={(e) => {
+                console.log('value', e.value);
                 setNewRole(e.value);
               }}
-              //value={newRole}
-              value={newRole.label}
+              value={roles[newRole]}
               placeholder="Selecione o perfil"
+              className="dropdown"
+              controlClassName="dropdown-control"
+              placeholderClassName="dropdown-placeholder"
+              menuClassName="dropdown-menu"
+              arrowClassName="dropdown-arrow"
+            />
+          </EditDrop>
+          <EditDrop>
+            <Dropdown
+              options={allOptions}
+              onChange={(e) => {
+                setNewUnity(e.value);
+              }}
+              value={newUnity}
+              placeholder="Selecione a unidade"
               className="dropdown"
               controlClassName="dropdown-control"
               placeholderClassName="dropdown-placeholder"

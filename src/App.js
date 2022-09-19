@@ -18,6 +18,7 @@ import EditAccount from 'pages/EditAccount/index.js';
 import EditAccountEmail from 'pages/EditAccountEmail/index.js';
 import EditAccountPassword from 'pages/EditAccountPassword/index.js';
 import SolicitacoesCadastro from 'pages/SolicitacoesCadastro/index.js';
+import Unidades from 'pages/Unidades/index.js';
 
 function App() {
   const location = useLocation();
@@ -33,8 +34,21 @@ function App() {
       !location.pathname.startsWith('/recovery/')
     ) {
       navigate('Login');
+      return;
     }
 
+    let currentDate = new Date();
+
+    if (
+      !localStorage.getItem('user') ||
+      !JSON.parse(localStorage.getItem('user'))?.expiresIn ||
+      new Date(JSON.parse(localStorage.getItem('user'))?.expiresIn) <
+        currentDate
+    ) {
+      // localStorage.setItem('user', null);
+      navigate('Login');
+      return;
+    }
     if (!user) {
       setUser(localStorage.getItem('user'));
     }
@@ -55,6 +69,7 @@ function App() {
             </Route>
             <Route path="accessProfile" element={<AccessProfile />} />
             <Route path="stages" element={<Stages />} />
+            <Route path="unidades" element={<Unidades />} />
             <Route path="processes" element={<Processes />} />
             <Route path="processes/showProcess" element={<ShowProcess />} />
             <Route path="statistics" element={<Statistics />} />

@@ -56,5 +56,5 @@ export const Criterios = styled.div`
 export const EditDrop = styled.div`
   display: flex;
   justify-content: center;
-  padding: 30px;
+  padding-top: 10px;
 `;

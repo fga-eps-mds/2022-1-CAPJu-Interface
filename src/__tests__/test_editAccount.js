@@ -5,7 +5,6 @@ import nock from 'nock';
 import axios from 'axios';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { userURL } from '../services/user';
-import EditAccount from '../pages/EditAccount';
 import EditAccountEmail from '../pages/EditAccountEmail';
 import EditAccountPassword from '../pages/EditAccountPassword';
 
