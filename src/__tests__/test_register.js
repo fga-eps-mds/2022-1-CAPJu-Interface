@@ -45,17 +45,20 @@ test('Testando o cadastro', async () => {
     });
 
   const scopeUnities = nock(baseURL)
-  .defaultReplyHeaders({
-    'access-control-allow-origin': '*',
-    'access-control-allow-credentials': 'true'
-  })
-  .persist()
-  .get('/unitys')
-  .reply(200, {
-    Unitys: [{
-    name: 'Peritos',
-    _id: '12341234ldlfasdf'
-  }]})
+    .defaultReplyHeaders({
+      'access-control-allow-origin': '*',
+      'access-control-allow-credentials': 'true'
+    })
+    .persist()
+    .get('/unitys')
+    .reply(200, {
+      Unitys: [
+        {
+          name: 'Peritos',
+          _id: '12341234ldlfasdf'
+        }
+      ]
+    });
 
   render(<Login />);
 
@@ -77,10 +80,11 @@ test('Testando o cadastro', async () => {
   fireEvent.change(inputName, { target: { value: registerData.name } });
   fireEvent.change(inputEmail, { target: { value: registerData.email } });
   fireEvent.change(inputPassword, { target: { value: registerData.password } });
-  fireEvent.change(inputCheckPassword, { target: { value: registerData.password } });
+  fireEvent.change(inputCheckPassword, {
+    target: { value: registerData.password }
+  });
   fireEvent.change(select[0], { target: { value: registerData.role } });
   fireEvent.change(select[1], { target: { value: registerData.unity } });
-
 
   expect(title).toHaveTextContent('Cadastre-se');
   fireEvent.click(button1);
