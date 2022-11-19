@@ -1,6 +1,7 @@
-import { StagesWrapper, StageName, XButton } from './styles.js';
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
+
+import { StagesWrapper, StageName, XButton } from './styles.js';
 
 function StagesInFlow(props) {
   const { flow, stages, setNewFlow } = props;

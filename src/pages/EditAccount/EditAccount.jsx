@@ -7,6 +7,7 @@ import {
   ContainerTitle,
   NameTitle
 } from './styles';
+
 import Button from 'components/Button/Button';
 
 function EditAccount() {

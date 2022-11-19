@@ -1,9 +1,10 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import nock from 'nock';
 import axios from 'axios';
+import nock from 'nock';
+import '@testing-library/jest-dom';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+
 import { userURL } from 'services/user';
 import EditAccountEmail from 'pages/EditAccountEmail/EditAccountEmail';
 import EditAccountPassword from 'pages/EditAccountPassword/EditAccountPassword';

@@ -1,13 +1,14 @@
-import { render, waitFor, screen, fireEvent } from '@testing-library/react';
+import React from 'react';
+import axios from 'axios';
+import nock from 'nock';
 import '@testing-library/jest-dom';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { render, waitFor, screen, fireEvent } from '@testing-library/react';
+
 import Login from 'pages/Login/Login';
 import Stages from 'pages/Stages/Stages';
-import nock from 'nock';
-import axios from 'axios';
-import React from 'react';
 import { userURL } from 'services/user';
 import { baseURL } from 'services/api';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
 axios.defaults.adapter = require('axios/lib/adapters/http');
 

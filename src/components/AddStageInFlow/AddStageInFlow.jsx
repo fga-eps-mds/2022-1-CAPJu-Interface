@@ -1,7 +1,8 @@
-import { SelectorWrapper } from './styles.js';
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 import Dropdown from 'react-dropdown';
+
+import { SelectorWrapper } from './styles.js';
 
 function AddStageInFlow(props) {
   const { selectedStage, options, onClick, setSelectedStage, flow } = props;
