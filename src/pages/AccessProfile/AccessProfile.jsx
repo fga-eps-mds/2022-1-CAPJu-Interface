@@ -8,13 +8,13 @@ import {
   Content,
   ContentHeader
 } from './sytles.js';
-import api from '../../services/user';
+import api from 'services/user';
 import authConfig from 'services/config';
 import toast from 'react-hot-toast';
 import EditIcon from '@mui/icons-material/Edit';
 import { DeleteForever } from '@mui/icons-material';
 import Tooltip from '@mui/material/Tooltip';
-import Button from 'components/Button';
+import Button from 'components/Button/Button';
 import Dropdown from 'react-dropdown';
 
 function AccessProfile() {
@@ -281,4 +281,5 @@ function AccessProfile() {
     </Container>
   );
 }
+
 export default AccessProfile;

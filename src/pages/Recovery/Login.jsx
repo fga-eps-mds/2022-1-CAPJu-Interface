@@ -2,8 +2,8 @@
 import React from 'react';
 import { Container, Modal } from './styles';
 import { useState } from 'react';
-import TextInput from 'components/TextInput';
-import Button from 'components/Button';
+import TextInput from 'components/TextInput/TextInput';
+import Button from 'components/Button/Button';
 import { Content } from 'pages/Stages/styles';
 import { useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -92,4 +92,5 @@ function Login() {
     </Container>
   );
 }
+
 export default Login;

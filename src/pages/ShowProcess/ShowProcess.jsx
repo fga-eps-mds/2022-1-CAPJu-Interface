@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
-import api from '../../services/api';
+import api from 'services/api';
 import { Container, FlowWrapper } from './styles';
-import Button from '../../components/Button';
+import Button from 'components/Button/Button';
 import { useLocation, Link } from 'react-router-dom';
 import React from 'react';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import Modal from 'react-modal';
 import toast from 'react-hot-toast';
-import FlowViewer from 'components/FlowViewer';
-import ModalHeader from 'components/ModalHeader';
-import ModalBody from 'components/ModalBody';
+import FlowViewer from 'components/FlowViewer/FlowViewer';
+import ModalHeader from 'components/ModalHeader/ModalHeader';
+import ModalBody from 'components/ModalBody/ModalBody';
 import { Ring } from 'react-awesome-spinners';
 
 Modal.setAppElement('body');

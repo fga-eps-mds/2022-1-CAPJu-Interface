@@ -5,10 +5,10 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import nock from 'nock';
 import axios from 'axios';
-import { baseURL } from '../services/api';
-import Flows from '../pages/Flows';
+import { baseURL } from 'services/api';
+import Flows from 'pages/Flows/Flows';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { flowsResponse, stagesResponse } from '../testConstants';
+import { flowsResponse, stagesResponse } from 'testConstants';
 
 axios.defaults.adapter = require('axios/lib/adapters/http');
 

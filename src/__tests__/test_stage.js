@@ -1,10 +1,10 @@
 import { render, waitFor, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Stages from '../pages/Stages';
+import Stages from 'pages/Stages/Stages';
 import nock from 'nock';
 import axios from 'axios';
 import React from 'react';
-import { baseURL } from '../services/api';
+import { baseURL } from 'services/api';
 
 axios.defaults.adapter = require('axios/lib/adapters/http');
 

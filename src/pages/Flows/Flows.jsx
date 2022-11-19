@@ -1,8 +1,8 @@
-import api from '../../services/api';
-import Button from 'components/Button';
-import TextInput from 'components/TextInput';
-import { StagesInFlow } from 'components/StagesInFlow';
-import { AddStageInFlow } from 'components/AddStageInFlow';
+import api from 'services/api';
+import Button from 'components/Button/Button';
+import TextInput from 'components/TextInput/TextInput';
+import StagesInFlow from 'components/StagesInFlow/StagesInFlow';
+import AddStageInFlow from 'components/AddStageInFlow/AddStageInFlow';
 import React from 'react';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -20,13 +20,13 @@ import {
   CloseModalGeneral,
   Table
 } from './styles';
-import FlowViewer from 'components/FlowViewer';
+import FlowViewer from 'components/FlowViewer/FlowViewer';
 import DescriptionIcon from '@mui/icons-material/Description';
 import EditIcon from '@mui/icons-material/Edit';
 import { Link } from 'react-router-dom';
 import { DeleteForever } from '@mui/icons-material';
 import Tooltip from '@mui/material/Tooltip';
-import { AddSequenceInFlow } from 'components/AddSequenceInFlow';
+import AddSequenceInFlow from 'components/AddSequenceInFlow/AddSequenceInFlow';
 import InsertChartIcon from '@mui/icons-material/InsertChart';
 
 function Flows() {

@@ -4,9 +4,9 @@ import '@testing-library/jest-dom';
 import nock from 'nock';
 import axios from 'axios';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { userURL } from '../services/user';
-import EditAccountEmail from '../pages/EditAccountEmail';
-import EditAccountPassword from '../pages/EditAccountPassword';
+import { userURL } from 'services/user';
+import EditAccountEmail from 'pages/EditAccountEmail/EditAccountEmail';
+import EditAccountPassword from 'pages/EditAccountPassword/EditAccountPassword';
 
 axios.defaults.adapter = require('axios/lib/adapters/http');
 

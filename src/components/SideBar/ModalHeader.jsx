@@ -1,4 +1,4 @@
-import Button from 'components/Button';
+import Button from 'components/Button/Button';
 import React from 'react';
 import { useEffect, useState } from 'react';
 import api from '../../services/user';

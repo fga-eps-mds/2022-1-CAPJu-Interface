@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Dropdown from 'react-dropdown';
 
-export function AddStageInFlow(props) {
+function AddStageInFlow(props) {
   const { selectedStage, options, onClick, setSelectedStage, flow } = props;
   return (
     <SelectorWrapper>
@@ -34,3 +34,5 @@ AddStageInFlow.propTypes = {
   setSelectedStage: PropTypes.func,
   flow: PropTypes.object
 };
+
+export default AddStageInFlow;
