@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 import nock from 'nock';
 import axios from 'axios';
 import { userURL } from '../services/user';
-import AccessProfile from '../pages/AccessProfile';
+import AccessProfile from '../pages/AccessProfile/AccessProfile';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { usersResponse } from '../testConstants';
 axios.defaults.adapter = require('axios/lib/adapters/http');

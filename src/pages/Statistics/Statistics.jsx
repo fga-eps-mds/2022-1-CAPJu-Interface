@@ -1,4 +1,4 @@
-import api from '../../services/api';
+import api from 'services/api';
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { Container, StagesArea, StageItem } from './styles';

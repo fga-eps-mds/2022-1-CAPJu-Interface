@@ -1,7 +1,7 @@
-import api from '../../services/api';
-import userApi from '../../services/user';
-import Button from 'components/Button';
-import TextInput from 'components/TextInput';
+import api from 'services/api';
+import userApi from 'services/user';
+import Button from 'components/Button/Button';
+import TextInput from 'components/TextInput/TextInput';
 import React from 'react';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';

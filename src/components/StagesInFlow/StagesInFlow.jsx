@@ -2,7 +2,7 @@ import { StagesWrapper, StageName, XButton } from './styles.js';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export function StagesInFlow(props) {
+function StagesInFlow(props) {
   const { flow, stages, setNewFlow } = props;
 
   function removeStage(id) {
@@ -44,3 +44,5 @@ StagesInFlow.propTypes = {
   stages: PropTypes.array,
   setNewFlow: PropTypes.func
 };
+
+export default StagesInFlow;

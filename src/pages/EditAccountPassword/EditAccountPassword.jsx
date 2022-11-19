@@ -6,8 +6,8 @@ import {
   ContainerTitle,
   Criterios
 } from './styles';
-import TextInput from '../../components/TextInput';
-import Button from '../../components/Button';
+import TextInput from 'components/TextInput/TextInput';
+import Button from 'components/Button/Button';
 import toast from 'react-hot-toast';
 import { useState } from 'react';
 import user from 'services/user';

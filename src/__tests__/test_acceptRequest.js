@@ -4,8 +4,8 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import nock from 'nock';
-import { userURL } from '../services/user.js';
-import SolicitacoesCadastro from '../pages/SolicitacoesCadastro';
+import { userURL } from 'services/user.js';
+import SolicitacoesCadastro from 'pages/SolicitacoesCadastro/SolicitacoesCadastro';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
 const user = {

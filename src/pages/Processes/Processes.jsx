@@ -10,12 +10,12 @@ import {
 } from './styles';
 import { Link, useLocation } from 'react-router-dom';
 import React from 'react';
-import api from '../../services/api';
+import api from 'services/api';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Visibility from '@mui/icons-material/Visibility';
-import Button from 'components/Button';
-import TextInput from 'components/TextInput';
+import Button from 'components/Button/Button';
+import TextInput from 'components/TextInput/TextInput';
 import toast from 'react-hot-toast';
 import Dropdown from 'react-dropdown';
 import { isLate } from 'components/IsLate/index.js';
