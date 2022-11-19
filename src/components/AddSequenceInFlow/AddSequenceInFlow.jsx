@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 import Dropdown from 'react-dropdown';
 
 function AddSequenceInFlow(props) {

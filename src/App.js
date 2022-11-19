@@ -1,24 +1,25 @@
-import './styles.js';
-import SideBar from 'components/SideBar/ModalHeader';
-import Login from 'pages/Login/Login';
-import ShowProcess from 'pages/ShowProcess/ShowProcess';
-import Processes from 'pages/Processes/Processes';
-import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import { Container, Content } from './styles';
-import GlobalStyle from './globalStyles';
 import { Toaster } from 'react-hot-toast';
 import React, { useEffect, useState } from 'react';
-import Stages from 'pages/Stages/Stages';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+
+import './styles.js';
 import Flows from 'pages/Flows/Flows';
-import AccessProfile from 'pages/AccessProfile/AccessProfile';
-import Statistics from 'pages/Statistics/Statistics';
+import Login from 'pages/Login/Login';
+import GlobalStyle from './globalStyles';
+import Stages from 'pages/Stages/Stages';
 import Recovery from 'pages/Recovery/Login';
-import StatisticsProcesses from 'pages/StatisticsProcesses/Processes';
+import { Container, Content } from './styles';
+import Unidades from 'pages/Unidades/Unidades';
+import Processes from 'pages/Processes/Processes';
+import Statistics from 'pages/Statistics/Statistics';
+import SideBar from 'components/SideBar/ModalHeader';
+import ShowProcess from 'pages/ShowProcess/ShowProcess';
 import EditAccount from 'pages/EditAccount/EditAccount';
+import AccessProfile from 'pages/AccessProfile/AccessProfile';
+import StatisticsProcesses from 'pages/StatisticsProcesses/Processes';
 import EditAccountEmail from 'pages/EditAccountEmail/EditAccountEmail';
 import EditAccountPassword from 'pages/EditAccountPassword/EditAccountPassword';
 import SolicitacoesCadastro from 'pages/SolicitacoesCadastro/SolicitacoesCadastro';
-import Unidades from 'pages/Unidades/Unidades';
 
 function App() {
   const location = useLocation();

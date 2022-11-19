@@ -1,9 +1,10 @@
-import { render, waitFor, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import Login from 'pages/Login/Login';
+import React from 'react';
 import nock from 'nock';
 import axios from 'axios';
-import React from 'react';
+import '@testing-library/jest-dom';
+import { render, waitFor, screen, fireEvent } from '@testing-library/react';
+
+import Login from 'pages/Login/Login';
 import { userURL } from 'services/user';
 import { baseURL } from 'services/api';
 
