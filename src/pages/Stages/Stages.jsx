@@ -34,7 +34,8 @@ function Stages() {
     const response = await api.get('/stages');
     console.log(response.data.Stages);
     function compara(a, b) {
-      return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
+      if (a.time > b.time) return a.name > b.name ? 1 : 0;
+      return -1;
     }
     response.data.Stages.sort(compara);
     setStages(response.data.Stages);
