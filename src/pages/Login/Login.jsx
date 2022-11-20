@@ -64,7 +64,7 @@ function Login() {
         role: newRole,
         unity: newUnity
       });
-      response.status == 200;
+      response.status = 200;
       toast.success('Usuário cadastrado com  sucesso');
       setNewName('');
       setNewPassword('');
