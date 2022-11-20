@@ -136,6 +136,7 @@ function Flows() {
       delete editedFlow.createdAt;
       delete editedFlow.updatedAt;
       delete editedFlow.__v;
+      delete editedFlow.unity;
 
       console.log('edited', editedFlow);
 
@@ -330,8 +331,8 @@ function Flows() {
                 <StagesInFlow
                   flow={newFlow}
                   stages={stages}
-                  setNewFlow={() => {
-                    setNewFlow(newFlow);
+                  setNewFlow={(flow) => {
+                    setNewFlow(flow);
                     updateFlows();
                   }}
                 />
