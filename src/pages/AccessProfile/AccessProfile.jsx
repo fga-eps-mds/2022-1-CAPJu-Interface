@@ -97,16 +97,13 @@ function AccessProfile() {
   const filterUser = (arr) => {
     const user = JSON.parse(localStorage.getItem('user'));
     return arr.filter((users) => {
-      if (searchUser === '' && users.email !== user.email) {
-        return users;
-      } else if (
+      if (
         (users.name.toLowerCase().includes(searchUser) ||
           users.name.toUpperCase().includes(searchUser) ||
           users.name.includes(searchUser)) &&
         users.email !== user.email
-      ) {
+      )
         return users;
-      }
     });
   };
 
