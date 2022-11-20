@@ -73,15 +73,13 @@ function Processes() {
   };
 
   //Filter processes by register and nickname
-  const filterProcesses = (arr) => {
-    return arr.filter((processes) => {
-      if (searchTerm == '') {
-        return processes;
-      } else if (
-        processes.registro.toLowerCase().includes(searchTerm) ||
-        processes.apelido.toLowerCase().includes(searchTerm)
+  const filterProcesses = (processList) => {
+    return processList.filter((process) => {
+      if (
+        process.registro.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        process.apelido.toLowerCase().includes(searchTerm.toLowerCase())
       ) {
-        return processes;
+        return process;
       }
     });
   };
