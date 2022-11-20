@@ -426,8 +426,8 @@ function Flows() {
             <StagesInFlow
               flow={newFlow}
               stages={stages}
-              setNewFlow={() => {
-                setNewFlow(newFlow);
+              setNewFlow={(flow) => {
+                setNewFlow(flow);
                 updateFlows();
               }}
             />
