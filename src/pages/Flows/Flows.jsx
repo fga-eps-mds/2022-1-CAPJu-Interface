@@ -121,14 +121,10 @@ function Flows() {
       let editedFlow = { ...newFlow };
 
       let newSequences = editedFlow.sequences.filter((sequence) => {
-        if (
-          editedFlow.stages.includes(sequence.from) &&
+        return editedFlow.stages.includes(sequence.from) &&
           editedFlow.stages.includes(sequence.to)
-        ) {
-          return true;
-        }
-
-        return false;
+          ? true
+          : false;
       });
 
       editedFlow.sequences = newSequences;
