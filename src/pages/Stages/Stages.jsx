@@ -1,7 +1,6 @@
-import React from 'react';
 import toast from 'react-hot-toast';
 import Tooltip from '@mui/material/Tooltip';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AxiosError from 'axios/lib/core/AxiosError';
 import { DeleteForever } from '@styled-icons/material';
 

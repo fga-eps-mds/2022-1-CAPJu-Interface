@@ -1,7 +1,6 @@
-import React from 'react';
 import toast from 'react-hot-toast';
 import Dropdown from 'react-dropdown';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import api from 'services/api';

@@ -1,5 +1,4 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import api from 'services/api';
@@ -22,7 +21,6 @@ function Statistics() {
           stage.processesQtt = 0;
           stage.processesList = [];
           targetStages.push(stage);
-          continue;
         }
       }
     }
@@ -34,7 +32,6 @@ function Statistics() {
         if (process.etapaAtual === stage._id) {
           stage.processesQtt += 1;
           stage.processesList.push(process);
-          continue;
         }
       }
     }
