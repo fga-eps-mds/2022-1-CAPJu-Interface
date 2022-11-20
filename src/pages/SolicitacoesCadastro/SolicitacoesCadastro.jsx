@@ -51,7 +51,7 @@ function SolicitacoesCadastro() {
         targetUsers.push(users);
       }
     }
-    setUsers(pendingUsers);
+    setUsers(targetUsers);
   }
 
   async function acceptRequest(userId) {
